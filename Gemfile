@@ -54,3 +54,7 @@ end
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem 'simple_form'
+gem 'jquery-rails'
+gem 'popper_js', '~> 1.12.3'
+gem 'tether-rails'
+gem 'bootstrap', '~> 4.0.0.beta2.1'
