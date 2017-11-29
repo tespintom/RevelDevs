@@ -1,1 +1,7 @@
 language: ruby
+rvm:
+  - 2.0.0
+cache: bundler
+sudo: false
+before_script:
+  bundle exec rake db:create db:migrate
