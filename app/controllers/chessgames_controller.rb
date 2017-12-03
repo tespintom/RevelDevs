@@ -1,2 +1,0 @@
-class ChessgamesController < ApplicationController
-end
