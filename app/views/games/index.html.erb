@@ -2,3 +2,10 @@
 <br />
 <h3><%= link_to "Create a Game", "#" %></h3>
 <h3><%= link_to "Join a Game", "#" %></h3>
+
+<%- #Lists all available Games, available games being games with 1 total player-%>
+
+<%= @games.each do |f| %>
+  <p>Game <%= f.id %></p>
+  <br/>
+<% end %>
