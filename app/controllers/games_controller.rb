@@ -18,6 +18,9 @@ class GamesController < ApplicationController
     render "Not found :(" if @game.blank?
   end
 
+  def user
+  end
+
   private
 
   def game_params
