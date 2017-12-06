@@ -39,5 +39,12 @@ class Piece < ApplicationRecord
 
   #determines if the move is valid/possible
   def valid_move?(x, y, x_target, y_target)
+    in_bounds?(x_target, y_target)
+  end
+
+  private
+
+  def in_bounds?(x_target, y_target)
+    (0..7).include?(x_target) && (0..7).include?(y_target)
   end
 end
