@@ -23,18 +23,21 @@ class Piece < ApplicationRecord
 
 
   #determines if the move is horizontal
-  def horizontal_move?(x_target, y_target)
+  def horizontal_move?(x, y, x_target, y_target)
+    return if (x_target - x).abs > 0 && (y - y_target).abs ==  0
   end
 
   #determines if the move is vertical
-  def vertical_move?(x_target, y_target)
+  def vertical_move?(x, y, x_target, y_target)
+    return if (x_target - x).abs == 0 && (y_target - y).abs > 0
   end
 
   #determines if the move is diagonal
-  def diagonal_move?(x_target, y_target,y)
+  def diagonal_move?(x, y, x_target, y_target,y)
+    return if (x_target - x).abs == (y_target - y).abs
   end
 
   #determines if the move is valid/possible
-  def valid_move?(x_target, y_target)
+  def valid_move?(x, y, x_target, y_target)
   end
 end

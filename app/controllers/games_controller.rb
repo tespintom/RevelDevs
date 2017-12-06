@@ -10,6 +10,7 @@ class GamesController < ApplicationController
 
   def create
     @game = Game.create(game_params)
+    #@game.white? == current_user
     redirect_to game_path(@game)
   end
 
@@ -18,8 +19,10 @@ class GamesController < ApplicationController
     render "Not found :(" if @game.blank?
   end
 
-  def user
-  end
+  #def join
+    #@game = Game.find_by_id(params[:id])
+    #if @game.black_player == nil && current_user !@game.
+  #end
 
   private
 
