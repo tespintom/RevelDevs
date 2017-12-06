@@ -7,10 +7,5 @@ RSpec.describe GamesController, type: :controller do
       expect(response).to have_http_status(:success)
     end
 
-    it "should show a list of available games, where total players = 1" do
-      game = FactoryBot.create(:game)
-      game = FactoryBot.create(:game)
-      expect(Game.available.count).to eq(2)
-    end
   end
 end
