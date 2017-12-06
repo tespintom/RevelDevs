@@ -1,41 +1,40 @@
 class Piece < ApplicationRecord
-  has_many :moves
-  has_one :starting_position
-  has_one :current_position
+  belongs_to :game
+  validates :x, numericality: true
+  validates :y, numericality: true
 
+  scope :black_pieces, ->() { where(color: 'black') }
+  scope :white_pieces, ->() { where(color: 'white') }
+
+
+  def white?
+    color == 'white'
+  end
+
+  def black?
+    color == 'black'
+  end
+
+# dont worry about starting postiong
+#
   #determines if space is occupied by an active piece
-  def is_obstructed?(x,y)
+  def is_obstructed?(x_target, y_target)
   end
 
-  #first x square to be checked for blockage
-  def x_first(x)
-  end
-
-  #last x square to be checked for blockage
-  def x_last(x)
-  end
-
-  #first y square to be checked for blockage
-  def y_first(y)
-  end
-
-  #last y square to be checked for blockage
-  def y_last(y)
-  end
 
   #determines if the move is horizontal
-  def horizontal_move?(x, y)
+  def horizontal_move?(x_target, y_target)
   end
 
   #determines if the move is vertical
-  def vertical_move?(x,y)
+  def vertical_move?(x_target, y_target)
   end
 
   #determines if the move is diagonal
-  def diagonal_move?(x,y)
+  def diagonal_move?(x_target, y_target,y)
   end
 
   #determines if the move is valid/possible
-  def valid_move?(x,y)
+  def valid_move?(x_target, y_target)
   end
 end

@@ -1,4 +1,5 @@
 class Player < ApplicationRecord
-    has_many :games
-    has_many :participants
+  has_many :games
+
+
 end
