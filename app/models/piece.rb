@@ -24,7 +24,7 @@ class Piece < ApplicationRecord
 
   #determines if the move is horizontal
   def horizontal_move?(x, y, x_target, y_target)
-    return if (x_target - x).abs > 0 && (y - y_target).abs ==  0
+    return if (x_target - x).abs > 0 && (y_target - y).abs ==  0
   end
 
   #determines if the move is vertical
