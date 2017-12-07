@@ -33,11 +33,18 @@ class Piece < ApplicationRecord
   end
 
   #determines if the move is diagonal
-  def diagonal_move?(x, y, x_target, y_target,y)
+  def diagonal_move?(x, y, x_target, y_target)
     return if (x_target - x).abs == (y_target - y).abs
   end
 
   #determines if the move is valid/possible
   def valid_move?(x, y, x_target, y_target)
+    in_bounds?(x_target, y_target)
+  end
+
+  private
+
+  def in_bounds?(x_target, y_target)
+    (0..7).include?(x_target) && (0..7).include?(y_target)
   end
 end
