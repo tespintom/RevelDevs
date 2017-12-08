@@ -5,7 +5,7 @@ class Piece < ApplicationRecord
 
   scope :black_pieces, ->() { where(color: 'black') }
   scope :white_pieces, ->() { where(color: 'white') }
-
+  scope :active, -> { where(captured: nil) }
 
   def white?
     color == 'white'
@@ -18,7 +18,22 @@ class Piece < ApplicationRecord
 # dont worry about starting postiong
 #
   #determines if space is occupied by an active piece
-  def is_obstructed?(x_target, y_target)
+  def is_obstructed?(x, y, x_target, y_target)
+    if horizontal_move?(x, y, x_target, y_target)
+      (x...x_target).each do |square|
+        return if game.square_occupied?(square)
+      end
+    elsif vertical_move?(x, y, x_target, y_target)
+      (y...y_target).each do |square|
+        return if game.square_occupied?(square)
+      end
+    elsif diagonal_move?(x, y, x_target, y_target)
+      (x...x_target).each do |square|
+        (y...y_target).each do |square|
+          return if game.square_occupied?(square)
+        end
+      end
+    end      
   end
 
 
