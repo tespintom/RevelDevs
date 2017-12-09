@@ -8,13 +8,22 @@ RSpec.describe King, type: :model do
       expect(king).to be_valid
     end
 
-    it 'is white' do
-      expect(king.color).to eq 'white'
+    it '#white? is true for white pieces' do
+      expect(king.white?).to eq true
     end
 
-    it 'is black' do
+    it '#white? is false for black pieces' do
       king.color = 'black'
-      expect(king.color).to eq 'black'
+      expect(king.white?).to eq false
+    end
+
+    it '#black? is true for black pieces' do
+      king.color = 'black'
+      expect(king.black?).to eq true
+    end
+
+    it '#black? is false for white pieces' do
+      expect(king.black?).to eq false
     end
 
     it 'has the correct starting position' do

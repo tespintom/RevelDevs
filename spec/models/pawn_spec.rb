@@ -8,13 +8,22 @@ RSpec.describe Pawn, type: :model do
       expect(pawn).to be_valid
     end
 
-    it 'is white' do
-      expect(pawn.color).to eq 'white'
+    it '#white? is true for white pieces' do
+      expect(pawn.white?).to eq true
     end
 
-    it 'is black' do
+    it '#white? is false for black pieces' do
       pawn.color = 'black'
-      expect(pawn.color).to eq 'black'
+      expect(pawn.white?).to eq false
+    end
+
+    it '#black? is true for black pieces' do
+      pawn.color = 'black'
+      expect(pawn.black?).to eq true
+    end
+
+    it '#black? is false for white pieces' do
+      expect(pawn.black?).to eq false
     end
 
     it 'has the correct starting position' do
