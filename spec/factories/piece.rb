@@ -10,5 +10,11 @@ FactoryBot.define do
       x 4
       y 1
     end
+
+    factory :pawn do
+      type :pawn
+      x 1
+      y 2
+    end
   end
 end
