@@ -1,5 +1,5 @@
 class King < Piece
-  def is_king_move_valid?
+  def is_king_move_valid?(x, y, x_target, y_target)
     if !valid_move?(x, y, x_target, y_target)
       return false
     elsif !in_king_range?(x, y, x_target, y_target)
