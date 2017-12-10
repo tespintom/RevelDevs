@@ -31,4 +31,28 @@ RSpec.describe King, type: :model do
       expect(king.y).to eq 1
     end
   end
+
+  describe 'move validation' do
+    let(:king) { FactoryBot.create :king }
+
+    it '#in_king_range returns true if horizontal move is in king\'s range' do
+      result = king.in_king_range?(4, 1, 5, 1)
+      expect(result).to eq true
+    end
+
+    it '#in_king_range returns true if vertical move is in king\'s range' do
+      result = king.in_king_range?(4, 1, 4, 2)
+      expect(result).to eq true
+    end
+
+    it '#in_king_range returns true if diagonal move is in king\'s range' do
+      result = king.in_king_range?(4, 1, 5, 2)
+      expect(result).to eq true
+    end
+
+    it '#in_king_range returns false if move is not in king\'s range' do
+      result = king.in_king_range?(4, 1, 8, 2)
+      expect(result).to eq false
+    end
+  end
 end
