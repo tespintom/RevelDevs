@@ -85,7 +85,6 @@ RSpec.describe King, type: :model do
 
     it 'updates :x and :y to x_target and y_target if move is valid' do
       king.move_action(4, 1, 4, 2) # moves one square in 'y' direction
-      # king.reload # not sure if necessary for model updates
 
       expect(king.x).to eq 4
       expect(king.y).to eq 2
@@ -98,7 +97,6 @@ RSpec.describe King, type: :model do
 
     it 'does not update :x and :y if move is invalid' do
       king.move_action(4, 1, 4, 0) # moves one square in negative 'y' direction (off the board)
-      # king.reload # not sure if necessary for model updates
 
       expect(king.x).to eq 4
       expect(king.y).to eq 1
