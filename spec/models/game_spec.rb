@@ -11,7 +11,7 @@ RSpec.describe Game, type: :model do
 
   describe 'board' do
     let(:game) { FactoryBot.create :game }
-    let(:piece) { FactoryBot.create :piece }
+    let!(:piece) { FactoryBot.create :piece, game_id: game.id }
 
     it '#square_occupied? returns true if coordinate is occupied' do
       result = game.square_occupied?(1, 1)
