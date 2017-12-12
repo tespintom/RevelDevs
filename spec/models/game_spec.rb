@@ -22,4 +22,13 @@ RSpec.describe Game, type: :model do
       expect(result).to eq false
     end
   end
+
+  describe 'available' do
+    let(:game) {FactoryBot.create :game}
+
+    it 'should show available games, which are games with total_players = 1' do
+      result = Game.available
+      expect(Game.available.count).to eq(1)
+    end
+  end
 end

@@ -2,3 +2,9 @@
 <br />
 <h3><%= link_to "Create a Game", new_game_path(@game), class: 'btn btn-primary' %></h3>
 <h3><%= link_to "Join a Game", "#", class: 'btn btn-primary' %></h3>
+
+
+<h3>Available Games</h3>
+<% Game.available.each do |f| %>
+<p>Game Name: <%= f.name%> | Total Players: <%= f.total_players%></p>
+<%end%>
