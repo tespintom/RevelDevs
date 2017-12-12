@@ -33,9 +33,21 @@ class Piece < ApplicationRecord
         end
       end
     elsif vertical_move?(x, y, x_target, y_target)
-      
+      (y...y_target).each do |y|
+        if game.square_occupied?(y)
+          return true
+        else
+          return false
+        end
+      end 
     elsif diagonal_move?(x, y, x_target, y_target)
-       
+       (coordinate(x, y)...coordinate(x_target, y_target)).each do |square|
+          if game.square_occupied?(square)
+            return true
+          else
+            return false
+          end
+       end
     end
   end 
 
