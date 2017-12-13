@@ -41,13 +41,17 @@ class Piece < ApplicationRecord
         end
       end 
     elsif diagonal_move?(x, y, x_target, y_target)
-       (coordinate(x, y)...coordinate(x_target, y_target)).each do |square|
-          if game.square_occupied?(square)
-            return true
-          else
-            return false
+      (x...x_target).each do |x|
+        (y...y_target). each do |y|
+          if (x_target - x).abs == (y_target - y).abs
+            if game.square_occupied?(x, y)
+              return true
+            else
+              return false
+            end
           end
        end
+     end
     end
   end 
 
@@ -84,7 +88,6 @@ class Piece < ApplicationRecord
     in_bounds?(x_target, y_target)
   end
 
-  private
 
   def in_bounds?(x_target, y_target)
     (1..8).include?(x_target) && (1..8).include?(y_target)
