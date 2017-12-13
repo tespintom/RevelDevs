@@ -26,16 +26,28 @@ class Piece < ApplicationRecord
   def is_obstructed?(x, y, x_target, y_target)
     if horizontal_move?(x, y, x_target, y_target)
       (x...x_target).each do |x|
-        if game.square_occupied?(x)
+        if game.square_occupied?(x, y)
           return true
         else
           return false
         end
       end
     elsif vertical_move?(x, y, x_target, y_target)
-      
+      (y...y_target).each do |y|
+        if game.square_occupied?(x, y)
+          return true
+        else
+          return false
+        end
+      end 
     elsif diagonal_move?(x, y, x_target, y_target)
-       
+       (coordinate(x, y)...coordinate(x_target, y_target)).each do |square|
+          if game.square_occupied?(square)
+            return true
+          else
+            return false
+          end
+       end
     end
   end 
 
