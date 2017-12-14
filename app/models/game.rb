@@ -1,6 +1,7 @@
 class Game < ApplicationRecord
   has_many :pieces
-  has_many :players
+  belongs_to :user
+  cattr_accessor :current_user
   after_create :current_user_is_white_player
 
   #to initialize each game with the white_player as the user who created the game 
@@ -18,6 +19,6 @@ class Game < ApplicationRecord
   private
 
   def current_user_is_white_player
-    white_player_id = current_user.id
+    white_player_id = Game.current_user.id
   end
 end

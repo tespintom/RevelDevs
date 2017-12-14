@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :piece do
-    association :game
+    association :game, factory: :games
     color :white
     x 1
     y 1

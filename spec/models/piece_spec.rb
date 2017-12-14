@@ -2,14 +2,21 @@ require 'rails_helper'
 
 RSpec.describe Piece, type: :model do
   describe '.new' do
-    let!(:piece) { FactoryBot.create :piece }
+    #let!(:user) { FactoryBot.create :user }
+    #let!(:game) { FactoryBot.create :game, user_id: Game.user.id }
+    #let!(:piece) { FactoryBot.create :piece, game_id: game.id }
 
     it 'is valid' do
+      user = FactoryBot.create(:user)
+      game = FactoryBot.create(:game, user_id: user.id)
+      piece = FactoryBot.create(:piece, game_id: game.id)
+      sign_in user
       expect(piece).to be_valid
     end
   end
 
   describe 'move' do
+    let!(:user) { FactoryBot.create :user}
     let!(:piece) { FactoryBot.create :piece }
     it '#horizontal_move? returns true if move is horizontal' do
       result = piece.horizontal_move?(1, 2, 4, 2)

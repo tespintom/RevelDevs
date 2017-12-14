@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe Game, type: :model do
   describe '.new' do
     let(:game) { FactoryBot.create :game }
+    let!(:user) { FactoryBot.create :game }
  
     it 'is valid' do
       expect(game).to be_valid
@@ -12,6 +13,7 @@ RSpec.describe Game, type: :model do
   describe 'board' do
     let(:game) { FactoryBot.create :game }
     let!(:piece) { FactoryBot.create :piece, game_id: game.id }
+    let!(:user) { FactoryBot.create :user }
 
     xit '#square_occupied? returns true if coordinate is occupied' do
       result = game.square_occupied?(1, 1)
