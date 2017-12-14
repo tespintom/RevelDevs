@@ -31,7 +31,8 @@ RSpec.describe Game, type: :model do
     xit 'should show available games, which are games with total_players = 1' do
       result = Game.available.count
       expect(result).to eq(1)
-
+    end
+    
   describe 'players' do
     let(:game) { FactoryBot.create :game }
     xit 'should initialize current user as white player' do
