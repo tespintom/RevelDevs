@@ -3,10 +3,19 @@ require 'rails_helper'
 RSpec.describe Game, type: :model do
   describe '.new' do
     let(:game) { FactoryBot.create :game }
-    let!(:user) { FactoryBot.create :game }
  
     it 'is valid' do
       expect(game).to be_valid
+    end
+
+    it 'verifies the total number of white pawns created' do
+      pawns = game.pieces.white_pieces.where(type: "Pawn")
+      expect(pawns.count).to eq 8
+    end
+
+    it 'verifies the total number of black pawns created' do
+      pawns = game.pieces.black_pieces.where(type: "Pawn")
+      expect(pawns.count).to eq 8
     end
   end
 
@@ -27,10 +36,10 @@ RSpec.describe Game, type: :model do
   end
 
   describe 'players' do
-    let(:game) { FactoryBot.create :game }
-    xit 'should initialize current user as white player' do
-      user = FactoryBot.create(:user)
-      expect(game.white_player_id).to eq current_user.id
+    let(:user) { FactoryBot.create :user }
+    let(:game) { FactoryBot.create :game, user_id: user.id }
+    it 'should initialize current user as white player' do
+      expect(game.white_player_id).to eq user.id
     end
   end
 end
