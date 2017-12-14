@@ -16,13 +16,25 @@ class GamesController < ApplicationController
   end
 
   def show
-    @game = Game.find_by_id(params[:id])
     render "Not found :(" if @game.blank?
+  end
+
+  def join
+    current_game.add_black_player!(current_player)
+    redirect_to game_path(current_game)
   end
 
   private
 
   def game_params
     params.require(:game).permit(:name, :white_player_id, :black_player_id, finished: false)
+  end
+
+  def current_game
+    @game ||= Game.find_by_id(params[:id])
+  end
+
+  def current_player
+    Player.last
   end
 end
