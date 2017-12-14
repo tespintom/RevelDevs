@@ -42,14 +42,14 @@ class Piece < ApplicationRecord
       end 
     elsif diagonal_move?(x, y, x_target, y_target)
       (x...x_target).each do |x|
-        (y...y_target). each do |y|
-          if diagonal_move(x, y, x_target, y_target) && game.square_occupied?(x, y)
+        (y...y_target).each do |y|
+          if diagonal_move?(x, y, x_target, y_target) && game.square_occupied?(x, y)
             return true
           else
             return false
           end
-       end
-     end
+        end
+      end
     end
   end 
 
