@@ -12,6 +12,9 @@
 
 ActiveRecord::Schema.define(version: 20171212022338) do
 
+ActiveRecord::Schema.define(version: 20171212233926) do
+
+
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -21,6 +24,8 @@ ActiveRecord::Schema.define(version: 20171212022338) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "total_players"
+    t.bigint "white_player_id"
+    t.bigint "black_player_id"
   end
 
   create_table "pieces", force: :cascade do |t|
@@ -38,6 +43,8 @@ ActiveRecord::Schema.define(version: 20171212022338) do
   create_table "players", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "game_id"
+    t.string "color"
   end
 
   create_table "users", force: :cascade do |t|
