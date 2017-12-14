@@ -19,6 +19,6 @@ class Game < ApplicationRecord
   private
 
   def current_user_is_white_player
-    white_player_id = Game.current_user.id
+    white_player_id = self.user_id
   end
 end

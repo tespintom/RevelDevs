@@ -2,15 +2,9 @@ require 'rails_helper'
 
 RSpec.describe Piece, type: :model do
   describe '.new' do
-    #let!(:user) { FactoryBot.create :user }
-    #let!(:game) { FactoryBot.create :game, user_id: Game.user.id }
-    #let!(:piece) { FactoryBot.create :piece, game_id: game.id }
+    let!(:piece) { FactoryBot.create :piece }
 
     it 'is valid' do
-      user = FactoryBot.create(:user)
-      game = FactoryBot.create(:game, user_id: user.id)
-      piece = FactoryBot.create(:piece, game_id: game.id)
-      sign_in user
       expect(piece).to be_valid
     end
   end
@@ -68,12 +62,16 @@ RSpec.describe Piece, type: :model do
       expect(result).to eq false
     end
 
-    xit '#is_obstructed? returns true if the move is obstructed' do
-      result = piece.is_obstructed?(2, 3, 1, 1)
+    it '#is_obstructed? returns true if the move is obstructed' do
+      piece2 = FactoryBot.create(:piece)
+      piece2.update_attributes(x: 2, y: 2)
+      result = piece.is_obstructed?(1, 1, 3, 3)
       expect(result).to eq true
     end
 
     xit '#is_obstructed? returns false if the move is not obstructed' do
+      result = piece.is_obstructed?(1, 1, 3, 3)
+      expect(result).to eq false
     end
   end
 end
