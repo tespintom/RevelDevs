@@ -5,6 +5,6 @@
 
 
 <h3>Available Games</h3>
-<% Game.available.each do |f| %>
+<% @available_games.each do |f| %>
 <p>Game Name: <%= f.name%> | Total Players: <%= f.total_players%></p>
 <%end%>
