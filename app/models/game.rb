@@ -24,11 +24,13 @@ class Game < ApplicationRecord
 
   def populate
     (1..8).each do |piece|
-      self.pieces.create(x: piece, y: 1, color: "white", type: "Pawn")
+      self.pieces.create(x: piece, y: 2, color: "white", type: "Pawn")
+      self.pieces.create(x: piece, y: 7, color: "black", type: "Pawn")
     end
 
-    (1..8).each do |piece|
-      self.pieces.create(x: piece, y: 1, color: "black", type: "Pawn")
+    [Rook, Knight, Bishop, King, Queen, Bishop, Knight, Rook].each.with_index(1) do | klass, index |
+      self.pieces.create(x: index, y: 1, color: "white", type: klass)
+      self.pieces.create(x: index, y: 8, color: "black", type: klass)
     end
   end
 

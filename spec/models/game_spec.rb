@@ -8,15 +8,53 @@ RSpec.describe Game, type: :model do
       expect(game).to be_valid
     end
 
-    it 'verifies the total number of white pawns created' do
-      pawns = game.pieces.white_pieces.where(type: "Pawn")
-      expect(pawns.count).to eq 8
+    it 'verifies that white pieces are in the correct locations' do
+      piece_locations = [{type: 'Pawn', x: 1, y: 2},
+        {type: 'Pawn', x: 2, y: 2},
+        {type: 'Pawn', x: 3, y: 2},
+        {type: 'Pawn', x: 4, y: 2},
+        {type: 'Pawn', x: 5, y: 2},
+        {type: 'Pawn', x: 6, y: 2},
+        {type: 'Pawn', x: 7, y: 2},
+        {type: 'Pawn', x: 8, y: 2},
+        {type: 'Rook', x: 1, y: 1},
+        {type: 'Knight', x: 2, y: 1},
+        {type: 'Bishop', x: 3, y: 1},
+        {type: 'King', x: 4, y: 1},
+        {type: 'Queen', x: 5, y: 1},
+        {type: 'Bishop', x: 6, y: 1},
+        {type: 'Knight', x: 7, y: 1},
+        {type: 'Rook', x: 8, y: 1} ]
+
+      piece_locations.each do | location |
+        expect(game.pieces.white_pieces.exists?(location)).to eq(true)
+      end
     end
 
-    it 'verifies the total number of black pawns created' do
-      pawns = game.pieces.black_pieces.where(type: "Pawn")
-      expect(pawns.count).to eq 8
+    it 'verifies that black pieces are in the correct locations' do
+      piece_locations = [{type: 'Pawn', x: 1, y: 7},
+        {type: 'Pawn', x: 2, y: 7},
+        {type: 'Pawn', x: 3, y: 7},
+        {type: 'Pawn', x: 4, y: 7},
+        {type: 'Pawn', x: 5, y: 7},
+        {type: 'Pawn', x: 6, y: 7},
+        {type: 'Pawn', x: 7, y: 7},
+        {type: 'Pawn', x: 8, y: 7},
+        {type: 'Rook', x: 1, y: 8},
+        {type: 'Knight', x: 2, y: 8},
+        {type: 'Bishop', x: 3, y: 8},
+        {type: 'King', x: 4, y: 8},
+        {type: 'Queen', x: 5, y: 8},
+        {type: 'Bishop', x: 6, y: 8},
+        {type: 'Knight', x: 7, y: 8},
+        {type: 'Rook', x: 8, y: 8} ]
+
+      piece_locations.each do | location |
+        expect(game.pieces.black_pieces.exists?(location)).to eq(true)
+      end
     end
+
+
   end
 
   describe 'board' do
