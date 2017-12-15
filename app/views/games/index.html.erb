@@ -1,10 +1,8 @@
 <h1>Welcome to RevelDevs Chess!</h1>
 <br />
-<h3><%= link_to "Create a Game", new_game_path(@game), class: 'btn btn-primary' %></h3>
-<h3><%= link_to "Join a Game", "#", class: 'btn btn-primary' %></h3>
+<h3><%= link_to "Create a Game", new_game_path, class: 'btn btn-primary' %></h3>
 
-
-<h3>Available Games</h3>
-<% @available_games.each do |f| %>
-<p>Game Name: <%= f.name%> | Total Players: <%= f.total_players%></p>
-<%end%>
+<% @games.each do |game| %>
+  <h4><%= game.name %></h4>
+  <%= link_to "Join Game", join_game_path(game), method: 'PATCH', class: 'btn btn-primary' %>
+<% end %>

@@ -20,7 +20,7 @@ class GamesController < ApplicationController
   end
 
   def join
-    current_game.add_black_player!(current_player)
+    current_game.add_black_player!(current_user)
     redirect_to game_path(current_game)
   end
 
@@ -34,7 +34,4 @@ class GamesController < ApplicationController
     @game ||= Game.find_by_id(params[:id])
   end
 
-  def current_player
-    Player.last
-  end
 end
