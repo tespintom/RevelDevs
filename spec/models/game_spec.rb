@@ -62,12 +62,12 @@ RSpec.describe Game, type: :model do
     let!(:piece) { FactoryBot.create :piece, game_id: game.id }
     let!(:user) { FactoryBot.create :user }
 
-    xit '#square_occupied? returns true if coordinate is occupied' do
+    it '#square_occupied? returns true if coordinate is occupied' do
       result = game.square_occupied?(1, 1)
       expect(result).to eq true
     end
 
-    xit '#square_occupied? returns false if coordinate is not occupied' do
+    it '#square_occupied? returns false if coordinate is not occupied' do
       result = game.square_occupied?(2, 3)
       expect(result).to eq false
     end
