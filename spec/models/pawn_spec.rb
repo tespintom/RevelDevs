@@ -33,7 +33,7 @@ RSpec.describe Pawn, type: :model do
   end
 
   describe 'move validation' do
-    let(:game) { FactoryBot.create :game}
+    let!(:game) { FactoryBot.create :game}
     let!(:pawn) { FactoryBot.create :pawn, game_id: game.id}
 
     it 'for white piece #in_pawn_range returns true if move is in pawn\'s range from starting position' do
@@ -88,9 +88,11 @@ RSpec.describe Pawn, type: :model do
     end
 
     it '#is_pawn_move_valid? returns false if pawn\'s move is obstructed' do
-      king = FactoryBot.create(:king, game_id: game.id)
-      king.x = 1
-      king.y = 3
+      pawn2 = FactoryBot.create(:pawn, game_id: game.id)
+      pawn2.update_attributes(x: 1, y: 3)
+      # result = pawn.is_pawn_move_valid?(1, 2, 1, 4)
+      # piece = FactoryBot.create(:piece, type: "Pawn", game_id: game.id)
+      # piece.update_attributes(x: 1, y: 3)
       result = pawn.is_pawn_move_valid?(1, 2, 1, 4)
       expect(result).to eq false
     end

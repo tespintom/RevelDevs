@@ -24,13 +24,10 @@ class Piece < ApplicationRecord
 #
   #determines if space is occupied by an active piece
   def is_obstructed?(x_current, y_current, x_target, y_target)
-    if is_obstructed_horizontal?(x_current, y_current, x_target, y_target)
-      return true
-    elsif is_obstructed_vertical?(x_current, y_current, x_target, y_target)
-      return true
-    elsif is_obstructed_diagonal?(x_current, y_current, x_target, y_target)
-      return true
-    end
+    return true if is_obstructed_horizontal?(x_current, y_current, x_target, y_target)
+    return true if is_obstructed_vertical?(x_current, y_current, x_target, y_target)
+    return true if is_obstructed_diagonal?(x_current, y_current, x_target, y_target)
+    return false
   end
 
   def is_obstructed_horizontal?(x_current, y_current, x_target, y_target)
@@ -38,16 +35,17 @@ class Piece < ApplicationRecord
       if x_target > x_current
         ((x_current + 1)...x_target).each do |i|
           if game.square_occupied?(i, y_current)
-            return true
+            true
           end
         end
       else
         ((x_target + 1)...x_current).each do |i|
           if game.square_occupied?(i, y_current)
-            return true
+            true
           end
         end
       end
+      # false
     end
   end
 
@@ -56,16 +54,17 @@ class Piece < ApplicationRecord
       if y_target > y_current
         (y_current...y_target).each do |i|
           if game.square_occupied?(x_current, i)
-            return true
+            true
           end
         end
       else
         ((y_target + 1)...y_current).each do |i|
           if game.square_occupied?(x_current, i)
-            return true
+            true
           end
         end
       end
+      # false
     end
   end
 
@@ -89,11 +88,12 @@ class Piece < ApplicationRecord
         ((start_y + 1)...finish_y).each do |v|
           if diagonal_move?(h, v, x_target, y_target)
             if game.square_occupied?(h, v)
-              return true
+              true
             end
           end
         end
       end
+      # false
     end
   end
 
@@ -127,7 +127,7 @@ class Piece < ApplicationRecord
   end
 
   #determines if the move is valid/possible
-  def valid_move?(x, y, x_target, y_target)
+  def valid_move?(x_current, y_current, x_target, y_target)
     in_bounds?(x_target, y_target)
   end
 
