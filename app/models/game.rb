@@ -1,7 +1,6 @@
 class Game < ApplicationRecord
   has_many :pieces
   belongs_to :user
-  cattr_accessor :current_user
   after_create :current_user_is_white_player, :populate
 
   #to initialize each game with the white_player as the user who created the game 
