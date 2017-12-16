@@ -72,4 +72,22 @@ RSpec.describe Game, type: :model do
       expect(result).to eq false
     end
   end
+  describe 'game states' do 
+    context "when game is first created" do
+      it "should be pending" do
+        game=FactoryBot.create :game 
+        expect(game.state).to eq("pending")
+      end
+    end
+    context "when black player joins" do
+    it "should be white_turn" do
+        game=FactoryBot.create :game 
+        game.black_player=FactoryBot.create :user 
+        game.save 
+        expect(game.state).to eq("white_turn")
+      end
+    end 
+    
+  end
 end
+
