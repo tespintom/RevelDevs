@@ -1,5 +1,4 @@
 class Pawn < Piece
-  belongs_to :game
   def is_pawn_move_valid?(x_current, y_current, x_target, y_target)
     if !valid_move?(x_current, y_current, x_target, y_target)
       return false

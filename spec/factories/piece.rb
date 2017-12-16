@@ -1,6 +1,5 @@
 FactoryBot.define do
   factory :piece do
-    association :game
     color :white
     x 1
     y 1
@@ -13,7 +12,6 @@ FactoryBot.define do
   end
 
   factory :pawn, parent: :piece, class: 'Pawn' do
-    association :game
     x 1
     y 2
   end

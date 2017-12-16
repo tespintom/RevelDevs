@@ -1,8 +1,8 @@
 class Game < ApplicationRecord
   has_many :pieces
-  has_many :pawns
   belongs_to :user
-  after_create :current_user_is_white_player, :populate
+  after_create :current_user_is_white_player
+  after_create :populate
 
   #to initialize each game with the white_player as the user who created the game 
   #white_player_id needs to exist in the database
