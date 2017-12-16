@@ -10,7 +10,9 @@ RSpec.describe Piece, type: :model do
   end
 
   describe 'move' do
-    let!(:piece) { FactoryBot.create :piece }
+    let!(:user) { FactoryBot.create :user}
+    let!(:game) { FactoryBot.create :game }
+    let!(:piece) { FactoryBot.create :piece, game_id: game.id }
     it '#horizontal_move? returns true if move is horizontal' do
       result = piece.horizontal_move?(1, 2, 4, 2)
       expect(result).to eq true
@@ -61,12 +63,16 @@ RSpec.describe Piece, type: :model do
       expect(result).to eq false
     end
 
-    xit '#is_obstructed? returns true if the move is obstructed' do
-      result = piece.is_obstructed?(2, 3, 1, 1)
+    it '#is_obstructed? returns true if the move is obstructed' do
+      piece2 = FactoryBot.create(:piece, game_id: game.id)
+      piece2.update_attributes(x: 2, y: 2)
+      result = piece.is_obstructed?(1, 1, 3, 3)
       expect(result).to eq true
     end
 
     xit '#is_obstructed? returns false if the move is not obstructed' do
+      result = piece.is_obstructed?(1, 1, 3, 3)
+      expect(result).to eq false
     end
   end
 end

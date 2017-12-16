@@ -4,8 +4,8 @@ class Pawn < Piece
       return false
     elsif !in_pawn_range?(x, y, x_target, y_target)
       return false
-    # elsif is_obstructed?(x_target, y_target) # commented out until is_obstructed? working
-    #   return false # commented out until is_obstructed? working
+    elsif is_obstructed?(x, y, x_target, y_target) # commented out until is_obstructed? working
+      return false # commented out until is_obstructed? working
     else
       return true
     end

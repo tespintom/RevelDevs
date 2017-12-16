@@ -23,40 +23,85 @@ class Piece < ApplicationRecord
 # dont worry about starting postiong
 #
   #determines if space is occupied by an active piece
-  def is_obstructed?(x, y, x_target, y_target)
-    if horizontal_move?(x, y, x_target, y_target)
-      (x...x_target).each do |x|
-        if game.square_occupied?(x, y)
-          return true
-        else
-          return false
+  def is_obstructed?(x_current, y_current, x_target, y_target)
+    if is_obstructed_horizontal?(x_current, y_current, x_target, y_target)
+      return true
+    elsif is_obstructed_vertical?(x_current, y_current, x_target, y_target)
+      return true
+    elsif is_obstructed_diagonal?(x_current, y_current, x_target, y_target)
+      return true
+    end
+  end
+
+  def is_obstructed_horizontal?(x_current, y_current, x_target, y_target)
+    if horizontal_move?(x_current, y_current, x_target, y_target)
+      if x_target > x_current
+        ((x_current + 1)...x_target).each do |i|
+          if game.square_occupied?(i, y_current)
+            return true
+          end
+        end
+      else
+        ((x_target + 1)...x_current).each do |i|
+          if game.square_occupied?(i, y_current)
+            return true
+          end
         end
       end
-    elsif vertical_move?(x, y, x_target, y_target)
-      (y...y_target).each do |y|
-        if game.square_occupied?(x, y)
-          return true
-        else
-          return false
-        end
-      end 
-    elsif diagonal_move?(x, y, x_target, y_target)
-      (x...x_target).each do |x|
-        (y...y_target). each do |y|
-          if diagonal_move(x, y, x_target, y_target) && game.square_occupied?(x, y)
-            return true
-          else
-            return false
-          end
-       end
-     end
     end
-  end 
+  end
+
+  def is_obstructed_vertical?(x_current, y_current, x_target, y_target)
+    if vertical_move?(x_current, y_current, x_target, y_target)
+      if y_target > y_current
+        (y_current...y_target).each do |i|
+          if game.square_occupied?(x_current, i)
+            return true
+          end
+        end
+      else
+        ((y_target + 1)...y_current).each do |i|
+          if game.square_occupied?(x_current, i)
+            return true
+          end
+        end
+      end
+    end
+  end
+
+  def is_obstructed_diagonal?(x_current, y_current, x_target, y_target) 
+    if diagonal_move?(x_current, y_current, x_target, y_target)
+      if x_target > x_current
+        start_x = x_current
+        finish_x = x_target
+      else
+        start_x = x_target
+        finish_x = x_current
+      end
+      if y_target > y_current
+        start_y = y_current
+        finish_y = y_target
+      else
+        start_y = y_target
+        finish_y = y_current
+      end
+      ((start_x + 1)...finish_x).each do |h|
+        ((start_y + 1)...finish_y).each do |v|
+          if diagonal_move?(h, v, x_target, y_target)
+            if game.square_occupied?(h, v)
+              return true
+            end
+          end
+        end
+      end
+    end
+  end
+
 
 
   #determines if the move is horizontal
-  def horizontal_move?(x, y, x_target, y_target)
-    if (x_target - x).abs > 0 && (y_target - y).abs ==  0
+  def horizontal_move?(x_current, y_current, x_target, y_target)
+    if (x_target - x_current).abs > 0 && (y_target - y_current).abs ==  0
       return true
     else
       return false
@@ -64,8 +109,8 @@ class Piece < ApplicationRecord
   end
 
   #determines if the move is vertical
-  def vertical_move?(x, y, x_target, y_target)
-    if (x_target - x).abs == 0 && (y_target - y).abs > 0
+  def vertical_move?(x_current, y_current, x_target, y_target)
+    if (x_target - x_current).abs == 0 && (y_target - y_current).abs > 0
       return true
     else
       return false
@@ -73,8 +118,8 @@ class Piece < ApplicationRecord
   end
 
   #determines if the move is diagonal
-  def diagonal_move?(x, y, x_target, y_target)
-    if (x_target - x).abs == (y_target - y).abs
+  def diagonal_move?(x_current, y_current, x_target, y_target)
+    if (x_target - x_current).abs == (y_target - y_current).abs
       return true
     else
       return false
@@ -91,3 +136,4 @@ class Piece < ApplicationRecord
     (1..8).include?(x_target) && (1..8).include?(y_target)
   end
 end
+
