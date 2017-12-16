@@ -84,8 +84,10 @@ RSpec.describe Game, type: :model do
   end
   
   describe 'players' do
+
     let(:game) { FactoryBot.create :game, user_id: user.id }
     let(:user) { FactoryBot.create :user }
+
     xit 'should initialize current user as white player' do
       user = FactoryBot.create(:user)
       expect(game.white_player_id).to eq current_user.id
@@ -93,6 +95,7 @@ RSpec.describe Game, type: :model do
 
     it 'should initialize current user as white player' do
       expect(game.white_player_id).to eq user.id
+
     end
   end
 end
