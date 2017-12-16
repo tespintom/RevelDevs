@@ -1,8 +1,7 @@
 class Game < ApplicationRecord
   has_many :pieces
-  belongs_to :user
-  after_create :current_user_is_white_player, :populate
-
+  belongs_to :white_player, class_name: "User" 
+  belongs_to :black_player, class_name: "User", optional: true 
   #to initialize each game with the white_player as the user who created the game 
   #white_player_id needs to exist in the database
 
@@ -16,10 +15,6 @@ class Game < ApplicationRecord
   end
 
   private
-
-  def current_user_is_white_player
-    self.white_player_id = self.user_id
-  end
 
   def populate
     (1..8).each do |piece|

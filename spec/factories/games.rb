@@ -1,5 +1,5 @@
 FactoryBot.define do
   factory :game do
-    association :user
+    association :white_player, factory: :user 
   end
 end
