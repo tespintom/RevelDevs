@@ -1,12 +1,17 @@
 class Game < ApplicationRecord
   has_many :pieces
+  has_many :players
+  scope :available, -> {where("total_players = 1")}
+  after_create :current_user_is_white_player
+
   belongs_to :user
   after_create :current_user_is_white_player
   after_create :populate
 
+
   #to initialize each game with the white_player as the user who created the game 
   #white_player_id needs to exist in the database
-
+  
   #we need this for everything else to work
   def square_occupied?(x_current, y_current)
     if pieces.active.where({x: x_current, y: y_current}).any?
