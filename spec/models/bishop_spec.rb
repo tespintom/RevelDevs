@@ -43,53 +43,53 @@ RSpec.describe Bishop, type: :model do
   end
 
   describe 'move validation' do
-    it '#in_bishop_range returns false if horizontal move ' do
+    it '#in_range returns false if horizontal move ' do
       game = FactoryBot.create(:game)
       bishop = FactoryBot.build(:bishop, game_id: game.id)
-      result = bishop.send(:in_bishop_range?, 4, 1) # if method is private
-      # if not private: result = bishop.in_bishop_range?(4, 1, 5, 1)
+      result = bishop.send(:in_range?, 4, 1) # if method is private
+      # if not private: result = bishop.in_range?(4, 1, 5, 1)
       expect(result).to eq false
     end
 
-    it '#in_bishop_range returns false if vertical move' do
+    it '#in_range returns false if vertical move' do
       game = FactoryBot.create(:game)
       bishop = FactoryBot.build(:bishop, game_id: game.id)
-      result = bishop.send(:in_bishop_range?, 3, 2)
+      result = bishop.send(:in_range?, 3, 2)
       expect(result).to eq false
     end
 
-    it '#in_bishop_range returns true if diagonal move is in bishop\'s range' do
+    it '#in_range returns true if diagonal move is in bishop\'s range' do
       game = FactoryBot.create(:game)
       bishop = FactoryBot.build(:bishop, game_id: game.id)
-      result = bishop.send(:in_bishop_range?, 4, 2)
+      result = bishop.send(:in_range?, 4, 2)
       expect(result).to eq true
     end
 
-    it '#in_bishop_range returns false if move is not in bishop\'s range' do
+    it '#in_range returns false if move is not in bishop\'s range' do
       game = FactoryBot.create(:game)
       bishop = FactoryBot.build(:bishop, game_id: game.id)
-      result = bishop.send(:in_bishop_range?, 8, 2)
+      result = bishop.send(:in_range?, 8, 2)
       expect(result).to eq false
     end
 
-    it '#is_bishop_move_valid? returns true if bishop\'s move is valid' do
+    it '#is_move_valid? returns true if bishop\'s move is valid' do
       game = FactoryBot.create(:game)
       bishop = FactoryBot.build(:bishop, game_id: game.id)
-      result = bishop.is_bishop_move_valid?(4, 2)
+      result = bishop.is_move_valid?(4, 2)
       expect(result).to eq true
     end
 
-    it '#is_bishop_move_valid? returns false if bishop\'s move is off the board' do
+    it '#is_move_valid? returns false if bishop\'s move is off the board' do
       game = FactoryBot.create(:game)
       bishop = FactoryBot.build(:bishop, game_id: game.id)
-      result = bishop.is_bishop_move_valid?(4, 0)
+      result = bishop.is_move_valid?(4, 0)
       expect(result).to eq false
     end
 
-    it '#is_bishop_move_valid? returns false if bishop\'s move is out of range for bishop' do
+    it '#is_move_valid? returns false if bishop\'s move is out of range for bishop' do
       game = FactoryBot.create(:game)
       bishop = FactoryBot.build(:bishop, game_id: game.id)
-      result = bishop.is_bishop_move_valid?(6, 1)
+      result = bishop.is_move_valid?(6, 1)
       expect(result).to eq false
     end
   end

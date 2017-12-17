@@ -43,53 +43,53 @@ RSpec.describe Rook, type: :model do
   end
 
   describe 'move validation' do
-    it '#in_rook_range returns true if horizontal move ' do
+    it '#in_range returns true if horizontal move ' do
       game = FactoryBot.create(:game)
       rook = FactoryBot.build(:rook, game_id: game.id)
-      result = rook.send(:in_rook_range?, 4, 1) # if method is private
-      # if not private: result = rook.in_rook_range?(4, 1, 5, 1)
+      result = rook.send(:in_range?, 4, 1) # if method is private
+      # if not private: result = rook.in_range?(4, 1, 5, 1)
       expect(result).to eq true
     end
 
-    it '#in_rook_range returns false if vertical move' do
+    it '#in_range returns false if vertical move' do
       game = FactoryBot.create(:game)
       rook = FactoryBot.build(:rook, game_id: game.id)
-      result = rook.send(:in_rook_range?, 3, 2)
+      result = rook.send(:in_range?, 3, 2)
       expect(result).to eq false
     end
 
-    it '#in_rook_range returns false if diagonal move' do
+    it '#in_range returns false if diagonal move' do
       game = FactoryBot.create(:game)
       rook = FactoryBot.build(:rook, game_id: game.id)
-      result = rook.send(:in_rook_range?, 2, 2)
+      result = rook.send(:in_range?, 2, 2)
       expect(result).to eq false
     end
 
-    it '#in_rook_range returns false if move is not in rook\'s range' do
+    it '#in_range returns false if move is not in rook\'s range' do
       game = FactoryBot.create(:game)
       rook = FactoryBot.build(:rook, game_id: game.id)
-      result = rook.send(:in_rook_range?, 8, 2)
+      result = rook.send(:in_range?, 8, 2)
       expect(result).to eq false
     end
 
-    it '#is_rook_move_valid? returns true if rook\'s move is valid' do
+    it '#is_move_valid? returns true if rook\'s move is valid' do
       game = FactoryBot.create(:game)
       rook = FactoryBot.build(:rook, game_id: game.id)
-      result = rook.is_rook_move_valid?(1, 7)
+      result = rook.is_move_valid?(1, 7)
       expect(result).to eq true
     end
 
-    it '#is_rook_move_valid? returns false if rook\'s move is off the board' do
+    it '#is_move_valid? returns false if rook\'s move is off the board' do
       game = FactoryBot.create(:game)
       rook = FactoryBot.build(:rook, game_id: game.id)
-      result = rook.is_rook_move_valid?(4, 0)
+      result = rook.is_move_valid?(4, 0)
       expect(result).to eq false
     end
 
-    it '#is_rook_move_valid? returns false if rook\'s move is out of range for rook' do
+    it '#is_move_valid? returns false if rook\'s move is out of range for rook' do
       game = FactoryBot.create(:game)
       rook = FactoryBot.build(:rook, game_id: game.id)
-      result = rook.is_rook_move_valid?(8, 3)
+      result = rook.is_move_valid?(8, 3)
       expect(result).to eq false
     end
   end
