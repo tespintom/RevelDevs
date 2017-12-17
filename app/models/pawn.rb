@@ -25,7 +25,7 @@ class Pawn < Piece
 
   private
 
-  def in_pawn_range?(x_target, y_target)
+  def in_range?(x_target, y_target)
     case self.color
     when 'white'
       case self.y
