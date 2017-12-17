@@ -2,13 +2,13 @@ require 'rails_helper'
 
 RSpec.describe Game, type: :model do
   describe '.new' do
-    let(:game) { FactoryBot.create :game }
- 
     it 'is valid' do
+      game = FactoryBot.create(:game)
       expect(game).to be_valid
     end
 
     it 'verifies that white pieces are in the correct locations' do
+      game = FactoryBot.create(:game)
       piece_locations = [{type: 'Pawn', x: 1, y: 2},
         {type: 'Pawn', x: 2, y: 2},
         {type: 'Pawn', x: 3, y: 2},
@@ -32,6 +32,7 @@ RSpec.describe Game, type: :model do
     end
 
     it 'verifies that black pieces are in the correct locations' do
+      game = FactoryBot.create(:game)
       piece_locations = [{type: 'Pawn', x: 1, y: 7},
         {type: 'Pawn', x: 2, y: 7},
         {type: 'Pawn', x: 3, y: 7},
@@ -58,16 +59,15 @@ RSpec.describe Game, type: :model do
   end
 
   describe 'board' do
-    let(:game) { FactoryBot.create :game }
-    let!(:piece) { FactoryBot.create :piece, game_id: game.id }
-    let!(:user) { FactoryBot.create :user }
-
     it '#square_occupied? returns true if coordinate is occupied' do
+      game = FactoryBot.create(:game)
+      piece = FactoryBot.create(:piece, game_id: game.id)
       result = game.square_occupied?(1, 1)
       expect(result).to eq true
     end
 
     it '#square_occupied? returns false if coordinate is not occupied' do
+      game = FactoryBot.build(:game)
       result = game.square_occupied?(2, 3)
       expect(result).to eq false
     end
@@ -84,17 +84,9 @@ RSpec.describe Game, type: :model do
   end
   
   describe 'players' do
-
-    let(:game) { FactoryBot.create :game, user_id: user.id }
-    let(:user) { FactoryBot.create :user }
-
-    xit 'should initialize current user as white player' do
-      user = FactoryBot.create(:user)
-      expect(game.white_player_id).to eq current_user.id
-    end
-
     it 'should initialize current user as white player' do
-      expect(game.white_player_id).to eq user.id
+      game = FactoryBot.create(:game)
+      expect(game.white_player_id).to eq game.user_id
 
     end
   end
