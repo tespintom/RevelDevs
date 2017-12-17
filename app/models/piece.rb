@@ -16,6 +16,15 @@ class Piece < ApplicationRecord
     color == 'black'
   end
 
+  def move_action(x_target, y_target)
+    if is_move_valid?(x_target, y_target)
+      self.x = x_target
+      self.y = y_target
+    else
+      # return error message
+    end
+  end
+
   def is_move_valid?(x_target, y_target)
     if !valid_move?(x_target, y_target)
       return false
@@ -26,16 +35,6 @@ class Piece < ApplicationRecord
     else
       return true
     end
-  end
-
-  def move_action(x_target, y_target)
-    if is_king_move_valid?(x_target, y_target)
-      self.x = x_target
-      self.y = y_target
-    else
-      # return error message
-    end
-
   end
 
   #determines if space is occupied by an active piece

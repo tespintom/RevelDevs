@@ -43,53 +43,53 @@ RSpec.describe King, type: :model do
   end
 
   describe 'move validation' do
-    it '#in_king_range returns true if horizontal move is in king\'s range' do
+    it '#in_range returns true if horizontal move is in king\'s range' do
       game = FactoryBot.create(:game)
       king = FactoryBot.build(:king, game_id: game.id)
-      result = king.send(:in_king_range?, 5, 1) # if method is private
-      # if not private: result = king.in_king_range?(4, 1, 5, 1)
+      result = king.send(:in_range?, 5, 1) # if method is private
+      # if not private: result = king.in_range?(4, 1, 5, 1)
       expect(result).to eq true
     end
 
-    it '#in_king_range returns true if vertical move is in king\'s range' do
+    it '#in_range returns true if vertical move is in king\'s range' do
       game = FactoryBot.create(:game)
       king = FactoryBot.build(:king, game_id: game.id)
-      result = king.send(:in_king_range?, 4, 2)
+      result = king.send(:in_range?, 4, 2)
       expect(result).to eq true
     end
 
-    it '#in_king_range returns true if diagonal move is in king\'s range' do
+    it '#in_range returns true if diagonal move is in king\'s range' do
       game = FactoryBot.create(:game)
       king = FactoryBot.build(:king, game_id: game.id)
-      result = king.send(:in_king_range?, 5, 2)
+      result = king.send(:in_range?, 5, 2)
       expect(result).to eq true
     end
 
-    it '#in_king_range returns false if move is not in king\'s range' do
+    it '#in_range returns false if move is not in king\'s range' do
       game = FactoryBot.create(:game)
       king = FactoryBot.build(:king, game_id: game.id)
-      result = king.send(:in_king_range?, 8, 2)
+      result = king.send(:in_range?, 8, 2)
       expect(result).to eq false
     end
 
-    it '#is_king_move_valid? returns true if king\'s move is valid' do
+    it '#is_move_valid? returns true if king\'s move is valid' do
       game = FactoryBot.create(:game)
       king = FactoryBot.build(:king, game_id: game.id)
-      result = king.is_king_move_valid?(5, 2)
+      result = king.is_move_valid?(5, 2)
       expect(result).to eq true
     end
 
-    it '#is_king_move_valid? returns false if king\'s move is off the board' do
+    it '#is_move_valid? returns false if king\'s move is off the board' do
       game = FactoryBot.create(:game)
       king = FactoryBot.build(:king, game_id: game.id)
-      result = king.is_king_move_valid?(4, 0)
+      result = king.is_move_valid?(4, 0)
       expect(result).to eq false
     end
 
-    it '#is_king_move_valid? returns false if king\'s move is out of range for king' do
+    it '#is_move_valid? returns false if king\'s move is out of range for king' do
       game = FactoryBot.create(:game)
       king = FactoryBot.build(:king, game_id: game.id)
-      result = king.is_king_move_valid?(6, 1)
+      result = king.is_move_valid?(6, 1)
       expect(result).to eq false
     end
   end

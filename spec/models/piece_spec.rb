@@ -57,20 +57,6 @@ RSpec.describe Piece, type: :model do
       expect(result).to eq false
     end
 
-    it '#in_bounds? returns true if the move is within bounds' do
-      game = FactoryBot.create(:game)
-      piece = FactoryBot.build(:piece, game_id: game.id)
-      result = piece.in_bounds?(4, 7)
-      expect(result).to eq true
-    end
-
-    it '#in_bounds? returns false if the move is not within bounds' do
-      game = FactoryBot.create(:game)
-      piece = FactoryBot.build(:piece, game_id: game.id)
-      result = piece.in_bounds?(2, 9)
-      expect(result).to eq false
-    end
-
     it '#valid_move? returns true if the move is valid' do
       game = FactoryBot.create(:game)
       piece = FactoryBot.build(:piece, game_id: game.id)
