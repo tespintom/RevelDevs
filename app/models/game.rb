@@ -1,13 +1,9 @@
 class Game < ApplicationRecord
-  has_many :piece
+  has_many :pieces
   belongs_to :white_player, class_name: "User" 
   belongs_to :black_player, class_name: "User", optional: true 
   before_save :start_game_when_black_player_is_added 
-
-  has_many :players
   scope :available, -> {where("total_players = 1")}
-  belongs_to :user
-  after_create :current_user_is_white_player
   after_create :populate
 
 
@@ -21,6 +17,7 @@ class Game < ApplicationRecord
   end
 
   private
+  
   def start_game_when_black_player_is_added
     self.state = "white_turn" if state == "pending" && black_player_id.present? 
   end
