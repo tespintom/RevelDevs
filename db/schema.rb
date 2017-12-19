@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(version: 20171216030938) do
     t.boolean "finished"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "total_players"
     t.bigint "white_player_id"
     t.bigint "black_player_id"
     t.string "state", default: "pending", null: false
