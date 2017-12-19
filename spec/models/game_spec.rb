@@ -74,13 +74,18 @@ RSpec.describe Game, type: :model do
   end
   
   describe 'game states' do 
-    context "when game is first created" do
-      it "should be pending" do
+      it "upon game creation the state should be pending" do
         game=FactoryBot.create :game 
         expect(game.state).to eq("pending")
       end
-    end 
+      
+      xit "when the second player joins game state changes to active" do
+        game=FactoryBot.create :game 
+        #test joining once that functionality is created.
+        expect(game.state).to eq("white_turn")
+      end
   end
+  
 
   describe 'available' do
     let(:game) {FactoryBot.create :game}

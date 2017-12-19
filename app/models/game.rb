@@ -19,9 +19,13 @@ class Game < ApplicationRecord
   private
   
   def start_game_when_black_player_is_added
-    self.state = "white_turn" if state == "pending" && black_player_id.present? 
+    self.state = "white_turn" if state == "pending" && black_player_id.present?
   end
-
+  
+  def player_turn
+   #need to add state change for when the players turn changes.  
+  end
+  
   def populate
     (1..8).each do |piece|
       self.pieces.create(x: piece, y: 2, color: "white", type: "Pawn")
