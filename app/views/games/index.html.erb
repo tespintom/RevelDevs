@@ -2,7 +2,7 @@
 <br />
 <h3><%= link_to "Create a Game", new_game_path, class: 'btn btn-primary' %></h3>
 
-<% @games.each do |game| %>
+<% @available_games.each do |game| %>
   <h4><%= game.name %></h4>
   <%= link_to "Join Game", join_game_path(game), method: 'PATCH', class: 'btn btn-primary' %>
 <% end %>

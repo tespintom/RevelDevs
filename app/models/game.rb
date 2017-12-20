@@ -12,7 +12,7 @@ class Game < ApplicationRecord
 
   # we need this for everything else to work
   def square_occupied?(x_current, y_current)
-    pieces.active.where(x: x_current, y: y_current).any? ? true : false
+    pieces.active.where({x: x_current, y: y_current}).any? ? true : false
   end
 
   def add_black_player!(player)
