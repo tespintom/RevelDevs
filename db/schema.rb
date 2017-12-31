@@ -20,10 +20,10 @@ ActiveRecord::Schema.define(version: 20171213233138) do
     t.boolean "finished"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "total_players"
     t.bigint "white_player_id"
     t.bigint "black_player_id"
     t.bigint "user_id"
+    t.integer "total_players"
   end
 
   create_table "pieces", force: :cascade do |t|
