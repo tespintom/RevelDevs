@@ -7,6 +7,7 @@ describe '.new' do
     GameBoard = FactoryBot.create(:game_board)
     expect(GameBoard).to be_valid
   end
+end
 
   it ' verfies the game board is populated with White Pieces ' do
     Game = Game.create()
@@ -57,7 +58,7 @@ describe '.new' do
       {type: 'Rook', x: 8, y: 8} ]
 
 
-      white_pieces = game.pieces.where(color: 'black').as_json(only: [:type, :color, :x, :y])  
+      white_pieces = game.pieces.where(color: 'black').as_json(only: [:type, :color, :x, :y])
 
     piece_locations.each do | location |
       expect(black_pieces.include?(location)).to eq(true)
