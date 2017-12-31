@@ -95,4 +95,14 @@
     <div class="white">&#9816;</div>
     <div class="black">&#9814;</div>
 </div>
+
+<table>
+<% @game_board.squares.each_with_index do | square, index | %>
+  <% if index % 8 == 0 %>
+    <tr />
+    <tr>
+  <% end %>
+  <td><%= square.present? ? 'Piece' : 'Empty' %></td>
+<% end %>
+</table>
 </body>
