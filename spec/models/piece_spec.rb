@@ -88,4 +88,20 @@ RSpec.describe Piece, type: :model do
       expect(result).to eq false
     end
   end
+
+  describe 'capture' do
+    it '#is_capturable? returns true if target can be captured' do
+      game = FactoryBot.create(:game)
+      piece = FactoryBot.build(:piece, game_id: game.id, x: 3, y: 3)
+      result = piece.is_capturable?(3, 7)
+      expect(result).to eq true
+    end
+
+    it '#is_capturable? returns false if target cannot be captured' do
+      game = FactoryBot.create(:game)
+      piece = FactoryBot.build(:piece, game_id: game.id, x: 3, y: 3)
+      result = piece.is_capturable?(3, 2)
+      expect(result).to eq false
+    end
+  end
 end

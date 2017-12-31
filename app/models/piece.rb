@@ -148,6 +148,19 @@ class Piece < ApplicationRecord
     in_bounds?(x_target, y_target)
   end
 
+  def is_capturable?(x_target, y_target)
+    if game.square_occupied?(x_target, y_target)
+      piece_array = game.pieces.active.where({x: x_target, y: y_target})
+      piece_color = ''
+      piece_array.each { |piece| piece_color = piece.color }
+      if self.color == piece_color
+        false
+      else
+        true
+      end
+    end
+  end
+
   private
 
   def in_bounds?(x_target, y_target)
