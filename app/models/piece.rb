@@ -150,14 +150,13 @@ class Piece < ApplicationRecord
 
   def is_capturable?(x_target, y_target)
     if game.square_occupied?(x_target, y_target)
-      piece_array = game.pieces.active.where({x: x_target, y: y_target})
-      piece_color = ''
-      piece_array.each { |piece| piece_color = piece.color }
-      if self.color == piece_color
-        false
-      else
-        true
-      end
+      self.color == target_piece(x_target, y_target).color ? false : true
+    end
+  end
+
+  def captured!(x_target, y_target)
+    if is_capturable?(x_target, y_target)
+      target_piece(x_target, y_target).update_attributes(captured: true, x: 0, y: 0)
     end
   end
 
@@ -169,6 +168,10 @@ class Piece < ApplicationRecord
 
   def in_range?(x_target, y_target)
     true
+  end
+
+  def target_piece(x_target, y_target)
+    game.pieces.active.where({x: x_target, y: y_target}).first
   end
 end
 
