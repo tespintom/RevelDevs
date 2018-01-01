@@ -72,7 +72,20 @@ RSpec.describe Game, type: :model do
       expect(result).to eq false
     end
   end
-
+  
+  describe 'game states' do 
+      it "upon game creation the state should be pending" do
+        game=FactoryBot.create :game 
+        expect(game.state).to eq("pending")
+      end
+      
+      xit "when the second player joins game state changes to active" do
+        game=FactoryBot.create :game 
+        #test joining once that functionality is created.
+        expect(game.state).to eq("white_turn")
+      end
+  end
+  
 
   describe 'available' do
     let(:game) {FactoryBot.create :game}
@@ -86,8 +99,22 @@ RSpec.describe Game, type: :model do
   describe 'players' do
     it 'should initialize current user as white player' do
       game = FactoryBot.create(:game)
-      expect(game.white_player_id).to eq game.user_id
-
+      expect(game.white_player_id).to eq game.white_player.id  
     end
+    
+    it 'should verify there is no black player upon game creation' do
+      game = FactoryBot.create(:game)
+      expect(game.black_player_id).to eq nil
+    end
+    
+    context "when black player joins" do
+      it "should be white_turn" do
+        game=FactoryBot.create :game 
+        game.black_player=FactoryBot.create :user 
+        game.save 
+        expect(game.state).to eq("white_turn")
+      end
+    end 
   end
 end
+
