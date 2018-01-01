@@ -23,7 +23,7 @@ ActiveRecord::Schema.define(version: 20171231230526) do
     t.integer "total_players"
     t.bigint "white_player_id"
     t.bigint "black_player_id"
-    t.bigint "user_id"
+    t.string "state", default: "pending", null: false
   end
 
   create_table "pieces", force: :cascade do |t|
