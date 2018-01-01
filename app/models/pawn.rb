@@ -1,31 +1,9 @@
 class Pawn < Piece
 
   #need to add logic concerning checking target for vertical moves(non-capturable)
-  def is_pawn_move_valid?(x_target, y_target)
-    if !valid_move?(x_target, y_target)
-      return false
-    elsif !in_pawn_range?(x_target, y_target)
-      return false
-    elsif is_obstructed?(x_target, y_target) # commented out until is_obstructed? working
-      return false # commented out until is_obstructed? working
-    else
-      return true
-    end
-  end
-
-  def move_action(x_target, y_target)
-    if is_pawn_move_valid?(x_target, y_target)
-      self.x = x_target
-      self.y = y_target
-    else
-      # return error message
-    end
-
-  end
-
   private
 
-  def in_pawn_range?(x_target, y_target)
+  def in_range?(x_target, y_target)
     case self.color
     when 'white'
       case self.y

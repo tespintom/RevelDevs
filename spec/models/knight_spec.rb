@@ -43,47 +43,47 @@ RSpec.describe Knight, type: :model do
   end
 
   describe 'move validation' do
-    it '#in_knight_range returns true if  move is in knight\'s range moving 1 square x and 2 squares y' do
+    it '#in_range returns true if  move is in knight\'s range moving 1 square x and 2 squares y' do
       game = FactoryBot.create(:game)
       knight = FactoryBot.build(:knight, game_id: game.id)
-      result = knight.send(:in_knight_range?, 3, 3) # if method is private
-      # if not private: result = knight.in_knight_range?(4, 1, 5, 1)
+      result = knight.send(:in_range?, 3, 3) # if method is private
+      # if not private: result = knight.in_range?(4, 1, 5, 1)
       expect(result).to eq true
     end
 
-    it '#in_knight_range returns true if move is in knight\'s range moving 2 squares x and 1 square y' do
+    it '#in_range returns true if move is in knight\'s range moving 2 squares x and 1 square y' do
       game = FactoryBot.create(:game)
       knight = FactoryBot.build(:knight, game_id: game.id)
-      result = knight.send(:in_knight_range?, 4, 2)
+      result = knight.send(:in_range?, 4, 2)
       expect(result).to eq true
     end
 
 
-    it '#in_knight_range returns false if move is not in knight\'s range' do
+    it '#in_range returns false if move is not in knight\'s range' do
       game = FactoryBot.create(:game)
       knight = FactoryBot.build(:knight, game_id: game.id)
-      result = knight.send(:in_knight_range?, 8, 2)
+      result = knight.send(:in_range?, 8, 2)
       expect(result).to eq false
     end
 
-    it '#is_knight_move_valid? returns true if knight\'s move is valid' do
+    it '#is_move_valid? returns true if knight\'s move is valid' do
       game = FactoryBot.create(:game)
       knight = FactoryBot.build(:knight, game_id: game.id)
-      result = knight.is_knight_move_valid?(3, 3)
+      result = knight.is_move_valid?(3, 3)
       expect(result).to eq true
     end
 
-    it '#is_knight_move_valid? returns false if knight\'s move is off the board' do
+    it '#is_move_valid? returns false if knight\'s move is off the board' do
       game = FactoryBot.create(:game)
       knight = FactoryBot.build(:knight, game_id: game.id)
-      result = knight.is_knight_move_valid?(4, 0)
+      result = knight.is_move_valid?(4, 0)
       expect(result).to eq false
     end
 
-    it '#is_knight_move_valid? returns false if knight\'s move is out of range for knight' do
+    it '#is_move_valid? returns false if knight\'s move is out of range for knight' do
       game = FactoryBot.create(:game)
       knight = FactoryBot.build(:knight, game_id: game.id)
-      result = knight.is_knight_move_valid?(6, 1)
+      result = knight.is_move_valid?(6, 1)
       expect(result).to eq false
     end
   end

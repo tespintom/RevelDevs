@@ -16,6 +16,27 @@ class Piece < ApplicationRecord
     color == 'black'
   end
 
+  def move_action(x_target, y_target)
+    if is_move_valid?(x_target, y_target)
+      self.x = x_target
+      self.y = y_target
+    else
+      # return error message
+    end
+  end
+
+  def is_move_valid?(x_target, y_target)
+    if !valid_move?(x_target, y_target)
+      return false
+    elsif !in_range?(x_target, y_target)
+      return false
+    elsif is_obstructed?(x_target, y_target) 
+      return false
+    else
+      return true
+    end
+  end
+
   #determines if space is occupied by an active piece
   #This ONLY checks if the PATH is obstructed, doesn't check if target is capturable.
   def is_obstructed?(x_target, y_target)
@@ -127,9 +148,17 @@ class Piece < ApplicationRecord
     in_bounds?(x_target, y_target)
   end
 
+  private
 
   def in_bounds?(x_target, y_target)
     (1..8).include?(x_target) && (1..8).include?(y_target)
   end
+
+  def in_range?(x_target, y_target)
+    true
+  end
 end
+
+
+
 

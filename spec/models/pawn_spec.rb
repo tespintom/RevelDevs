@@ -45,83 +45,83 @@ RSpec.describe Pawn, type: :model do
   end
 
   describe 'move validation' do
-    it 'for white piece #in_pawn_range returns true if move is in pawn\'s range from starting position' do
+    it 'for white piece #in_range returns true if move is in pawn\'s range from starting position' do
       game = FactoryBot.create(:game)
       pawn = FactoryBot.build(:pawn, game_id: game.id)
-      result = pawn.send(:in_pawn_range?, 1, 4) # if method is private
-      # result = pawn.in_pawn_range?(1, 2, 1, 4) # if method not private
+      result = pawn.send(:in_range?, 1, 4) # if method is private
+      # result = pawn.in_range?(1, 2, 1, 4) # if method not private
       expect(result).to eq true
     end
 
-    it 'for black piece #in_pawn_range returns true if move is in pawn\'s range from starting position' do
+    it 'for black piece #in_range returns true if move is in pawn\'s range from starting position' do
       game = FactoryBot.create(:game)
       pawn = FactoryBot.build(:pawn, game_id: game.id)
       pawn.color = 'black'
       pawn.y = 7 # starting position for black piece
-      result = pawn.send(:in_pawn_range?, 1, 5) # if method is private
-      # result = pawn.in_pawn_range?(1, 7, 1, 5) # if method not private
+      result = pawn.send(:in_range?, 1, 5) # if method is private
+      # result = pawn.in_range?(1, 7, 1, 5) # if method not private
       expect(result).to eq true
     end
 
-    it 'for white piece #in_pawn_range returns true if move is in pawn\'s range from non-starting position' do
+    it 'for white piece #in_range returns true if move is in pawn\'s range from non-starting position' do
       game = FactoryBot.create(:game)
       pawn = FactoryBot.build(:pawn, game_id: game.id)
       pawn.update_attributes(x: 1, y: 4)
-      result = pawn.send(:in_pawn_range?, 1, 5)
+      result = pawn.send(:in_range?, 1, 5)
       expect(result).to eq true
     end
 
-    it 'for black piece #in_pawn_range returns true if move is in pawn\'s range from non-starting position' do
+    it 'for black piece #in_range returns true if move is in pawn\'s range from non-starting position' do
       game = FactoryBot.create(:game)
       pawn = FactoryBot.build(:pawn, game_id: game.id)
       pawn.color = 'black'
       pawn.update_attributes(x: 1, y: 5)
-      result = pawn.send(:in_pawn_range?, 1, 4)
+      result = pawn.send(:in_range?, 1, 4)
       expect(result).to eq true
     end
 
-    it 'for white piece #in_pawn_range returns false if move is not in pawn\'s range' do
+    it 'for white piece #in_range returns false if move is not in pawn\'s range' do
       game = FactoryBot.create(:game)
       pawn = FactoryBot.build(:pawn, game_id: game.id)
-      result = pawn.send(:in_pawn_range?, 8, 2)
+      result = pawn.send(:in_range?, 8, 2)
       expect(result).to eq false
     end
 
-    it 'for black piece #in_pawn_range returns false if move is not in pawn\'s range' do
+    it 'for black piece #in_range returns false if move is not in pawn\'s range' do
       game = FactoryBot.create(:game)
       pawn = FactoryBot.build(:pawn, game_id: game.id)
       pawn.color = 'black'
-      result = pawn.send(:in_pawn_range?, 3, 1)
+      result = pawn.send(:in_range?, 3, 1)
       expect(result).to eq false
     end
 
-    it '#is_pawn_move_valid? returns true if pawn\'s move is valid' do
+    it '#is_move_valid? returns true if pawn\'s move is valid' do
       game = FactoryBot.create(:game)
       pawn = FactoryBot.build(:pawn, game_id: game.id)
-      result = pawn.is_pawn_move_valid?(1, 3)
+      result = pawn.is_move_valid?(1, 3)
       expect(result).to eq true
     end
 
-    it '#is_pawn_move_valid? returns false if pawn\'s move is off the board' do
+    it '#is_move_valid? returns false if pawn\'s move is off the board' do
       game = FactoryBot.create(:game)
       pawn = FactoryBot.build(:pawn, game_id: game.id)
-      result = pawn.is_pawn_move_valid?(1, 9)
+      result = pawn.is_move_valid?(1, 9)
       expect(result).to eq false
     end
 
-    it '#is_pawn_move_valid? returns false if pawn\'s move is out of range for pawn' do
+    it '#is_move_valid? returns false if pawn\'s move is out of range for pawn' do
       game = FactoryBot.create(:game)
       pawn = FactoryBot.build(:pawn, game_id: game.id)
-      result = pawn.is_pawn_move_valid?(1, 6)
+      result = pawn.is_move_valid?(1, 6)
       expect(result).to eq false
     end
 
-    it '#is_pawn_move_valid? returns false if pawn\'s move is obstructed' do
+    it '#is_move_valid? returns false if pawn\'s move is obstructed' do
       game = FactoryBot.create(:game)
       pawn = FactoryBot.build(:pawn, game_id: game.id)
       pawn2 = FactoryBot.create(:pawn, game_id: game.id)
       pawn2.update_attributes(x: 1, y: 3)
-      result = pawn.is_pawn_move_valid?(1, 4)
+      result = pawn.is_move_valid?(1, 4)
       expect(result).to eq false
     end
   end
