@@ -22,8 +22,8 @@ ActiveRecord::Schema.define(version: 20171216030938) do
     t.datetime "updated_at", null: false
     t.bigint "white_player_id"
     t.bigint "black_player_id"
-    t.string "state", default: "pending", null: false
     t.integer "total_players"
+    t.string "state", default: "pending", null: false
   end
 
   create_table "pieces", force: :cascade do |t|

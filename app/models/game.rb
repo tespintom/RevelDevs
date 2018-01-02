@@ -28,7 +28,7 @@ class Game < ApplicationRecord
   
   def start_game_when_black_player_is_added
     self.state = "white_turn" if state == "pending" && black_player_id.present?
-
+  end
 
   def current_user_is_white_player
     self.white_player_id = user_id
