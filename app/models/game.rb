@@ -42,7 +42,7 @@ class Game < ApplicationRecord
       pieces.create(x: piece, y: 7, color: 'black', type: 'Pawn')
     end
 
-    [Rook, Knight, Bishop, King, Queen, Bishop, Knight, Rook].each.with_index(1) do |klass, index|
+    ["Rook", "Knight", "Bishop", "King", "Queen", "Bishop", "Knight", "Rook"].each.with_index(1) do |klass, index|
       pieces.create(x: index, y: 1, color: 'white', type: klass)
       pieces.create(x: index, y: 8, color: 'black', type: klass)
     end
