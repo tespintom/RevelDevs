@@ -8,6 +8,12 @@ RSpec.describe Rook, type: :model do
       expect(rook).to be_valid
     end
 
+    it 'is a rook' do
+      game = FactoryBot.create(:game)
+      rook = FactoryBot.build(:rook, game_id: game.id)
+      expect(rook.type).to eq('Rook')
+    end
+
     it '#white? is true for white pieces' do
       game = FactoryBot.create(:game)
       rook = FactoryBot.build(:rook, game_id: game.id)

@@ -3,10 +3,11 @@ class PiecesController < ApplicationController
 
   def show
     @piece = Piece.find_by_id(params[:id])
-    render json: @piece
-    # @game = @piece.game
-    # redirect_to game_path(@game)
-    return render_not_found if @piece.blank?
+    if @piece.blank?
+      return render_not_found
+    else
+      render json: @piece
+    end
   end
 
   def update
