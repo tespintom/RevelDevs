@@ -148,6 +148,18 @@ class Piece < ApplicationRecord
     in_bounds?(x_target, y_target)
   end
 
+  def is_capturable?(x_target, y_target)
+    if game.square_occupied?(x_target, y_target)
+      self.color == target_piece(x_target, y_target).color ? false : true
+    end
+  end
+
+  def captured!(x_target, y_target)
+    if is_capturable?(x_target, y_target)
+      target_piece(x_target, y_target).update_attributes(captured: true, x: 0, y: 0)
+    end
+  end
+
   private
 
   def in_bounds?(x_target, y_target)
@@ -156,6 +168,10 @@ class Piece < ApplicationRecord
 
   def in_range?(x_target, y_target)
     true
+  end
+
+  def target_piece(x_target, y_target)
+    game.pieces.active.where({x: x_target, y: y_target}).first
   end
 end
 

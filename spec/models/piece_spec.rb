@@ -88,4 +88,51 @@ RSpec.describe Piece, type: :model do
       expect(result).to eq false
     end
   end
+
+  describe 'capture' do
+    it '#is_capturable? returns true if target can be captured' do
+      game = FactoryBot.create(:game)
+      piece = FactoryBot.build(:piece, game_id: game.id, x: 3, y: 3)
+      x_target = 3
+      y_target = 7
+      result = piece.is_capturable?(x_target, y_target)
+      expect(result).to eq true
+    end
+
+    it '#is_capturable? returns false if target cannot be captured' do
+      game = FactoryBot.create(:game)
+      piece = FactoryBot.build(:piece, game_id: game.id, x: 3, y: 3)
+      x_target = 3
+      y_target = 2
+      result = piece.is_capturable?(x_target, y_target)
+      expect(result).to eq false
+    end
+
+    it '#captured! correctly updates "captured," "x," and "y" attributes if target is capturable' do
+      game = FactoryBot.create(:game)
+      piece = FactoryBot.build(:piece, game_id: game.id, x: 3, y: 3)
+      x_target = 3
+      y_target = 7
+      target_piece = game.pieces.active.where({x: x_target, y: y_target}).first
+      piece.captured!(x_target, y_target)
+      target_piece.reload
+      expect(target_piece.captured).to eq true
+      expect(target_piece.x).to eq 0
+      expect(target_piece.y).to eq 0
+    end
+
+    it '#captured! does not update target piece attributes if target is not capturable' do
+      game = FactoryBot.create(:game)
+      piece = FactoryBot.build(:piece, game_id: game.id, x: 3, y: 3)
+      x_target = 3
+      y_target = 2
+      target_piece = game.pieces.active.where({x: x_target, y: y_target}).first
+      piece.captured!(x_target, y_target)
+      target_piece.reload
+      expect(target_piece.captured).to eq false
+      expect(target_piece.x).to eq x_target
+      expect(target_piece.y).to eq y_target
+    end
+
+  end
 end
