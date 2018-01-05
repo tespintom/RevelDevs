@@ -99,7 +99,7 @@ RSpec.describe Game, type: :model do
   describe 'players' do
     it 'should initialize current user as white player' do
       game = FactoryBot.create(:game)
-      expect(game.white_player_id).to eq game.white_player.id  
+      expect(game.white_player_id).to eq game.user_id 
     end
     
     it 'should verify there is no black player upon game creation' do
@@ -109,9 +109,10 @@ RSpec.describe Game, type: :model do
     
     context "when black player joins" do
       it "should be white_turn" do
-        game=FactoryBot.create :game 
-        game.black_player=FactoryBot.create :user 
-        game.save 
+        game = FactoryBot.create(:game)
+        new_user = FactoryBot.create(:user) 
+        game.black_player_id = new_user.id
+        game.save
         expect(game.state).to eq("white_turn")
       end
     end 
