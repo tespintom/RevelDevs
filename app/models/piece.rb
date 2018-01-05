@@ -114,8 +114,6 @@ class Piece < ApplicationRecord
     end
   end
 
-
-
   #determines if the move is horizontal
   def horizontal_move?(x_target, y_target)
     if (x_target - self.x).abs > 0 && (y_target - self.y).abs ==  0
