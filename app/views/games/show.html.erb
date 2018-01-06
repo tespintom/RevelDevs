@@ -9,7 +9,15 @@
 
 <!-- 1st -->
 
-    <div class="black">&#9820;</div>
+    <div class="black">
+      <% piece = @game.pieces.active.where({x: 1, y: 8}).first %>
+      <% if piece != nil %>
+        <%= link_to "#{piece.color} #{piece.type}", piece_path(piece) %>
+      <% end %>
+      <!-- &#9820; -->
+    </div>
+
+
     <div class="white">&#9822;</div>
     <div class="black">&#9821;</div>
     <div class="white">&#9819;</div>
@@ -31,7 +39,12 @@
 
     <!-- 3th -->
 
-    <div class="black"></div>
+    <div class="black">
+      <% piece = @game.pieces.active.where({x: 1, y: 6}).first %>
+      <% if piece != nil %>
+        <%= link_to "#{piece.color} #{piece.type}", piece_path(piece) %>
+      <% end %>
+    </div>
     <div class="white"></div>
     <div class="black"></div>
     <div class="white"></div>
