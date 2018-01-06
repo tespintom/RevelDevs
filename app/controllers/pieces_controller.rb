@@ -6,6 +6,9 @@ class PiecesController < ApplicationController
     if @piece.blank?
       return render_not_found
     else
+      #need to edit the database.
+      #Single table inheritance uses the "type" field to connect the types of pieces to the pieces table.
+      #need to add another field to store type or rename type field.
       render json: @piece
     end
   end
