@@ -9,90 +9,496 @@
 
 <!-- 1st -->
 
-    <div class="black">&#9820;</div>
-    <div class="white">&#9822;</div>
-    <div class="black">&#9821;</div>
-    <div class="white">&#9819;</div>
-    <div class="black">&#9818;</div>
-    <div class="white">&#9821;</div>
-    <div class="black">&#9822;</div>
-    <div class="white">&#9820;</div>
+    <div class="black">
+      <% piece = @game.pieces.active.where({x: 1, y: 8}).first %>
+      <% if piece != nil %>
+        <%= link_to "#{piece.color} #{piece.type}", piece_path(piece) %>
+      <% end %>
+      <!-- &#9820; -->
+    </div>
+
+
+    <div class="white">
+      <% piece = @game.pieces.active.where({x: 2, y: 8}).first %>
+      <% if piece != nil %>
+        <%= link_to "#{piece.color} #{piece.type}", piece_path(piece) %>
+      <% end %>
+      <!-- &#9822; -->
+    </div>
+
+    <div class="black">
+      <% piece = @game.pieces.active.where({x: 3, y: 8}).first %>
+      <% if piece != nil %>
+        <%= link_to "#{piece.color} #{piece.type}", piece_path(piece) %>
+      <% end %>
+      <!-- &#9821; -->
+    </div>
+
+    <div class="white">
+      <% piece = @game.pieces.active.where({x: 4, y: 8}).first %>
+      <% if piece != nil %>
+        <%= link_to "#{piece.color} #{piece.type}", piece_path(piece) %>
+      <% end %>
+      <!-- &#9819; -->
+    </div>
+
+    <div class="black">
+      <% piece = @game.pieces.active.where({x: 5, y: 8}).first %>
+      <% if piece != nil %>
+        <%= link_to "#{piece.color} #{piece.type}", piece_path(piece) %>
+      <% end %>
+      <!-- &#9818; -->
+    </div>
+
+    <div class="white">
+      <% piece = @game.pieces.active.where({x: 6, y: 8}).first %>
+      <% if piece != nil %>
+        <%= link_to "#{piece.color} #{piece.type}", piece_path(piece) %>
+      <% end %>
+      <!-- &#9821; -->
+    </div>
+
+    <div class="black">
+      <% piece = @game.pieces.active.where({x: 7, y: 8}).first %>
+      <% if piece != nil %>
+        <%= link_to "#{piece.color} #{piece.type}", piece_path(piece) %>
+      <% end %>
+      <!-- &#9822; -->
+    </div>
+
+    <div class="white">
+      <% piece = @game.pieces.active.where({x: 8, y: 8}).first %>
+      <% if piece != nil %>
+        <%= link_to "#{piece.color} #{piece.type}", piece_path(piece) %>
+      <% end %>
+      <!-- &#9820; -->
+    </div>
 
     <!-- 2nd -->
 
-    <div class="white">&#9823;</div>
-    <div class="black">&#9823;</div>
-    <div class="white">&#9823;</div>
-    <div class="black">&#9823;</div>
-    <div class="white">&#9823;</div>
-    <div class="black">&#9823;</div>
-    <div class="white">&#9823;</div>
-    <div class="black">&#9823;</div>
+    <div class="white">
+      <% piece = @game.pieces.active.where({x: 1, y: 7}).first %>
+      <% if piece != nil %>
+        <%= link_to "#{piece.color} #{piece.type}", piece_path(piece) %>
+      <% end %>
+      <!-- &#9823; -->
+    </div>
+
+    <div class="black">
+      <% piece = @game.pieces.active.where({x: 2, y: 7}).first %>
+      <% if piece != nil %>
+        <%= link_to "#{piece.color} #{piece.type}", piece_path(piece) %>
+      <% end %>
+      <!-- &#9823; -->
+    </div>
+
+    <div class="white">
+      <% piece = @game.pieces.active.where({x: 3, y: 7}).first %>
+      <% if piece != nil %>
+        <%= link_to "#{piece.color} #{piece.type}", piece_path(piece) %>
+      <% end %>
+      <!-- &#9823; -->
+    </div>
+
+    <div class="black">
+      <% piece = @game.pieces.active.where({x: 4, y: 7}).first %>
+      <% if piece != nil %>
+        <%= link_to "#{piece.color} #{piece.type}", piece_path(piece) %>
+      <% end %>
+      <!-- &#9823; -->
+    </div>
+
+    <div class="white">
+      <% piece = @game.pieces.active.where({x: 5, y: 7}).first %>
+      <% if piece != nil %>
+        <%= link_to "#{piece.color} #{piece.type}", piece_path(piece) %>
+      <% end %>
+      <!-- &#9823; -->
+    </div>
+
+    <div class="black">
+      <% piece = @game.pieces.active.where({x: 6, y: 7}).first %>
+      <% if piece != nil %>
+        <%= link_to "#{piece.color} #{piece.type}", piece_path(piece) %>
+      <% end %>
+      <!-- &#9823; -->
+    </div>
+
+    <div class="white">
+      <% piece = @game.pieces.active.where({x: 7, y: 7}).first %>
+      <% if piece != nil %>
+        <%= link_to "#{piece.color} #{piece.type}", piece_path(piece) %>
+      <% end %>
+      <!-- &#9823; -->
+    </div>
+
+    <div class="black">
+      <% piece = @game.pieces.active.where({x: 8, y: 7}).first %>
+      <% if piece != nil %>
+        <%= link_to "#{piece.color} #{piece.type}", piece_path(piece) %>
+      <% end %>
+      <!-- &#9823; -->
+    </div>
 
     <!-- 3th -->
 
-    <div class="black"></div>
-    <div class="white"></div>
-    <div class="black"></div>
-    <div class="white"></div>
-    <div class="black"></div>
-    <div class="white"></div>
-    <div class="black"></div>
-    <div class="white"></div>
+    <div class="black">
+      <% piece = @game.pieces.active.where({x: 1, y: 6}).first %>
+      <% if piece != nil %>
+        <%= link_to "#{piece.color} #{piece.type}", piece_path(piece) %>
+      <% end %>
+    </div>
+
+    <div class="white">
+      <% piece = @game.pieces.active.where({x: 2, y: 6}).first %>
+      <% if piece != nil %>
+        <%= link_to "#{piece.color} #{piece.type}", piece_path(piece) %>
+      <% end %>
+    </div>
+
+    <div class="black">
+      <% piece = @game.pieces.active.where({x: 3, y: 6}).first %>
+      <% if piece != nil %>
+        <%= link_to "#{piece.color} #{piece.type}", piece_path(piece) %>
+      <% end %>
+    </div>
+    <div class="white">
+      <% piece = @game.pieces.active.where({x: 4, y: 6}).first %>
+      <% if piece != nil %>
+        <%= link_to "#{piece.color} #{piece.type}", piece_path(piece) %>
+      <% end %>
+    </div>
+
+    <div class="black">
+      <% piece = @game.pieces.active.where({x: 5, y: 6}).first %>
+      <% if piece != nil %>
+        <%= link_to "#{piece.color} #{piece.type}", piece_path(piece) %>
+      <% end %>
+    </div>
+
+    <div class="white">
+      <% piece = @game.pieces.active.where({x: 6, y: 6}).first %>
+      <% if piece != nil %>
+        <%= link_to "#{piece.color} #{piece.type}", piece_path(piece) %>
+      <% end %>
+    </div>
+
+    <div class="black">
+      <% piece = @game.pieces.active.where({x: 7, y: 6}).first %>
+      <% if piece != nil %>
+        <%= link_to "#{piece.color} #{piece.type}", piece_path(piece) %>
+      <% end %>
+    </div>
+
+    <div class="white">
+      <% piece = @game.pieces.active.where({x: 8, y: 6}).first %>
+      <% if piece != nil %>
+        <%= link_to "#{piece.color} #{piece.type}", piece_path(piece) %>
+      <% end %>
+    </div>
 
     <!-- 4st -->
 
-    <div class="white"></div>
-    <div class="black"></div>
-    <div class="white"></div>
-    <div class="black"></div>
-    <div class="white"></div>
-    <div class="black"></div>
-    <div class="white"></div>
-    <div class="black"></div>
+    <div class="white">
+      <% piece = @game.pieces.active.where({x: 1, y: 5}).first %>
+      <% if piece != nil %>
+        <%= link_to "#{piece.color} #{piece.type}", piece_path(piece) %>
+      <% end %>
+    </div>
+
+    <div class="black">
+      <% piece = @game.pieces.active.where({x: 2, y: 5}).first %>
+      <% if piece != nil %>
+        <%= link_to "#{piece.color} #{piece.type}", piece_path(piece) %>
+      <% end %>
+    </div>
+
+    <div class="white">
+      <% piece = @game.pieces.active.where({x: 3, y: 5}).first %>
+      <% if piece != nil %>
+        <%= link_to "#{piece.color} #{piece.type}", piece_path(piece) %>
+      <% end %>
+    </div>
+
+    <div class="black">
+      <% piece = @game.pieces.active.where({x: 4, y: 5}).first %>
+      <% if piece != nil %>
+        <%= link_to "#{piece.color} #{piece.type}", piece_path(piece) %>
+      <% end %>
+    </div>
+
+    <div class="white">
+      <% piece = @game.pieces.active.where({x: 5, y: 5}).first %>
+      <% if piece != nil %>
+        <%= link_to "#{piece.color} #{piece.type}", piece_path(piece) %>
+      <% end %>
+    </div>
+
+    <div class="black">
+      <% piece = @game.pieces.active.where({x: 6, y: 5}).first %>
+      <% if piece != nil %>
+        <%= link_to "#{piece.color} #{piece.type}", piece_path(piece) %>
+      <% end %>
+    </div>
+
+    <div class="white">
+      <% piece = @game.pieces.active.where({x: 7, y: 5}).first %>
+      <% if piece != nil %>
+        <%= link_to "#{piece.color} #{piece.type}", piece_path(piece) %>
+      <% end %>
+    </div>
+
+    <div class="black">
+      <% piece = @game.pieces.active.where({x: 8, y: 5}).first %>
+      <% if piece != nil %>
+        <%= link_to "#{piece.color} #{piece.type}", piece_path(piece) %>
+      <% end %>
+    </div>
 
     <!-- 5th -->
 
-    <div class="black"></div>
-    <div class="white"></div>
-    <div class="black"></div>
-    <div class="white"></div>
-    <div class="black"></div>
-    <div class="white"></div>
-    <div class="black"></div>
-    <div class="white"></div>
+    <div class="black">
+      <% piece = @game.pieces.active.where({x: 1, y: 4}).first %>
+      <% if piece != nil %>
+        <%= link_to "#{piece.color} #{piece.type}", piece_path(piece) %>
+      <% end %>
+    </div>
+
+    <div class="white">
+      <% piece = @game.pieces.active.where({x: 2, y: 4}).first %>
+      <% if piece != nil %>
+        <%= link_to "#{piece.color} #{piece.type}", piece_path(piece) %>
+      <% end %>
+    </div>
+
+    <div class="black">
+      <% piece = @game.pieces.active.where({x: 3, y: 4}).first %>
+      <% if piece != nil %>
+        <%= link_to "#{piece.color} #{piece.type}", piece_path(piece) %>
+      <% end %>
+    </div>
+
+    <div class="white">
+      <% piece = @game.pieces.active.where({x: 4, y: 4}).first %>
+      <% if piece != nil %>
+        <%= link_to "#{piece.color} #{piece.type}", piece_path(piece) %>
+      <% end %>
+    </div>
+
+    <div class="black">
+      <% piece = @game.pieces.active.where({x: 5, y: 4}).first %>
+      <% if piece != nil %>
+        <%= link_to "#{piece.color} #{piece.type}", piece_path(piece) %>
+      <% end %>
+    </div>
+
+    <div class="white">
+      <% piece = @game.pieces.active.where({x: 6, y: 4}).first %>
+      <% if piece != nil %>
+        <%= link_to "#{piece.color} #{piece.type}", piece_path(piece) %>
+      <% end %>
+    </div>
+
+    <div class="black">
+      <% piece = @game.pieces.active.where({x: 7, y: 4}).first %>
+      <% if piece != nil %>
+        <%= link_to "#{piece.color} #{piece.type}", piece_path(piece) %>
+      <% end %>
+    </div>
+
+    <div class="white">
+      <% piece = @game.pieces.active.where({x: 8, y: 4}).first %>
+      <% if piece != nil %>
+        <%= link_to "#{piece.color} #{piece.type}", piece_path(piece) %>
+      <% end %>
+    </div>
 
     <!-- 6th -->
 
-    <div class="white"></div>
-    <div class="black"></div>
-    <div class="white"></div>
-    <div class="black"></div>
-    <div class="white"></div>
-    <div class="black"></div>
-    <div class="white"></div>
-    <div class="black"></div>
+    <div class="white">
+      <% piece = @game.pieces.active.where({x: 1, y: 3}).first %>
+      <% if piece != nil %>
+        <%= link_to "#{piece.color} #{piece.type}", piece_path(piece) %>
+      <% end %>
+    </div>
+
+    <div class="black">
+      <% piece = @game.pieces.active.where({x: 2, y: 3}).first %>
+      <% if piece != nil %>
+        <%= link_to "#{piece.color} #{piece.type}", piece_path(piece) %>
+      <% end %>
+    </div>
+
+    <div class="white">
+      <% piece = @game.pieces.active.where({x: 3, y: 3}).first %>
+      <% if piece != nil %>
+        <%= link_to "#{piece.color} #{piece.type}", piece_path(piece) %>
+      <% end %>
+    </div>
+
+    <div class="black">
+      <% piece = @game.pieces.active.where({x: 4, y: 3}).first %>
+      <% if piece != nil %>
+        <%= link_to "#{piece.color} #{piece.type}", piece_path(piece) %>
+      <% end %>
+    </div>
+
+    <div class="white">
+      <% piece = @game.pieces.active.where({x: 5, y: 3}).first %>
+      <% if piece != nil %>
+        <%= link_to "#{piece.color} #{piece.type}", piece_path(piece) %>
+      <% end %>
+    </div>
+
+    <div class="black">
+      <% piece = @game.pieces.active.where({x: 6, y: 3}).first %>
+      <% if piece != nil %>
+        <%= link_to "#{piece.color} #{piece.type}", piece_path(piece) %>
+      <% end %>
+    </div>
+
+    <div class="white">
+      <% piece = @game.pieces.active.where({x: 7, y: 3}).first %>
+      <% if piece != nil %>
+        <%= link_to "#{piece.color} #{piece.type}", piece_path(piece) %>
+      <% end %>
+    </div>
+
+    <div class="black">
+      <% piece = @game.pieces.active.where({x: 8, y: 3}).first %>
+      <% if piece != nil %>
+        <%= link_to "#{piece.color} #{piece.type}", piece_path(piece) %>
+      <% end %>
+    </div>
 
     <!-- 7th -->
 
-    <div class="black">&#9817;</div>
-    <div class="white">&#9817;</div>
-    <div class="black">&#9817;</div>
-    <div class="white">&#9817;</div>
-    <div class="black">&#9817;</div>
-    <div class="white">&#9817;</div>
-    <div class="black">&#9817;</div>
-    <div class="white">&#9817;</div>
+    <div class="black">
+      <% piece = @game.pieces.active.where({x: 1, y: 2}).first %>
+      <% if piece != nil %>
+        <%= link_to "#{piece.color} #{piece.type}", piece_path(piece) %>
+      <% end %>
+      <!-- &#9817; -->
+    </div>
+
+    <div class="white">
+      <% piece = @game.pieces.active.where({x: 2, y: 2}).first %>
+      <% if piece != nil %>
+        <%= link_to "#{piece.color} #{piece.type}", piece_path(piece) %>
+      <% end %>
+      <!-- &#9817; -->
+    </div>
+
+    <div class="black">
+      <% piece = @game.pieces.active.where({x: 3, y: 2}).first %>
+      <% if piece != nil %>
+        <%= link_to "#{piece.color} #{piece.type}", piece_path(piece) %>
+      <% end %>
+      <!-- &#9817; -->
+    </div>
+
+    <div class="white">
+      <% piece = @game.pieces.active.where({x: 4, y: 2}).first %>
+      <% if piece != nil %>
+        <%= link_to "#{piece.color} #{piece.type}", piece_path(piece) %>
+      <% end %>
+      <!-- &#9817; -->
+    </div>
+
+    <div class="black">
+      <% piece = @game.pieces.active.where({x: 5, y: 2}).first %>
+      <% if piece != nil %>
+        <%= link_to "#{piece.color} #{piece.type}", piece_path(piece) %>
+      <% end %>
+      <!-- &#9817; -->
+    </div>
+
+    <div class="white">
+      <% piece = @game.pieces.active.where({x: 6, y: 2}).first %>
+      <% if piece != nil %>
+        <%= link_to "#{piece.color} #{piece.type}", piece_path(piece) %>
+      <% end %>
+      <!-- &#9817; -->
+    </div>
+
+    <div class="black">
+      <% piece = @game.pieces.active.where({x: 7, y: 2}).first %>
+      <% if piece != nil %>
+        <%= link_to "#{piece.color} #{piece.type}", piece_path(piece) %>
+      <% end %>
+      <!-- &#9817; -->
+    </div>
+
+    <div class="white">
+      <% piece = @game.pieces.active.where({x: 8, y: 2}).first %>
+      <% if piece != nil %>
+        <%= link_to "#{piece.color} #{piece.type}", piece_path(piece) %>
+      <% end %>
+      <!-- &#9817; -->
+    </div>
 
     <!-- 8th -->
 
-    <div class="white">&#9814;</div>
-    <div class="black">&#9816;</div>
-    <div class="white">&#9815;</div>
-    <div class="black">&#9813;</div>
-    <div class="white">&#9812;</div>
-    <div class="black">&#9815;</div>
-    <div class="white">&#9816;</div>
-    <div class="black">&#9814;</div>
+    <div class="white">
+      <% piece = @game.pieces.active.where({x: 1, y: 1}).first %>
+      <% if piece != nil %>
+        <%= link_to "#{piece.color} #{piece.type}", piece_path(piece) %>
+      <% end %>
+      <!-- &#9814; -->
+    </div>
+
+    <div class="black">
+      <% piece = @game.pieces.active.where({x: 2, y: 1}).first %>
+      <% if piece != nil %>
+        <%= link_to "#{piece.color} #{piece.type}", piece_path(piece) %>
+      <% end %>
+      <!-- &#9816; -->
+    </div>
+
+    <div class="white">
+      <% piece = @game.pieces.active.where({x: 3, y: 1}).first %>
+      <% if piece != nil %>
+        <%= link_to "#{piece.color} #{piece.type}", piece_path(piece) %>
+      <% end %>
+      <!-- &#9815; -->
+    </div>
+
+    <div class="black">
+      <% piece = @game.pieces.active.where({x: 4, y: 1}).first %>
+      <% if piece != nil %>
+        <%= link_to "#{piece.color} #{piece.type}", piece_path(piece) %>
+      <% end %>
+      <!-- &#9813; -->
+    </div>
+
+    <div class="white">
+      <% piece = @game.pieces.active.where({x: 5, y: 1}).first %>
+      <% if piece != nil %>
+        <%= link_to "#{piece.color} #{piece.type}", piece_path(piece) %>
+      <% end %>
+      <!-- &#9812; -->
+    </div>
+
+    <div class="black">
+      <% piece = @game.pieces.active.where({x: 6, y: 1}).first %>
+      <% if piece != nil %>
+        <%= link_to "#{piece.color} #{piece.type}", piece_path(piece) %>
+      <% end %>
+      <!-- &#9815; -->
+    </div>
+    <div class="white">
+      <% piece = @game.pieces.active.where({x: 7, y: 1}).first %>
+      <% if piece != nil %>
+        <%= link_to "#{piece.color} #{piece.type}", piece_path(piece) %>
+      <% end %>
+      <!-- &#9816; -->
+    </div>
+    <div class="black">
+      <% piece = @game.pieces.active.where({x: 8, y: 1}).first %>
+      <% if piece != nil %>
+        <%= link_to "#{piece.color} #{piece.type}", piece_path(piece) %>
+      <% end %>
+      <!-- &#9814; -->
+    </div>
 </div>
 </body>

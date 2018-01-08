@@ -30,7 +30,7 @@ class Piece < ApplicationRecord
       return false
     elsif !in_range?(x_target, y_target)
       return false
-    elsif is_obstructed?(x_target, y_target) 
+    elsif is_obstructed?(x_target, y_target)
       return false
     else
       return true
@@ -52,8 +52,8 @@ class Piece < ApplicationRecord
       if x_target > self.x
         ((self.x + 1)...x_target).each do |i|
           if game.square_occupied?(i, self.y)
-            return true 
-          end  
+            return true
+          end
         end
       else
         ((x_target + 1)...self.x).each do |i|
@@ -85,7 +85,7 @@ class Piece < ApplicationRecord
     end
   end
 
-  def is_obstructed_diagonal?(x_target, y_target) 
+  def is_obstructed_diagonal?(x_target, y_target)
     if diagonal_move?(x_target, y_target)
       if x_target > self.x
         start_x = self.x
@@ -158,6 +158,10 @@ class Piece < ApplicationRecord
     end
   end
 
+  def target_piece(x_target, y_target)
+    game.pieces.active.where({x: x_target, y: y_target}).first
+  end
+  
   private
 
   def in_bounds?(x_target, y_target)
@@ -168,11 +172,5 @@ class Piece < ApplicationRecord
     true
   end
 
-  def target_piece(x_target, y_target)
-    game.pieces.active.where({x: x_target, y: y_target}).first
-  end
+
 end
-
-
-
-
