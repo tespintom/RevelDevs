@@ -147,7 +147,7 @@ class Piece < ApplicationRecord
   end
 
   def is_capturable?(x_target, y_target)
-    if game.square_occupied?(x_target, y_target)
+    if is_move_valid?(x_target, y_target) && game.square_occupied?(x_target, y_target)
       self.color == target_piece(x_target, y_target).color ? false : true
     end
   end
@@ -155,6 +155,7 @@ class Piece < ApplicationRecord
   def captured!(x_target, y_target)
     if is_capturable?(x_target, y_target)
       target_piece(x_target, y_target).update_attributes(captured: true, x: 0, y: 0)
+      move_action(x_target, y_target)
     end
   end
 
