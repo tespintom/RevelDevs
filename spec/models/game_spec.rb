@@ -119,7 +119,7 @@ RSpec.describe Game, type: :model do
   end
 
   describe 'game end' do
-    it 'should set finished to 1 on game end' do
+    it 'should set finished to true on game end' do
       game = FactoryBot.create(:game)
       game.game_end
       expect(game.finished).to eq(true)
