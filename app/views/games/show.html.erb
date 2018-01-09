@@ -377,6 +377,7 @@
       <% piece = @game.pieces.active.where({x: 1, y: 2}).first %>
       <% if piece != nil %>
         <%= link_to "#{piece.color} #{piece.type}", piece_path(piece) %>
+        <%= link_to "#{piece.color} #{piece.type}", piece_path(piece), method: :put %>
       <% end %>
       <!-- &#9817; -->
     </div>

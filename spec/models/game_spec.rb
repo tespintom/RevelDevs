@@ -88,9 +88,8 @@ RSpec.describe Game, type: :model do
   
 
   describe 'available' do
-    let(:game) {FactoryBot.create :game}
-
-    xit 'should show available games, which are games with total_players = 1' do
+    it 'should show available games, which are games with total_players = 1' do
+      game = FactoryBot.create(:game)
       result = Game.available.count
       expect(result).to eq(1)
     end
@@ -115,7 +114,14 @@ RSpec.describe Game, type: :model do
         game.save
         expect(game.state).to eq("white_turn")
       end
-    end 
+
+      it "should update total_players to 2" do
+        game = FactoryBot.create(:game)
+        new_user = FactoryBot.create(:user) 
+        game.add_black_player!(new_user)
+        expect(game.total_players).to eq(2)
+      end
+    end
   end
 end
 

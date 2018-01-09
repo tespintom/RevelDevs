@@ -5,7 +5,7 @@ class Game < ApplicationRecord
   before_save :start_game_when_black_player_is_added
   after_create :populate
 
-  scope :available, -> {where("total_players = 1")}
+  scope :available, -> { where(total_players: 1) }
 
   after_create :current_user_is_white_player
 
@@ -18,7 +18,8 @@ class Game < ApplicationRecord
   end
 
   def add_black_player!(player)
-    self.black_player = player
+    self.black_player_id = player.id
+    self.total_players = 2
     save
   end
 
@@ -27,7 +28,7 @@ class Game < ApplicationRecord
   end
 
   private
- 
+
   def start_game_when_black_player_is_added
     self.state = "white_turn" if state == "pending" && black_player_id.present?
   end

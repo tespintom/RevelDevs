@@ -134,5 +134,28 @@ RSpec.describe Piece, type: :model do
       expect(target_piece.y).to eq y_target
     end
 
+    it '#captured! correctly moves piece to new location if target is capturable' do
+      game = FactoryBot.create(:game)
+      piece = FactoryBot.build(:piece, game_id: game.id, x: 3, y: 3)
+      x_target = 3
+      y_target = 7
+      target_piece = game.pieces.active.where({x: x_target, y: y_target}).first
+      piece.captured!(x_target, y_target)
+      target_piece.reload
+      expect(piece.x).to eq x_target
+      expect(piece.y).to eq y_target
+    end
+
+    it '#captured! does not move piece if target is not capturable' do
+      game = FactoryBot.create(:game)
+      piece = FactoryBot.build(:piece, game_id: game.id, x: 3, y: 3)
+      x_target = 3
+      y_target = 2
+      target_piece = game.pieces.active.where({x: x_target, y: y_target}).first
+      piece.captured!(x_target, y_target)
+      target_piece.reload
+      expect(piece.x).to eq 3
+      expect(piece.y).to eq 3
+    end
   end
 end

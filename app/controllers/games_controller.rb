@@ -3,7 +3,7 @@ class GamesController < ApplicationController
 
   def index
     @games = Game.all
-    @available_games = Game.available
+    @available_games = @games.available
   end
 
   def new
@@ -28,7 +28,7 @@ class GamesController < ApplicationController
   private
 
   def game_params
-    params.require(:game).permit(:name, :white_player_id, :black_player_id, finished: false)
+    params.require(:game).permit(:name, :white_player_id, :black_player_id, finished: false, total_players: 1)
   end
 
   def current_game
