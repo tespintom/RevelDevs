@@ -26,6 +26,18 @@ class Game < ApplicationRecord
     self.white_player_id = user_id
   end
 
+  def game_end
+    self.finished = true
+  end
+
+  def draw
+    if self.finished == true && self.winner_id == nil
+      return true
+    else
+      return false
+    end
+  end
+
   private
  
   def start_game_when_black_player_is_added
@@ -36,6 +48,9 @@ class Game < ApplicationRecord
    #need to add state change for when the players turn changes.  
   end
   
+
+
+
   def populate
     (1..8).each do |piece|
       pieces.create(x: piece, y: 2, color: 'white', type: 'Pawn')
