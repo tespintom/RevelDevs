@@ -11,6 +11,8 @@ class PiecesController < ApplicationController
     #   #need to add another field to store type or rename type field.
     #   render json: @piece
     end
+    @game = @piece.game
+    @pieces = @game.pieces.all
   end
 
   def update
