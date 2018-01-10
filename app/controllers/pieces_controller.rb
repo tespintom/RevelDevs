@@ -18,10 +18,12 @@ class PiecesController < ApplicationController
   def update
     @piece = Piece.find_by_id(params[:id])
     @game = @piece.game
-    if @piece.is_capturable?(1, 3)
-      @piece.captured!(1, 3)
+    x_target = piece_params[:x].to_i
+    y_target = piece_params[:y].to_i
+    if @piece.is_capturable?(x_target, y_target)
+      @piece.captured!(x_target, y_target)
     else
-      @piece.move_action(1, 3)
+      @piece.move_action(x_target, y_target)
     end
     @piece.save
     redirect_to game_path(@game)

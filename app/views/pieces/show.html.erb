@@ -35,10 +35,12 @@
          data-update-url="<%= piece_path(@piece) %>"
          id="square"
         >
-          <% piece = @pieces.active.where( { x: 1 , y: 2 } ).first %>
-          <% if piece.id == @piece.id %>
+          <% piece = @pieces.active.find_by( { x: col , y: 9 - row } ) %>
+          <% if piece == nil %>
+            <%= link_to "____", game_path(@game) %>
+          <% elsif piece.id == @piece.id %>
             <b><%= link_to "#{piece.color} #{piece.type}", piece_path(piece) %></b>
-          <% elsif piece != nil %>
+          <% else %>
             <%= link_to "#{piece.color} #{piece.type}", piece_path(piece) %>
           <% end %>
         <!-- end of div loop for determining square color -->

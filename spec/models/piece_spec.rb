@@ -104,7 +104,7 @@ RSpec.describe Piece, type: :model do
       piece = FactoryBot.build(:piece, game_id: game.id, x: 3, y: 3)
       x_target = 3
       y_target = 2
-      result = piece.is_capturable?(params[ { x: x_target, y: y_target } ])
+      result = piece.is_capturable?(x_target, y_target)
       expect(result).to eq false
     end
 

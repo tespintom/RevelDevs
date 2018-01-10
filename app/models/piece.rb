@@ -146,9 +146,7 @@ class Piece < ApplicationRecord
     in_bounds?(x_target, y_target)
   end
 
-  def is_capturable?(params)
-    x_target = params[:x].to_i
-    y_target = params[:y].to_i
+  def is_capturable?(x_target, y_target)
     if is_move_valid?(x_target, y_target) && game.square_occupied?(x_target, y_target)
       self.color == target_piece(x_target, y_target).color ? false : true
     end
