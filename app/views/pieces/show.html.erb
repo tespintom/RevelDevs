@@ -1,12 +1,12 @@
 <script>
   $(function() {
-    $('.square').click({
-      update: function( event, ui ) {
+    $('#square').click({
+      update: function( event ) {
         $.ajax({
           type: 'PUT',
-          url: ui.item.data('update-url'),
+          url: event.target.data('update-url'),
           dataType: 'json',
-          data: { piece: { x: data-x, y: data-y } }
+          data:{ piece: { x: event.target('data-x'), y: event.target('data-y') } }
         });
       }
     });
@@ -27,12 +27,14 @@
       <% for col in (1..8) %> <!-- loops through the columns -->
         <div class= 
         <% if row % 2 != 0 %>
-          <%= col % 2 != 0 ? "square black" : "square white" %>
+          <%= col % 2 != 0 ? "black" : "white" %>
         <% else %>
-          <%= col % 2 == 0 ? "square black" : "square white" %>
+          <%= col % 2 == 0 ? "black" : "white" %>
         <% end %>
          data-x=<%= "#{col}" %>
          data-y=<%= "#{9 - row}" %>
+         data-update-url="<%= piece_path(@piece) %>"
+         id="square"
         >
           <% piece = @pieces.active.where( { x: 1 , y: 2 } ).first %>
           <% if piece.id == @piece.id %>

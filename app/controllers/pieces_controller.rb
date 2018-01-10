@@ -32,4 +32,8 @@ class PiecesController < ApplicationController
   def render_not_found(status=:not_found)
     render plain: "#{status.to_s.titleize} :(", status: status
   end
+
+  def piece_params
+    params.require(:piece).permit(:x, :y)
+  end
 end
