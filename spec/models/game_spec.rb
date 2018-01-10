@@ -123,5 +123,21 @@ RSpec.describe Game, type: :model do
       end
     end
   end
+
+  describe 'game end' do
+    it 'should set finished to true on game end' do
+      game = FactoryBot.create(:game)
+      game.game_end
+      expect(game.finished).to eq(true)
+    end
+  end
+
+  describe 'game draw' do
+    it 'should return true if finished is true and winner id is nil' do
+      game = FactoryBot.create(:game)
+      game.game_end
+      expect(game.draw).to eq(true)
+    end
+  end
 end
 

@@ -11,6 +11,8 @@ class PiecesController < ApplicationController
     #   #need to add another field to store type or rename type field.
     #   render json: @piece
     end
+    @game = @piece.game
+    @pieces = @game.pieces.all
   end
 
   def update
@@ -29,5 +31,9 @@ class PiecesController < ApplicationController
 
   def render_not_found(status=:not_found)
     render plain: "#{status.to_s.titleize} :(", status: status
+  end
+
+  def piece_params
+    params.require(:piece).permit(:x, :y)
   end
 end
