@@ -10,7 +10,7 @@ before_script:
 deploy:
   provider: heroku
   api_key:
-  secure: "278ae214b4f4d40eed4ae2cb4035c72456b525b71779f1f794d0e41c7fe19aca81992cc7682301d233a6aa1d60c1f6c911a37a952fe8e765769e21ed4cf1e9c4"		
+    secure: "278ae214b4f4d40eed4ae2cb4035c72456b525b71779f1f794d0e41c7fe19aca81992cc7682301d233a6aa1d60c1f6c911a37a952fe8e765769e21ed4cf1e9c4"		
   app: chess-reveldevs
   on:
   repo: tespintom/RevelDevs
