@@ -8,6 +8,12 @@ RSpec.describe Rook, type: :model do
       expect(rook).to be_valid
     end
 
+    it 'is a rook' do
+      game = FactoryBot.create(:game)
+      rook = FactoryBot.build(:rook, game_id: game.id)
+      expect(rook.type).to eq('Rook')
+    end
+
     it '#white? is true for white pieces' do
       game = FactoryBot.create(:game)
       rook = FactoryBot.build(:rook, game_id: game.id)
@@ -74,7 +80,7 @@ RSpec.describe Rook, type: :model do
 
     it '#is_move_valid? returns true if rook\'s move is valid' do
       game = FactoryBot.create(:game)
-      rook = FactoryBot.build(:rook, game_id: game.id)
+      rook = FactoryBot.build(:rook, game_id: game.id, x: 1, y: 3)
       result = rook.is_move_valid?(1, 7)
       expect(result).to eq true
     end
@@ -97,11 +103,11 @@ RSpec.describe Rook, type: :model do
   describe 'move result' do
     it 'updates :x and :y to x_target and y_target if move is valid' do
       game = FactoryBot.create(:game)
-      rook = FactoryBot.build(:rook, game_id: game.id)
-      rook.move_action(4, 1) # moves one square in 'y' direction
+      rook = FactoryBot.build(:rook, game_id: game.id, x: 1, y: 3)
+      rook.move_action(1, 7)
 
-      expect(rook.x).to eq 4
-      expect(rook.y).to eq 1
+      expect(rook.x).to eq 1
+      expect(rook.y).to eq 7
     end
 
     xit 'returns an "invalid move" message if move is invalid' do

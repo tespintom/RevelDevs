@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171213233138) do
+ActiveRecord::Schema.define(version: 20180109032015) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,10 +20,12 @@ ActiveRecord::Schema.define(version: 20171213233138) do
     t.boolean "finished"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "total_players"
     t.bigint "white_player_id"
     t.bigint "black_player_id"
+    t.string "state", default: "pending", null: false
     t.bigint "user_id"
-    t.integer "total_players"
+    t.bigint "winner_id"
   end
 
   create_table "pieces", force: :cascade do |t|
@@ -34,7 +36,7 @@ ActiveRecord::Schema.define(version: 20171213233138) do
     t.string "color"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "captured"
+    t.boolean "captured", default: false
     t.index ["game_id"], name: "index_pieces_on_game_id"
   end
 

@@ -30,7 +30,7 @@ class Piece < ApplicationRecord
       return false
     elsif !in_range?(x_target, y_target)
       return false
-    elsif is_obstructed?(x_target, y_target) 
+    elsif is_obstructed?(x_target, y_target)
       return false
     else
       return true
@@ -52,8 +52,8 @@ class Piece < ApplicationRecord
       if x_target > self.x
         ((self.x + 1)...x_target).each do |i|
           if game.square_occupied?(i, self.y)
-            return true 
-          end  
+            return true
+          end
         end
       else
         ((x_target + 1)...self.x).each do |i|
@@ -85,7 +85,7 @@ class Piece < ApplicationRecord
     end
   end
 
-  def is_obstructed_diagonal?(x_target, y_target) 
+  def is_obstructed_diagonal?(x_target, y_target)
     if diagonal_move?(x_target, y_target)
       if x_target > self.x
         start_x = self.x
@@ -113,8 +113,6 @@ class Piece < ApplicationRecord
       false
     end
   end
-
-
 
   #determines if the move is horizontal
   def horizontal_move?(x_target, y_target)
@@ -148,6 +146,22 @@ class Piece < ApplicationRecord
     in_bounds?(x_target, y_target)
   end
 
+  def is_capturable?(x_target, y_target)
+    if game.square_occupied?(x_target, y_target)
+      self.color == target_piece(x_target, y_target).color ? false : true
+    end
+  end
+
+  def captured!(x_target, y_target)
+    if is_capturable?(x_target, y_target)
+      target_piece(x_target, y_target).update_attributes(captured: true, x: 0, y: 0)
+    end
+  end
+
+  def target_piece(x_target, y_target)
+    game.pieces.active.where({x: x_target, y: y_target}).first
+  end
+  
   private
 
   def in_bounds?(x_target, y_target)
@@ -157,8 +171,6 @@ class Piece < ApplicationRecord
   def in_range?(x_target, y_target)
     true
   end
+
+
 end
-
-
-
-
