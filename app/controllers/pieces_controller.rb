@@ -1,5 +1,6 @@
 class PiecesController < ApplicationController
   before_action :authenticate_user!
+  skip_before_action :verify_authenticity_token
 
   def show
     @piece = Piece.find_by_id(params[:id])

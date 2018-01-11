@@ -47,7 +47,7 @@
       var xPosition = $(this).data('x');
       var yPosition = $(this).data('y');
       $.ajax({
-        type: 'PUT',
+        type: 'PATCH',
         url: $(this).data('update-url'),
         dataType: 'json',
         data: { piece: { x: xPosition, y: yPosition } },
