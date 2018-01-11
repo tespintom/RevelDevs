@@ -45,7 +45,17 @@
     var square = $('.square');
     square.click( function() {
       var xPosition = $(this).data('x');
-      console.log(xPosition);
+      var yPosition = $(this).data('y');
+      $.ajax({
+        type: 'PUT',
+        url: $(this).data('update-url'),
+        dataType: 'json',
+        data: { piece: { x: xPosition, y: yPosition } },
+        success: function(){
+          console.log('success')
+        }
+      });
+
     });
   });
 
