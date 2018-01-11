@@ -1,50 +1,37 @@
-<script>
-  $(function() {
-    $('#square').click({
-      update: function( event ) {
-        $.ajax({
-          type: 'PUT',
-          url: event.target.data('update-url'),
-          dataType: 'json',
-          data:{ piece: { x: event.target('data-x'), y: event.target('data-y') } }
-        });
-      }
-    });
-   });
-</script>
-
 <div class="booyah-box col-10 offset-1">
   <h2><%= @piece.game.name %></h2>
 </div>
 <head>
     <meta charset="UTF-8">
 </head>
+
 <body>
   <div class="chessboard">
 
     <% for row in (1..8) %> <!-- loops through the rows in the gameboard -->
       <% for col in (1..8) %> <!-- loops through the columns -->
-        <div class= 
-        <% if row % 2 != 0 %>
-          <%= col % 2 != 0 ? "black" : "white" %>
-        <% else %>
-          <%= col % 2 == 0 ? "black" : "white" %>
-        <% end %>
-         data-x=<%= "#{col}" %>
-         data-y=<%= "#{9 - row}" %>
-         data-update-url="<%= piece_path(@piece) %>"
-         id="square"
-        >
-          <% piece = @pieces.active.find_by( { x: col , y: 9 - row } ) %>
-          <% if piece == nil %>
-            <%= link_to "____", game_path(@game) %>
-          <% elsif piece.id == @piece.id %>
-            <b><%= link_to "#{piece.color} #{piece.type}", piece_path(piece) %></b>
+        <div class="square"
+           data-x=<%= "#{col}" %>
+           data-y=<%= "#{9 - row}" %>
+           data-update-url="<%= piece_path(@piece) %>">
+          <div class=
+          <% if row % 2 != 0 %>
+            <%= col % 2 != 0 ? "black" : "white" %>
           <% else %>
-            <%= link_to "#{piece.color} #{piece.type}", piece_path(piece) %>
+            <%= col % 2 == 0 ? "black" : "white" %>
           <% end %>
-        <!-- end of div loop for determining square color -->
-      <!-- &#9820; -->
+          >
+            <% piece = @pieces.active.find_by( { x: col , y: 9 - row } ) %>
+            <% if piece == nil %>
+              <%= link_to "____", game_path(@game) %>
+            <% elsif piece.id == @piece.id %>
+              <b><%= link_to "#{piece.color} #{piece.type}", piece_path(piece) %></b>
+            <% else %>
+              <%= link_to "#{piece.color} #{piece.type}", piece_path(piece) %>
+            <% end %>
+          <!-- end of div loop for determining square color -->
+        <!-- &#9820; -->
+          </div>
         </div>
       <% end %>
     <% end %>
@@ -52,3 +39,26 @@
     <!-- end of experiment -->
   </div>
 </body>
+
+<script>
+  $(function() {
+    var square = $('.square');
+    square.click( function() {
+      var xPosition = $(this).data('x');
+      console.log(xPosition);
+    });
+  });
+
+  // $(function() {
+  //   $('#square').click({
+  //     update: function( event ) {
+  //       $.ajax({
+  //         type: 'PUT',
+  //         url: $(event.target).data('update-url'),
+  //         dataType: 'json',
+  //         data: { piece: { x: $(event.target).data('data-x'), y: $(event.target).data('data-y') } }
+  //       });
+  //     }
+  //   });
+  // });
+</script>
