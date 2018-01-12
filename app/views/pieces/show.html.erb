@@ -49,7 +49,7 @@
       $.ajax({
         type: 'PATCH',
         url: $(this).data('update-url'),
-        dataType: 'json',
+        // dataType: 'json',
         data: { piece: { x: xPosition, y: yPosition } },
         success: function(){
           console.log('success');

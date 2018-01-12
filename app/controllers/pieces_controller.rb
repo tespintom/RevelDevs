@@ -27,7 +27,7 @@ class PiecesController < ApplicationController
       @piece.move_action(x_target, y_target)
     end
     @piece.save
-    redirect_to game_path(@game)
+    render plain: "Successful move"
   end
 
   private
