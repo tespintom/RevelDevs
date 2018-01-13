@@ -48,7 +48,7 @@ RSpec.describe PiecesController, type: :controller do
       sign_in game.user
       put :update, params: { id: piece.id, piece: { x: 1, y: 3 } }
       # response_value = ActiveSupport::JSON.decode(@response.body)
-      expect(response).to redirect_to game_path(game)
+      expect(response).to have_http_status :success
       piece.reload
       # expect(response_value['x']).to eq(1)
       # expect(response_value['y']).to eq(3)

@@ -27,7 +27,7 @@ class PiecesController < ApplicationController
       @piece.move_action(x_target, y_target)
     end
     @piece.save
-    render plain: "Successful move"
+    render plain: "Success"
   end
 
   private
