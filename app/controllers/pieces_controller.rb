@@ -23,7 +23,7 @@ class PiecesController < ApplicationController
     y_target = piece_params[:y].to_i
     if @piece.is_capturable?(x_target, y_target)
       @piece.captured!(x_target, y_target)
-    else
+    elsif !@game.square_occupied?(x_target, y_target)
       @piece.move_action(x_target, y_target)
     end
     @piece.save

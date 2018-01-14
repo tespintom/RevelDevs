@@ -45,6 +45,8 @@
       var xPosition = $(this).data('x');
       var yPosition = $(this).data('y');
       var isPieceSelected = square.hasClass('selected');
+      var selectedSquareWhite = $('.selected .white');
+      var selectedSquareBlack = $('.selected .black');
       var selectedPiece = $('.selected').data('piece-id');
 
       if (isPieceSelected && !($('.selected').data('x') === xPosition && $('.selected').data('y') === yPosition)) {
@@ -53,9 +55,19 @@
 
       if (!isPieceSelected && $(this).data('piece-id')) {
         $(this).addClass('selected');
+        var selectedSquareWhite = $('.selected .white');
+        var selectedSquareBlack = $('.selected .black');
+        selectedSquareWhite.css('font-weight', 'bold');
+        selectedSquareBlack.css('font-weight', 'bold');
+        selectedSquareWhite.css('background', 'yellow');
+        selectedSquareBlack.css('background', 'yellow');
       }
       else {
         $(this).removeClass('selected');
+        selectedSquareWhite.css('font-weight', 'normal');
+        selectedSquareBlack.css('font-weight', 'normal');
+        selectedSquareWhite.css('background', '#fff');
+        selectedSquareBlack.css('background', '#999');
       }
 
       function updatePiece() {

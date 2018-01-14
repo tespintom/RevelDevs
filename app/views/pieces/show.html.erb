@@ -6,69 +6,7 @@
 </head>
 
 <body>
-  <div class="chessboard">
-
-    <% for row in (1..8) %> <!-- loops through the rows in the gameboard -->
-      <% for col in (1..8) %> <!-- loops through the columns -->
-        <div class="square"
-           data-x=<%= "#{col}" %>
-           data-y=<%= "#{9 - row}" %>
-           data-update-url="<%= piece_path(@piece) %>">
-          <div class=
-          <% if row % 2 != 0 %>
-            <%= col % 2 != 0 ? "black" : "white" %>
-          <% else %>
-            <%= col % 2 == 0 ? "black" : "white" %>
-          <% end %>
-          >
-            <% piece = @pieces.active.find_by( { x: col , y: 9 - row } ) %>
-            <% if piece == nil %>
-              <%= link_to "____", game_path(@game) %>
-            <% elsif piece.id == @piece.id %>
-              <b><%= link_to "#{piece.color} #{piece.type}", piece_path(piece) %></b>
-            <% else %>
-              <%= link_to "#{piece.color} #{piece.type}", piece_path(piece) %>
-            <% end %>
-          <!-- end of div loop for determining square color -->
-        <!-- &#9820; -->
-          </div>
-        </div>
-      <% end %>
-    <% end %>
-
-    <!-- end of experiment -->
+  <div class="black">
+    <%= "#{@piece.color} #{@piece.type}" %>
   </div>
 </body>
-
-<script>
-  $(function() {
-    var square = $('.square');
-    square.click( function() {
-      var xPosition = $(this).data('x');
-      var yPosition = $(this).data('y');
-      $.ajax({
-        type: 'PATCH',
-        url: $(this).data('update-url'),
-        // dataType: 'json',
-        data: { piece: { x: xPosition, y: yPosition } },
-        success: function(){
-          console.log('success');
-        }
-      });
-
-    });
-  });
-
-  // $(function() {
-  //   $('#square').click({
-  //     update: function( event ) {
-  //       $.ajax({
-  //         type: 'PUT',
-  //         url: $(event.target).data('update-url'),
-  //         dataType: 'json',
-  //         data: { piece: { x: $(event.target).data('data-x'), y: $(event.target).data('data-y') } }
-  //       });
-  //     }
-  //   });
-  // });
-</script>
