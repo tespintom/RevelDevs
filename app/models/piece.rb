@@ -134,7 +134,7 @@ class Piece < ApplicationRecord
 
   #determines if the move is diagonal
   def diagonal_move?(x_target, y_target, x_current=self.x, y_current=self.y)
-    if (x_target - self.x).abs == (y_target - self.y).abs
+    if (x_target - x_current).abs == (y_target - y_current).abs
       return true
     else
       return false
