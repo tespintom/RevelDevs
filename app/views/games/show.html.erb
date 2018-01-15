@@ -7,30 +7,25 @@
 
 <body>
   <div class="chessboard">
-
     <% for row in (1..8) %> <!-- loops through the rows in the gameboard -->
       <% for col in (1..8) %> <!-- loops through the columns -->
-        <div class="square"
-           data-x=<%= "#{col}" %>
-           data-y=<%= "#{9 - row}" %>
-           <% piece = @game.pieces.active.find_by( { x: col , y: 9 - row } ) %>
-           data-piece-id=
-           <% if piece != nil %>
-             "<%= piece.id %>"
-           <% end %>
-           >
-          <div class=
+        <div class="square 
           <% if row % 2 != 0 %>
-            <%= col % 2 != 0 ? "black" : "white" %>
+            <%= col % 2 != 0 ? 'black' : 'white' %>
           <% else %>
-            <%= col % 2 == 0 ? "black" : "white" %>
+            <%= col % 2 == 0 ? 'black' : 'white' %>
+          <% end %>" 
+          data-x=<%= "#{col}" %> 
+          data-y=<%= "#{9 - row}" %> 
+          <% piece = @game.pieces.active.find_by( { x: col , y: 9 - row } ) %>
+          data-piece-id=
+          <% if piece %>
+            "<%= piece.id %>"
           <% end %>
           >
-            <% if piece != nil %>
-              <%= "#{piece.color} #{piece.type}" %>
-            <% end %>
-          <!-- end of div loop for determining square color -->
-          </div>
+          <% if piece %>
+            <%= "#{piece.color} #{piece.type}" %>
+          <% end %>
         </div>
       <% end %>
     <% end %>
@@ -39,44 +34,47 @@
 
 <script>
   $(function() {
-    var square = $('.square');
+    var $square = $('.square');
 
-    square.click( function() {
-      var xPosition = $(this).data('x');
-      var yPosition = $(this).data('y');
-      var isPieceSelected = square.hasClass('selected');
-      var selectedSquareWhite = $('.selected .white');
-      var selectedSquareBlack = $('.selected .black');
-      var selectedPiece = $('.selected').data('piece-id');
+    $square.click( function() {
+      var $xPosition = $(this).data('x');
+      var $yPosition = $(this).data('y');
+      var $targetSquare = $(this);
+      var $selectedSquare = $('.selected');
+      var $isPieceSelected = $square.hasClass('selected');
+      var $selectedPiece = $selectedSquare.data('piece-id');
 
-      if (isPieceSelected && !($('.selected').data('x') === xPosition && $('.selected').data('y') === yPosition)) {
+      // If a piece is already selected, the click attempts to move the piece
+      // (Unless the selected square is clicked)
+      if ($isPieceSelected && !($selectedSquare.data('x') === $xPosition && $selectedSquare.data('y') === $yPosition)) {
         updatePiece();
       }
 
-      if (!isPieceSelected && $(this).data('piece-id')) {
+      // If no square is selected and a piece is present, the clicked square will become selected
+      if (!$isPieceSelected && $(this).attr('data-piece-id')) {
         $(this).addClass('selected');
-        var selectedSquareWhite = $('.selected .white');
-        var selectedSquareBlack = $('.selected .black');
-        selectedSquareWhite.css('font-weight', 'bold');
-        selectedSquareBlack.css('font-weight', 'bold');
-        selectedSquareWhite.css('background', 'yellow');
-        selectedSquareBlack.css('background', 'yellow');
+        var $selectedSquare = $('.selected');
+        $selectedSquare.css('font-weight', 'bold');
+        $selectedSquare.css('background', 'yellow');
       }
+      // If a square is already selected, the click will remove the selection
       else {
-        $(this).removeClass('selected');
-        selectedSquareWhite.css('font-weight', 'normal');
-        selectedSquareBlack.css('font-weight', 'normal');
-        selectedSquareWhite.css('background', '#fff');
-        selectedSquareBlack.css('background', '#999');
+        $selectedSquare.removeAttr('style');
+        $selectedSquare.removeClass('selected');
       }
 
       function updatePiece() {
         $.ajax({
           type: 'PATCH',
-          url: '/pieces/' + selectedPiece,
-          data: { piece: { x: xPosition, y: yPosition } },
+          url: '/pieces/' + $selectedPiece,
+          data: { piece: { x: $xPosition, y: $yPosition } },
           success: function(){
-            location.reload();
+            // If the move is allowed, the target square will populate with the piece
+            // and empty out the original square
+            $targetSquare.attr('data-piece-id', $selectedPiece);
+            $targetSquare.text($selectedSquare.text());
+            $selectedSquare.empty();
+            $selectedSquare.removeAttr('data-piece-id');
           }
         });
       }

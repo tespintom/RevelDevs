@@ -58,7 +58,7 @@ RSpec.describe PiecesController, type: :controller do
       piece = game.pieces.active.find_by({x: 1, y: 2})
       sign_in game.user
       patch :update, params: { id: piece.id, piece: { x: 1, y: 5 } }
-      expect(response).to have_http_status :success
+      expect(response).to have_http_status :not_found
       piece.reload
       expect(piece.x).to eq(1)
       expect(piece.y).to eq(2)

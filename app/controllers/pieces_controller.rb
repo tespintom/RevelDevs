@@ -23,8 +23,10 @@ class PiecesController < ApplicationController
     y_target = piece_params[:y].to_i
     if @piece.is_capturable?(x_target, y_target)
       @piece.captured!(x_target, y_target)
-    elsif !@game.square_occupied?(x_target, y_target)
+    elsif !@game.square_occupied?(x_target, y_target) && @piece.is_move_valid?(x_target, y_target)
       @piece.move_action(x_target, y_target)
+    else
+      return render_not_found
     end
     @piece.save
     render plain: "Success"
