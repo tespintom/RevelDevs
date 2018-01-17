@@ -5,11 +5,10 @@ cache: bundler
 sudo: false
 before_script: bundle exec rake db:create db:migrate
 deploy:
+  provider: heroku
   api_key:
     secure: P98JWa/V7uu4p+8hGXGo7CZF5Oynjwk3+3tVR4+JmXh6xzqxpgS4Ip9LPkAzA1o7s2fvbPijglYdc0EUZAiKhHdrtZ5m0vS46Djz0vD7gImCWoFUThX2NXFyHgy2Bus0e86H0ihv4nVOOIPN+WeEXpwlQNE8OCKwh6/jxfYp247NAPU9Cwww+gf4tcshYqxhI2TaBxkc+TqmAf/itHMUzACc+QrV1ClnoH8QhhMFvpXkehCkyyfoCaQWmDkd/YIdePN4hRoadW/r5pCcv0HzQlZLswu0UuHvK7n9XaLldTZzR4l6amn5TFOdSe25xiePjBIXyNxvRvwehZx0Cfsepb6kW0GrovsYPRyjACvjxODibYW9MsmdMtPQCmtcOo3jmBP/FNpjPNjsMEBjHBIEVE0SZBniFT///Ep4/czI0md4YXXyIcfalTDOfoX8ssQgxn1RKaxVF+ySaDkDX+62+xT/HIYHsd4u5qtyuDUwz5hc3iQXdtaEJro0M1QNj4vqi/JPNA/K2CzlNRNayF9k7Q086Zs699m3N3UucK13KtJNlF5ymDAHD7hQJmaBmcaEXEYZ3Uu4f02vFwGtRyZkGtbIVajU2jXJSEO3h4NzsuYuKypGA5p6iR6p6S1NniLwg9ryY2NYZgG7zwNtzcs+1fat09FDUY0beaBp+rR6HdA=
-provider: heroku
-api_key: 
-secure: 278ae214b4f4d40eed4ae2cb4035c72456b525b71779f1f794d0e41c7fe19aca81992cc7682301d233a6aa1d60c1f6c911a37a952fe8e765769e21ed4cf1e9c4
+
 notifications:
   email:
   - apolishc@gmail.com
