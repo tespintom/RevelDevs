@@ -2,6 +2,7 @@ class GamesController < ApplicationController
   before_action :authenticate_user!, only: [:new, :create]
 
   def index
+    puts "O MY GOD, THEY KILLED KENNY!"
     @games = Game.all
     @available_games = @games.available
   end
