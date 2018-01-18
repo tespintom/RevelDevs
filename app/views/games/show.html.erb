@@ -54,13 +54,9 @@
       if (!$isPieceSelected && $(this).attr('data-piece-id')) {
         //need to check if piece color and player color match here
         $(this).addClass('selected');
-        var $selectedSquare = $('.selected');
-        $selectedSquare.css('font-weight', 'bold');
-        $selectedSquare.css('background', 'yellow');
       }
       // If a square is already selected, the click will remove the selection
       else {
-        $selectedSquare.removeAttr('style');
         $selectedSquare.removeClass('selected');
       }
 
