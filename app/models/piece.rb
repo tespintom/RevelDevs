@@ -16,13 +16,19 @@ class Piece < ApplicationRecord
     color == 'black'
   end
 
-  def move_action(x_target, y_target)
-    if is_move_valid?(x_target, y_target)
-      self.x = x_target
-      self.y = y_target
+  def attempt_move(x_target, y_target)
+    if is_capturable?(x_target, y_target)
+      captured!(x_target, y_target)
+    elsif !game.square_occupied?(x_target, y_target) && is_move_valid?(x_target, y_target)
+      move_action(x_target, y_target)
     else
-      # return error message
+      false
     end
+  end
+
+  def move_action(x_target, y_target)
+    self.x = x_target
+    self.y = y_target
   end
 
   def is_move_valid?(x_target, y_target)
@@ -147,8 +153,10 @@ class Piece < ApplicationRecord
   end
 
   def is_capturable?(x_target, y_target)
-    if is_move_valid?(x_target, y_target) && game.square_occupied?(x_target, y_target)
-      self.color == target_piece(x_target, y_target).color ? false : true
+    if game.square_occupied?(x_target, y_target) && self.color != target_piece(x_target, y_target).color
+      return is_move_valid?(x_target, y_target) ? true : false
+    else
+      false
     end
   end
 
@@ -160,7 +168,7 @@ class Piece < ApplicationRecord
   end
 
   def target_piece(x_target, y_target)
-    game.pieces.active.where({x: x_target, y: y_target}).first
+    game.pieces.active.find_by({x: x_target, y: y_target})
   end
   
   private

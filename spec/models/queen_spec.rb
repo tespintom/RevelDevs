@@ -98,8 +98,9 @@ RSpec.describe Queen, type: :model do
     it 'updates :x and :y to x_target and y_target if move is valid' do
       game = FactoryBot.create(:game)
       queen = FactoryBot.build(:queen, game_id: game.id)
-      queen.move_action(4, 2) # moves one square in 'y' direction
-
+      if queen.is_move_valid?(4, 2)
+        queen.move_action(4, 2) # moves one square in 'y' direction
+      end
       expect(queen.x).to eq 4
       expect(queen.y).to eq 2
     end
@@ -107,16 +108,18 @@ RSpec.describe Queen, type: :model do
     xit 'returns an "invalid move" message if move is invalid' do
       game = FactoryBot.create(:game)
       queen = FactoryBot.build(:queen, game_id: game.id)
-      queen.move_action(4, 0) # moves one square in negative 'y' direction (off the board)
-
+      if queen.is_move_valid?(4, 0)
+        queen.move_action(4, 0) # moves one square in negative 'y' direction (off the board)
+      end
       expect
     end
 
     it 'does not update :x and :y if move is invalid' do
       game = FactoryBot.create(:game)
       queen = FactoryBot.build(:queen, game_id: game.id)
-      queen.move_action(5, 0) # moves one square in negative 'y' direction (off the board)
-
+      if queen.is_move_valid?(5, 0)
+        queen.move_action(5, 0) # moves one square in negative 'y' direction (off the board)
+      end
       expect(queen.x).to eq 5
       expect(queen.y).to eq 1
     end

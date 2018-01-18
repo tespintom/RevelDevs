@@ -130,8 +130,9 @@ RSpec.describe Pawn, type: :model do
     it 'updates :x and :y to x_target and y_target if move is valid' do
       game = FactoryBot.create(:game)
       pawn = FactoryBot.build(:pawn, game_id: game.id)
-      pawn.move_action(1, 3) # moves one square in 'y' direction
-
+      if pawn.is_move_valid?(1, 3)
+        pawn.move_action(1, 3) # moves one square in 'y' direction
+      end
       expect(pawn.x).to eq 1
       expect(pawn.y).to eq 3
     end
@@ -139,18 +140,36 @@ RSpec.describe Pawn, type: :model do
     xit 'returns an "invalid move" message if move is invalid' do
       game = FactoryBot.create(:game)
       pawn = FactoryBot.build(:pawn, game_id: game.id)
-      pawn.move_action(4, 9) # moves off the board
-
+      if pawn.is_move_valid?(4, 9)
+        pawn.move_action(4, 9) # moves off the board
+      end
       expect
     end
 
     it 'does not update :x and :y if move is invalid' do
       game = FactoryBot.create(:game)
       pawn = FactoryBot.build(:pawn, game_id: game.id)
-      pawn.move_action(1, 0) # moves off the board
-
+      if pawn.is_move_valid?(1, 0)
+        pawn.move_action(1, 0) # moves off the board
+      end
       expect(pawn.x).to eq 1
       expect(pawn.y).to eq 2
     end
   end
+
+  # describe 'capture logic' do
+  #   it 'returns true if the white pawn can capture a piece on the target square' do
+  #     game = FactoryBot.create(:game)
+  #     pawn = FactoryBot.build(:pawn, game_id: game.id, x: 3, y: 3)
+  #     result = pawn.in_capture_range?(4, 4)
+  #     expect(result).to eq true
+  #   end
+
+  #   it 'returns true if the black pawn can capture a piece on the target square' do
+  #     game = FactoryBot.create(:game)
+  #     pawn = FactoryBot.build(:pawn, game_id: game.id, x: 4, y: 4, color: "black")
+  #     result = pawn.in_capture_range?(3, 3)
+  #     expect(result).to eq true
+  #   end
+  # end
 end

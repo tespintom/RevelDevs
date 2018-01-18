@@ -21,6 +21,11 @@ class PiecesController < ApplicationController
     @game = @piece.game
     x_target = piece_params[:x].to_i
     y_target = piece_params[:y].to_i
+    # if @piece.attempt_move(x_target, y_target)
+    #   @piece.save
+    # else
+    #   return render_not_found
+    # end
     if @piece.is_capturable?(x_target, y_target)
       @piece.captured!(x_target, y_target)
     elsif !@game.square_occupied?(x_target, y_target) && @piece.is_move_valid?(x_target, y_target)
