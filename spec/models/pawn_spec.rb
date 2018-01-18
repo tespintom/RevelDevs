@@ -156,20 +156,4 @@ RSpec.describe Pawn, type: :model do
       expect(pawn.y).to eq 2
     end
   end
-
-  # describe 'capture logic' do
-  #   it 'returns true if the white pawn can capture a piece on the target square' do
-  #     game = FactoryBot.create(:game)
-  #     pawn = FactoryBot.build(:pawn, game_id: game.id, x: 3, y: 3)
-  #     result = pawn.in_capture_range?(4, 4)
-  #     expect(result).to eq true
-  #   end
-
-  #   it 'returns true if the black pawn can capture a piece on the target square' do
-  #     game = FactoryBot.create(:game)
-  #     pawn = FactoryBot.build(:pawn, game_id: game.id, x: 4, y: 4, color: "black")
-  #     result = pawn.in_capture_range?(3, 3)
-  #     expect(result).to eq true
-  #   end
-  # end
 end

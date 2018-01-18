@@ -121,9 +121,9 @@ RSpec.describe Piece, type: :model do
     it '#is_capturable? returns false if the white pawn cannot capture a piece on the target square' do
       game = FactoryBot.create(:game)
       pawn = game.pieces.active.find_by({x: 1, y: 2})
-      x_target = 2
+      x_target = 1
       y_target = 3
-      piece = FactoryBot.create(:piece, game_id: game.id, x: x_target, y: y_target)
+      piece = FactoryBot.create(:piece, game_id: game.id, x: x_target, y: y_target, color: "black")
       result = pawn.is_capturable?(x_target, y_target)
       expect(result).to eq false
     end
@@ -141,9 +141,9 @@ RSpec.describe Piece, type: :model do
     it '#is_capturable? returns false if the black pawn cannot capture a piece on the target square' do
       game = FactoryBot.create(:game)
       pawn = game.pieces.active.find_by({x: 1, y: 7})
-      x_target = 2
+      x_target = 1
       y_target = 6
-      piece = FactoryBot.create(:piece, game_id: game.id, x: x_target, y: y_target, color: "black")
+      piece = FactoryBot.create(:piece, game_id: game.id, x: x_target, y: y_target)
       result = pawn.is_capturable?(x_target, y_target)
       expect(result).to eq false
     end
