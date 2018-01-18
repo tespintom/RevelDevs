@@ -52,6 +52,7 @@
 
       // If no square is selected and a piece is present, the clicked square will become selected
       if (!$isPieceSelected && $(this).attr('data-piece-id')) {
+        //need to check if piece color and player color match here
         $(this).addClass('selected');
         var $selectedSquare = $('.selected');
         $selectedSquare.css('font-weight', 'bold');
