@@ -108,6 +108,46 @@ RSpec.describe Piece, type: :model do
       expect(result).to eq false
     end
 
+    it '#is_capturable? returns true if the white pawn can capture a piece on the target square' do
+      game = FactoryBot.create(:game)
+      pawn = game.pieces.active.find_by({x: 1, y: 2})
+      x_target = 2
+      y_target = 3
+      piece = FactoryBot.create(:piece, game_id: game.id, x: x_target, y: y_target, color: "black")
+      result = pawn.is_capturable?(x_target, y_target)
+      expect(result).to eq true
+    end
+
+    it '#is_capturable? returns false if the white pawn cannot capture a piece on the target square' do
+      game = FactoryBot.create(:game)
+      pawn = game.pieces.active.find_by({x: 1, y: 2})
+      x_target = 2
+      y_target = 3
+      piece = FactoryBot.create(:piece, game_id: game.id, x: x_target, y: y_target)
+      result = pawn.is_capturable?(x_target, y_target)
+      expect(result).to eq false
+    end
+
+    it '#is_capturable? returns true if the black pawn can capture a piece on the target square' do
+      game = FactoryBot.create(:game)
+      pawn = game.pieces.active.find_by({x: 1, y: 7})
+      x_target = 2
+      y_target = 6
+      piece = FactoryBot.create(:piece, game_id: game.id, x: x_target, y: y_target)
+      result = pawn.is_capturable?(x_target, y_target)
+      expect(result).to eq true
+    end
+
+    it '#is_capturable? returns false if the black pawn cannot capture a piece on the target square' do
+      game = FactoryBot.create(:game)
+      pawn = game.pieces.active.find_by({x: 1, y: 7})
+      x_target = 2
+      y_target = 6
+      piece = FactoryBot.create(:piece, game_id: game.id, x: x_target, y: y_target, color: "black")
+      result = pawn.is_capturable?(x_target, y_target)
+      expect(result).to eq false
+    end
+
     it '#captured! correctly updates "captured," "x," and "y" attributes if target is capturable' do
       game = FactoryBot.create(:game)
       piece = FactoryBot.build(:piece, game_id: game.id, x: 3, y: 3)
