@@ -98,8 +98,9 @@ RSpec.describe Bishop, type: :model do
     it 'updates :x and :y to x_target and y_target if move is valid' do
       game = FactoryBot.create(:game)
       bishop = FactoryBot.build(:bishop, game_id: game.id)
-      bishop.move_action(4, 2) # moves one square in 'y' direction
-
+      if bishop.is_move_valid?(4, 2)
+        bishop.move_action(4, 2) # moves one square in 'y' direction
+      end
       expect(bishop.x).to eq 4
       expect(bishop.y).to eq 2
     end
@@ -107,16 +108,18 @@ RSpec.describe Bishop, type: :model do
     xit 'returns an "invalid move" message if move is invalid' do
       game = FactoryBot.create(:game)
       bishop = FactoryBot.build(:bishop, game_id: game.id)
-      bishop.move_action(4, 0) # moves one square in negative 'y' direction (off the board)
-
+      if bishop.is_move_valid?(4, 0)
+        bishop.move_action(4, 0) # moves one square in negative 'y' direction (off the board)
+      end
       expect
     end
 
     it 'does not update :x and :y if move is invalid' do
       game = FactoryBot.create(:game)
       bishop = FactoryBot.build(:bishop, game_id: game.id)
-      bishop.move_action(2, 0) # moves one square in negative 'y' direction (off the board)
-
+      if bishop.is_move_valid?(2, 0)
+        bishop.move_action(2, 0) # moves one square in negative 'y' direction (off the board)
+      end
       expect(bishop.x).to eq 3
       expect(bishop.y).to eq 1
     end
