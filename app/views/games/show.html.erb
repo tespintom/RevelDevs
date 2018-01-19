@@ -21,7 +21,8 @@
           data-piece-id=
           <% if piece %>
             "<%= piece.id %>"
-          <% end %>
+          <% end %> 
+          data-color=<%= piece.color %>
           >
           <% if piece %>
             <%= "#{piece.color} #{piece.type}" %>

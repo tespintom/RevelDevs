@@ -16,6 +16,16 @@ class Piece < ApplicationRecord
     color == 'black'
   end
 
+  def piece_color_matches_user_color?(user)
+    if color == 'white' && user.id == game.white_player_id
+      true
+    elsif color == 'black' && user.id == game.black_player_id
+      true
+    else
+      false
+    end
+  end
+
   def attempt_move(x_target, y_target)
     if is_capturable?(x_target, y_target)
       captured!(x_target, y_target)

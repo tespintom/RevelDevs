@@ -198,4 +198,23 @@ RSpec.describe Piece, type: :model do
       expect(piece.y).to eq 3
     end
   end
+
+  describe '#piece_color_matches_user_color?' do
+
+    it '#piece_color_matches_user_color? returns true if the piece color and user color match' do
+      game = FactoryBot.create(:game)
+      piece = game.pieces.active.find_by({x: 1, y: 2})
+      user = game.user
+      result = piece.piece_color_matches_user_color?(user)
+      expect(result).to eq true
+    end
+
+    it '#piece_color_matches_user_color? returns false if the piece color and the user color don\'t match' do
+      game = FactoryBot.create(:game)
+      piece = game.pieces.active.find_by({x: 1, y: 7})
+      user = game.user
+      result = piece.piece_color_matches_user_color?(user)
+      expect(result).to eq false
+    end
+  end
 end
