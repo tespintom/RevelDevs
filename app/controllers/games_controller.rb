@@ -3,7 +3,7 @@ class GamesController < ApplicationController
 
   def index
     @games = Game.all
-    @available_games = @games.available
+    @available_games = @games.available.sort_by { |game| game.created_at }
   end
 
   def new

@@ -21,7 +21,8 @@
           data-piece-id=
           <% if piece %>
             "<%= piece.id %>"
-          <% end %>
+          <% end %> 
+          data-color=<%= piece.color %>
           >
           <% if piece %>
             <%= "#{piece.color} #{piece.type}" %>
@@ -52,6 +53,7 @@
 
       // If no square is selected and a piece is present, the clicked square will become selected
       if (!$isPieceSelected && $(this).attr('data-piece-id')) {
+        //need to check if piece color and player color match here
         $(this).addClass('selected');
       }
       // If a square is already selected, the click will remove the selection
