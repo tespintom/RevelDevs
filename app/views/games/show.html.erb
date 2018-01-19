@@ -41,6 +41,7 @@
       var $xPosition = $(this).data('x');
       var $yPosition = $(this).data('y');
       var $targetSquare = $(this);
+      var $targetPiece = $targetSquare.data('piece-id');
       var $selectedSquare = $('.selected');
       var $isPieceSelected = $square.hasClass('selected');
       var $selectedPiece = $selectedSquare.data('piece-id');
@@ -76,6 +77,22 @@
           }
         });
       }
+
+      // function moveOwnColor() {
+      //   $.ajax({
+      //     type: 'GET',
+      //     url: '/pieces/' + $targetPiece,
+      //     data: { piece: $targetPiece },
+      //     success: function(){
+      //       // If the move is allowed, the target square will populate with the piece
+      //       // and empty out the original square
+      //       $targetSquare.attr('data-piece-id', $selectedPiece);
+      //       $targetSquare.text($selectedSquare.text());
+      //       $selectedSquare.empty();
+      //       $selectedSquare.removeAttr('data-piece-id');
+      //     }
+      //   });
+      // }
     });
   });
 </script>

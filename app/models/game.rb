@@ -7,7 +7,7 @@ class Game < ApplicationRecord
 
   scope :available, -> { where(state: "pending") }
 
-  after_create :current_user_is_white_player
+  before_create :current_user_is_white_player
 
 
   # to initialize each game with the white_player as the user who created the game

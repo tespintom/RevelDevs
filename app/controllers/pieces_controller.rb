@@ -7,15 +7,11 @@ class PiecesController < ApplicationController
     if @piece.blank?
       return render_not_found
     end
-    if @piece.game.white_player_id # white_player_id does not exist to the controller
-      # returns 404 error
-    # if @piece.piece_color_matches_user_color?(current_user)
+    if @piece.piece_color_matches_user_color?(current_user)
       return render plain: "Success"
     else
       render_not_found
     end
-    # @game = @piece.game
-    # @pieces = @game.pieces.all
   end
 
   def update
