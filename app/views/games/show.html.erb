@@ -21,8 +21,7 @@
           data-piece-id=
           <% if piece %>
             "<%= piece.id %>"
-          <% end %> 
-          data-color=<%= piece.color %>
+          <% end %>
           >
           <% if piece %>
             <%= "#{piece.color} #{piece.type}" %>
@@ -55,7 +54,18 @@
       // If no square is selected and a piece is present, the clicked square will become selected
       if (!$isPieceSelected && $(this).attr('data-piece-id')) {
         //need to check if piece color and player color match here
-        $(this).addClass('selected');
+        // $.get('/pieces/' + $targetPiece).success( function() {
+        //   $(this).addClass('selected');
+        // });
+
+        // Before turn order has been implemented, after a piece is moved it's not able to be
+        // selected again. Other pieces (of the correct color) can be selected though.
+        // The piece ID isn't getting passed to the URL on the failing GET request.
+        $.get('/pieces/' + $targetPiece, function() {
+          $targetSquare.addClass('selected');
+        });
+
+        // moveOwnColor();
       }
       // If a square is already selected, the click will remove the selection
       else {
@@ -82,14 +92,8 @@
       //   $.ajax({
       //     type: 'GET',
       //     url: '/pieces/' + $targetPiece,
-      //     data: { piece: $targetPiece },
       //     success: function(){
-      //       // If the move is allowed, the target square will populate with the piece
-      //       // and empty out the original square
-      //       $targetSquare.attr('data-piece-id', $selectedPiece);
-      //       $targetSquare.text($selectedSquare.text());
-      //       $selectedSquare.empty();
-      //       $selectedSquare.removeAttr('data-piece-id');
+      //       $targetSquare.addClass('selected');
       //     }
       //   });
       // }
