@@ -40,10 +40,12 @@ RSpec.describe PiecesController, type: :controller do
       expect(response).to have_http_status :not_found
     end
 
-    it 'should return success if the piece color matches the user color' do
+    it 'should return success if the piece color matches the user color and it\'s the correct user\'s turn' do
       game = FactoryBot.create(:game)
       piece = game.pieces.active.find_by({x: 1, y: 2})
       sign_in game.user
+      game.state = "white_turn"
+      game.save
       get :show, params: { id: piece.id }
       expect(response).to have_http_status :success
     end

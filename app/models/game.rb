@@ -35,7 +35,7 @@ class Game < ApplicationRecord
     end
   end
 
-  def is_players_turn?(user)
+  def is_player_turn?(user)
     if self.state == "white_turn" && user.id == white_player_id
       true
     elsif self.state == "black_turn" && user.id == black_player_id

@@ -7,7 +7,8 @@ class PiecesController < ApplicationController
     if @piece.blank?
       return render_not_found
     end
-    if @piece.piece_color_matches_user_color?(current_user)
+    @game = @piece.game
+    if @piece.piece_color_matches_user_color?(current_user) && @game.is_player_turn?(current_user)
       return render plain: "Success"
     else
       render_not_found

@@ -111,7 +111,7 @@ RSpec.describe Game, type: :model do
       game = FactoryBot.create(:game)
       user = game.user
       game.state = "white_turn"
-      result = game.is_players_turn?(user)
+      result = game.is_player_turn?(user)
       expect(result).to eq true
     end
 
@@ -121,7 +121,7 @@ RSpec.describe Game, type: :model do
       game.black_player_id = new_user.id
       game.save
       game.player_turn
-      result = game.is_players_turn?(new_user)
+      result = game.is_player_turn?(new_user)
       expect(result).to eq true
     end
 
@@ -130,7 +130,7 @@ RSpec.describe Game, type: :model do
       new_user = FactoryBot.create(:user)
       game.black_player_id = new_user.id
       game.save
-      result = game.is_players_turn?(new_user)
+      result = game.is_player_turn?(new_user)
       expect(result).to eq false
     end
   end
