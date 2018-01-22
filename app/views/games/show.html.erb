@@ -40,6 +40,7 @@
       var $xPosition = $(this).data('x');
       var $yPosition = $(this).data('y');
       var $targetSquare = $(this);
+      var $targetPiece = $targetSquare.data('piece-id');
       var $selectedSquare = $('.selected');
       var $isPieceSelected = $square.hasClass('selected');
       var $selectedPiece = $selectedSquare.data('piece-id');
@@ -52,7 +53,19 @@
 
       // If no square is selected and a piece is present, the clicked square will become selected
       if (!$isPieceSelected && $(this).attr('data-piece-id')) {
-        $(this).addClass('selected');
+        //need to check if piece color and player color match here
+        // $.get('/pieces/' + $targetPiece).success( function() {
+        //   $(this).addClass('selected');
+        // });
+
+        // Before turn order has been implemented, after a piece is moved it's not able to be
+        // selected again. Other pieces (of the correct color) can be selected though.
+        // The piece ID isn't getting passed to the URL on the failing GET request.
+        $.get('/pieces/' + $targetPiece, function() {
+          $targetSquare.addClass('selected');
+        });
+
+        // moveOwnColor();
       }
       // If a square is already selected, the click will remove the selection
       else {
@@ -74,6 +87,16 @@
           }
         });
       }
+
+      // function moveOwnColor() {
+      //   $.ajax({
+      //     type: 'GET',
+      //     url: '/pieces/' + $targetPiece,
+      //     success: function(){
+      //       $targetSquare.addClass('selected');
+      //     }
+      //   });
+      // }
     });
   });
 </script>

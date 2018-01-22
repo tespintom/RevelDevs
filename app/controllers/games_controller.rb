@@ -1,9 +1,9 @@
 class GamesController < ApplicationController
-  before_action :authenticate_user!, only: [:new, :create]
+  before_action :authenticate_user!, only: [:new, :create, :join]
 
   def index
     @games = Game.all
-    @available_games = @games.available
+    @available_games = @games.available.sort_by { |game| game.created_at }
   end
 
   def new

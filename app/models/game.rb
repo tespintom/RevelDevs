@@ -5,9 +5,9 @@ class Game < ApplicationRecord
   before_save :start_game_when_black_player_is_added
   after_create :populate
 
-  scope :available, -> { where(total_players: 1) }
+  scope :available, -> { where(state: "pending") }
 
-  after_create :current_user_is_white_player
+  before_create :current_user_is_white_player
 
 
   # to initialize each game with the white_player as the user who created the game

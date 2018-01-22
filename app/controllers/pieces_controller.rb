@@ -6,14 +6,12 @@ class PiecesController < ApplicationController
     @piece = Piece.find_by_id(params[:id])
     if @piece.blank?
       return render_not_found
-    # else
-    #   #need to edit the database.
-    #   #Single table inheritance uses the "type" field to connect the types of pieces to the pieces table.
-    #   #need to add another field to store type or rename type field.
-    #   render json: @piece
     end
-    @game = @piece.game
-    @pieces = @game.pieces.all
+    if @piece.piece_color_matches_user_color?(current_user)
+      return render plain: "Success"
+    else
+      render_not_found
+    end
   end
 
   def update

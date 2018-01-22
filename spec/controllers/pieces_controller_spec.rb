@@ -4,7 +4,7 @@ require 'pry'
 RSpec.describe PiecesController, type: :controller do
 
   describe 'pieces#show action' do
-    it 'should have http status "success" if the piece is found' do
+    xit 'should have http status "success" if the piece is found' do
       game = FactoryBot.create(:game)
       piece = FactoryBot.create(:piece, game_id: game.id)
       sign_in game.user
@@ -37,6 +37,22 @@ RSpec.describe PiecesController, type: :controller do
       game = FactoryBot.create(:game)
       sign_in game.user
       get :show, params: { id: 'not_an_integer' }
+      expect(response).to have_http_status :not_found
+    end
+
+    it 'should return success if the piece color matches the user color' do
+      game = FactoryBot.create(:game)
+      piece = game.pieces.active.find_by({x: 1, y: 2})
+      sign_in game.user
+      get :show, params: { id: piece.id }
+      expect(response).to have_http_status :success
+    end
+
+    it 'should return render_not_found if the piece color doesn\'t match the user color' do
+      game = FactoryBot.create(:game)
+      piece = game.pieces.active.find_by({x: 1, y: 7})
+      sign_in game.user
+      get :show, params: { id: piece.id }
       expect(response).to have_http_status :not_found
     end
   end
