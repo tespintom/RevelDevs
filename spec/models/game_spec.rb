@@ -73,19 +73,67 @@ RSpec.describe Game, type: :model do
     end
   end
   
-  describe 'game states' do 
-      it "upon game creation the state should be pending" do
-        game=FactoryBot.create :game 
-        expect(game.state).to eq("pending")
-      end
-      
-      xit "when the second player joins game state changes to active" do
-        game=FactoryBot.create :game 
-        #test joining once that functionality is created.
-        expect(game.state).to eq("white_turn")
-      end
+  describe 'game states' do
+    it "upon game creation the state should be pending" do
+      game=FactoryBot.create :game 
+      expect(game.state).to eq("pending")
+    end
+
+    it "when black player joins, the game state should be white_turn" do
+      game = FactoryBot.create(:game)
+      new_user = FactoryBot.create(:user) 
+      game.black_player_id = new_user.id
+      game.save
+      expect(game.state).to eq("white_turn")
+    end
+
+    it "after a white player completes their turn, the game state should be black_turn" do
+      game = FactoryBot.create(:game)
+      new_user = FactoryBot.create(:user)
+      game.black_player_id = new_user.id
+      game.save
+      game.player_turn
+      game.reload
+      expect(game.state).to eq("black_turn")
+    end
+
+    it "after a black player completes their turn, the game state should be white_turn" do
+      game = FactoryBot.create(:game)
+      new_user = FactoryBot.create(:user)
+      game.black_player_id = new_user.id
+      game.save
+      game.player_turn
+      game.player_turn
+      expect(game.state).to eq("white_turn")
+    end
+
+    it "should return true if the state is 'white_turn' and the current user is the white player" do
+      game = FactoryBot.create(:game)
+      user = game.user
+      game.state = "white_turn"
+      result = game.is_players_turn?(user)
+      expect(result).to eq true
+    end
+
+    it "should return true if the state is 'black_turn' and the current user is the black player" do
+      game = FactoryBot.create(:game)
+      new_user = FactoryBot.create(:user)
+      game.black_player_id = new_user.id
+      game.save
+      game.player_turn
+      result = game.is_players_turn?(new_user)
+      expect(result).to eq true
+    end
+
+    it "should return false if it's not the player's turn" do
+      game = FactoryBot.create(:game)
+      new_user = FactoryBot.create(:user)
+      game.black_player_id = new_user.id
+      game.save
+      result = game.is_players_turn?(new_user)
+      expect(result).to eq false
+    end
   end
-  
 
   describe 'available' do
     it 'should show available games, which are games with total_players = 1' do
@@ -105,22 +153,12 @@ RSpec.describe Game, type: :model do
       game = FactoryBot.create(:game)
       expect(game.black_player_id).to eq nil
     end
-    
-    context "when black player joins" do
-      it "should be white_turn" do
-        game = FactoryBot.create(:game)
-        new_user = FactoryBot.create(:user) 
-        game.black_player_id = new_user.id
-        game.save
-        expect(game.state).to eq("white_turn")
-      end
 
-      it "should update total_players to 2" do
-        game = FactoryBot.create(:game)
-        new_user = FactoryBot.create(:user) 
-        game.add_black_player!(new_user)
-        expect(game.total_players).to eq(2)
-      end
+    it "should update total_players to 2" do
+      game = FactoryBot.create(:game)
+      new_user = FactoryBot.create(:user) 
+      game.add_black_player!(new_user)
+      expect(game.total_players).to eq(2)
     end
   end
 

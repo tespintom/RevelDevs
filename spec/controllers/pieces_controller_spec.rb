@@ -79,5 +79,27 @@ RSpec.describe PiecesController, type: :controller do
       expect(piece.x).to eq(1)
       expect(piece.y).to eq(2)
     end
+
+    it 'should change the game state to reflect the correct player\'s turn' do
+      game = FactoryBot.create(:game)
+      piece = game.pieces.active.find_by({x: 1, y: 2})
+      sign_in game.user
+      game.state = "white_turn"
+      game.save
+      patch :update, params: { id: piece.id, piece: { x: 1, y: 3 } }
+      game.reload
+      expect(game.state).to eq("black_turn")
+    end
+
+    it 'player\'s turn should not change if the move was unsuccessful' do
+      game = FactoryBot.create(:game)
+      piece = game.pieces.active.find_by({x: 1, y: 2})
+      sign_in game.user
+      game.state = "white_turn"
+      game.save
+      patch :update, params: { id: piece.id, piece: { x: 1, y: 5 } }
+      game.reload
+      expect(game.state).to eq("white_turn")
+    end
   end
 end
