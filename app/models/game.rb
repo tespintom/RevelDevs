@@ -9,16 +9,12 @@ class Game < ApplicationRecord
 
   before_create :current_user_is_white_player
 
-
-  # to initialize each game with the white_player as the user who created the game
-  # white_player_id needs to exist in the database
-
   def square_occupied?(x_current, y_current)
     pieces.active.where({x: x_current, y: y_current}).any? ? true : false
   end
 
-  def add_black_player!(player)
-    self.black_player_id = player.id
+  def add_black_player!(user)
+    self.black_player_id = user.id
     self.total_players = 2
     save
   end
@@ -39,18 +35,31 @@ class Game < ApplicationRecord
     end
   end
 
+  def is_player_turn?(user)
+    if self.state == "white_turn" && user.id == white_player_id
+      true
+    elsif self.state == "black_turn" && user.id == black_player_id
+      true
+    else
+      false
+    end   
+  end
+
+  def player_turn
+    if self.state == "white_turn"
+      self.state = "black_turn"
+      save
+    elsif self.state == "black_turn"
+      self.state = "white_turn"
+      save
+    end
+  end
+
   private
 
   def start_game_when_black_player_is_added
     self.state = "white_turn" if state == "pending" && black_player_id.present?
   end
-  
-  def player_turn
-   #need to add state change for when the players turn changes.  
-  end
-  
-
-
 
   def populate
     (1..8).each do |piece|
