@@ -42,7 +42,7 @@ class Game < ApplicationRecord
       true
     else
       false
-    end   
+    end
   end
 
   def player_turn
@@ -63,13 +63,15 @@ class Game < ApplicationRecord
 
   def populate
     (1..8).each do |piece|
-      pieces.create(x: piece, y: 2, color: 'white', type: 'Pawn')
-      pieces.create(x: piece, y: 7, color: 'black', type: 'Pawn')
+      pieces.create(x: piece, y: 2, color: 'white', type: 'Pawn', icon: '&#9817')
+      pieces.create(x: piece, y: 7, color: 'black', type: 'Pawn', icon: '&#9823')
     end
 
-    ["Rook", "Knight", "Bishop", "King", "Queen", "Bishop", "Knight", "Rook"].each.with_index(1) do |klass, index|
-      pieces.create(x: index, y: 1, color: 'white', type: klass)
-      pieces.create(x: index, y: 8, color: 'black', type: klass)
-    end
+    # ["Rook", "Knight", "Bishop", "King", "Queen", "Bishop", "Knight", "Rook"].each.with_index(1) do |klass, index|
+    #   pieces.create(x: index, y: 1, color: 'white', type: klass)
+    #   pieces.create(x: index, y: 8, color: 'black', type: klass)
+    # end
+
+    pieces.create(x: 1, y: 1, color: 'white', type: 'Rook', icon: '')
   end
 end
