@@ -6,7 +6,7 @@
 </head>
 
 <body>
-  <div class="chessboard">
+  <div class="chessboard" id=<%= "#{@game.id}" %>>
     <% for row in (1..8) %> <!-- loops through the rows in the gameboard -->
       <% for col in (1..8) %> <!-- loops through the columns -->
         <div class="square 
@@ -21,7 +21,8 @@
           data-piece-id=
           <% if piece %>
             "<%= piece.id %>"
-          <% end %>
+          <% end %> 
+          id=<%= "#{col}-#{9 - row}" %>
           >
           <% if piece %>
             <%= "#{piece.color} #{piece.type}" %>
@@ -32,9 +33,37 @@
   </div>
 </body>
 
+<script src="https://www.gstatic.com/firebasejs/4.9.0/firebase.js"></script>
+<script>
+ // Initialize Firebase
+ var config = {
+   apiKey: "AIzaSyDacQxiuyLkxP5WfVxcb4fUoKHlGB94jOk",
+   authDomain: "chess-application.firebaseapp.com",
+   databaseURL: "https://chess-application.firebaseio.com",
+   projectId: "chess-application",
+   storageBucket: "chess-application.appspot.com",
+   messagingSenderId: "660815863001"
+ };
+ firebase.initializeApp(config);
+</script>
+
 <script>
   $(function() {
     var $square = $('.square');
+
+    var gameID = $('.chessboard').attr('id');
+    var dbRef = firebase.database().ref();
+    var gameRef = dbRef.child(gameID);
+    // testing setting value at 1,1 only
+    gameRef.child('1-1').set("HELLO");
+    var gameRefSquare11 = gameRef.child('1-1');
+
+    // Currently just checks/updates text at 1,1 location
+    gameRefSquare11.on('value', function(snapshot){
+      // chessboardData.innerText = JSON.stringify(snapshot.val());
+      // chessboardData.innerText = snapshot.val();
+      $("#1-1").text(snapshot.val());
+    });
 
     $square.click( function() {
       var $xPosition = $(this).data('x');
