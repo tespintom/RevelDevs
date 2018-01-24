@@ -7,8 +7,8 @@
 
 <body>
   <div class="chessboard" id=<%= "#{@game.id}" %>>
-    <% for row in (1..8) %> <!-- loops through the rows in the gameboard -->
-      <% for col in (1..8) %> <!-- loops through the columns -->
+    <% for row in (1..8) %>
+      <% for col in (1..8) %>
         <div class="square 
           <% if row % 2 != 0 %>
             <%= col % 2 != 0 ? 'black' : 'white' %>
@@ -21,6 +21,8 @@
           data-piece-id=
           <% if piece %>
             "<%= piece.id %>"
+          <% else %>
+            "<%= '' %>"
           <% end %> 
           id=<%= "#{col}-#{9 - row}" %>
           >
@@ -50,19 +52,14 @@
 <script>
   $(function() {
     var $square = $('.square');
-
     var gameID = $('.chessboard').attr('id');
     var dbRef = firebase.database().ref();
     var gameRef = dbRef.child(gameID);
-    // testing setting value at 1,1 only
-    gameRef.child('1-1').set("HELLO");
-    var gameRefSquare11 = gameRef.child('1-1');
 
-    // Currently just checks/updates text at 1,1 location
-    gameRefSquare11.on('value', function(snapshot){
-      // chessboardData.innerText = JSON.stringify(snapshot.val());
-      // chessboardData.innerText = snapshot.val();
-      $("#1-1").text(snapshot.val());
+    $('.square').each(function(){
+      var squareID = $(this).attr('id');
+      var squareText = $(this).text();
+      gameRef.child(squareID).set(squareText);
     });
 
     $square.click( function() {
@@ -73,7 +70,6 @@
       var $selectedSquare = $('.selected');
       var $isPieceSelected = $square.hasClass('selected');
       var $selectedPiece = $selectedSquare.data('piece-id');
-
       // If a piece is already selected, the click attempts to move the piece
       // (Unless the selected square is clicked)
       if ($isPieceSelected && !($selectedSquare.data('x') === $xPosition && $selectedSquare.data('y') === $yPosition)) {
@@ -81,7 +77,7 @@
       }
 
       // If no square is selected and a piece is present, the clicked square will become selected
-      if (!$isPieceSelected && $(this).attr('data-piece-id')) {
+      if (!$isPieceSelected && $(this).attr('data-piece-id') != "") {
         // Before turn order has been implemented, after a piece is moved it's not able to be
         // selected again. Other pieces (of the correct color) can be selected though.
         // The piece ID isn't getting passed to the URL on the failing GET request.
@@ -92,6 +88,21 @@
       // If a square is already selected, the click will remove the selection
       else {
         $selectedSquare.removeClass('selected');
+      }
+
+      function updateFirebase(){
+        var gameRefTargetSquare = gameRef.child($targetSquare.attr('id'));
+        var gameRefSelectedSquare = gameRef.child($selectedSquare.attr('id'));
+
+        gameRefTargetSquare.set($targetSquare.text());
+        gameRefTargetSquare.on('value', function(snapshot){
+          $($targetSquare).text(snapshot.val());
+        });
+        
+        gameRefSelectedSquare.set($selectedSquare.text());
+        gameRefSelectedSquare.on('value', function(snapshot){
+          $($selectedSquare).text(snapshot.val());
+        });
       }
 
       function updatePiece() {
@@ -106,6 +117,7 @@
             $targetSquare.text($selectedSquare.text());
             $selectedSquare.empty();
             $selectedSquare.removeAttr('data-piece-id');
+            updateFirebase();
           }
         });
       }
