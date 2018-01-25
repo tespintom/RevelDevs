@@ -9,14 +9,14 @@
   <div class="chessboard">
     <% for row in (1..8) %> <!-- loops through the rows in the gameboard -->
       <% for col in (1..8) %> <!-- loops through the columns -->
-        <div class="square 
+        <div class="square
           <% if row % 2 != 0 %>
             <%= col % 2 != 0 ? 'black' : 'white' %>
           <% else %>
             <%= col % 2 == 0 ? 'black' : 'white' %>
-          <% end %>" 
-          data-x=<%= "#{col}" %> 
-          data-y=<%= "#{9 - row}" %> 
+          <% end %>"
+          data-x=<%= "#{col}" %>
+          data-y=<%= "#{9 - row}" %>
           <% piece = @game.pieces.active.find_by( { x: col , y: 9 - row } ) %>
           data-piece-id=
           <% if piece %>
@@ -24,7 +24,7 @@
           <% end %>
           >
           <% if piece %>
-            <%= "#{piece.color} #{piece.type}" %>
+            <%= "#{piece.icon}" %>
           <% end %>
         </div>
       <% end %>
