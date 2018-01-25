@@ -9,22 +9,22 @@ RSpec.describe Game, type: :model do
 
     it 'verifies that white pieces are in the correct locations' do
       game = FactoryBot.create(:game)
-      piece_locations = [{type: 'Pawn', x: 1, y: 2},
-        {type: 'Pawn', x: 2, y: 2},
-        {type: 'Pawn', x: 3, y: 2},
-        {type: 'Pawn', x: 4, y: 2},
-        {type: 'Pawn', x: 5, y: 2},
-        {type: 'Pawn', x: 6, y: 2},
-        {type: 'Pawn', x: 7, y: 2},
-        {type: 'Pawn', x: 8, y: 2},
-        {type: 'Rook', x: 1, y: 1},
-        {type: 'Knight', x: 2, y: 1},
-        {type: 'Bishop', x: 3, y: 1},
-        {type: 'King', x: 4, y: 1},
-        {type: 'Queen', x: 5, y: 1},
-        {type: 'Bishop', x: 6, y: 1},
-        {type: 'Knight', x: 7, y: 1},
-        {type: 'Rook', x: 8, y: 1} ]
+      piece_locations = [{type: 'Pawn', x: 1, y: 2, icon: '#9817'},
+        {type: 'Pawn', x: 2, y: 2, icon: '#9817' },
+        {type: 'Pawn', x: 3, y: 2, icon: '#9817' },
+        {type: 'Pawn', x: 4, y: 2, icon: '#9817' },
+        {type: 'Pawn', x: 5, y: 2, icon: '#9817' },
+        {type: 'Pawn', x: 6, y: 2, icon: '#9817' },
+        {type: 'Pawn', x: 7, y: 2, icon: '#9817' },
+        {type: 'Pawn', x: 8, y: 2, icon: '#9817' },
+        {type: 'Rook', x: 1, y: 1, icon: '#9814'},
+        {type: 'Knight', x: 2, y: 1, icon: '#9816' },
+        {type: 'Bishop', x: 3, y: 1, icon: '#9815' },
+        {type: 'King', x: 4, y: 1, icon: '#9812' },
+        {type: 'Queen', x: 5, y: 1, icon: '#9813' },
+        {type: 'Bishop', x: 6, y: 1, icon: '#9815' },
+        {type: 'Knight', x: 7, y: 1, icon: '#9816' },
+        {type: 'Rook', x: 8, y: 1, icon: '#9814' } ]
 
       piece_locations.each do | location |
         expect(game.pieces.white_pieces.exists?(location)).to eq(true)
@@ -33,22 +33,22 @@ RSpec.describe Game, type: :model do
 
     it 'verifies that black pieces are in the correct locations' do
       game = FactoryBot.create(:game)
-      piece_locations = [{type: 'Pawn', x: 1, y: 7},
-        {type: 'Pawn', x: 2, y: 7},
-        {type: 'Pawn', x: 3, y: 7},
-        {type: 'Pawn', x: 4, y: 7},
-        {type: 'Pawn', x: 5, y: 7},
-        {type: 'Pawn', x: 6, y: 7},
-        {type: 'Pawn', x: 7, y: 7},
-        {type: 'Pawn', x: 8, y: 7},
-        {type: 'Rook', x: 1, y: 8},
-        {type: 'Knight', x: 2, y: 8},
-        {type: 'Bishop', x: 3, y: 8},
-        {type: 'King', x: 4, y: 8},
-        {type: 'Queen', x: 5, y: 8},
-        {type: 'Bishop', x: 6, y: 8},
-        {type: 'Knight', x: 7, y: 8},
-        {type: 'Rook', x: 8, y: 8} ]
+      piece_locations = [{type: 'Pawn', x: 1, y: 7, icon: '#9823'},
+        {type: 'Pawn', x: 2, y: 7, icon: '#9823'},
+        {type: 'Pawn', x: 3, y: 7, icon: '#9823'},
+        {type: 'Pawn', x: 4, y: 7, icon: '#9823'},
+        {type: 'Pawn', x: 5, y: 7, icon: '#9823'},
+        {type: 'Pawn', x: 6, y: 7, icon: '#9823'},
+        {type: 'Pawn', x: 7, y: 7, icon: '#9823'},
+        {type: 'Pawn', x: 8, y: 7, icon: '#9823'},
+        {type: 'Rook', x: 1, y: 8, icon: '#9820'},
+        {type: 'Knight', x: 2, y: 8, icon: '#9822'},
+        {type: 'Bishop', x: 3, y: 8, icon: '#9821'},
+        {type: 'King', x: 4, y: 8, icon: '#9818'},
+        {type: 'Queen', x: 5, y: 8, icon: '#9819'},
+        {type: 'Bishop', x: 6, y: 8, icon: '#9821'},
+        {type: 'Knight', x: 7, y: 8, icon: '#9822'},
+        {type: 'Rook', x: 8, y: 8, icon: '#9820'} ]
 
       piece_locations.each do | location |
         expect(game.pieces.black_pieces.exists?(location)).to eq(true)
@@ -72,16 +72,16 @@ RSpec.describe Game, type: :model do
       expect(result).to eq false
     end
   end
-  
+
   describe 'game states' do
     it "upon game creation the state should be pending" do
-      game=FactoryBot.create :game 
+      game=FactoryBot.create :game
       expect(game.state).to eq("pending")
     end
 
     it "when black player joins, the game state should be white_turn" do
       game = FactoryBot.create(:game)
-      new_user = FactoryBot.create(:user) 
+      new_user = FactoryBot.create(:user)
       game.black_player_id = new_user.id
       game.save
       expect(game.state).to eq("white_turn")
@@ -142,13 +142,13 @@ RSpec.describe Game, type: :model do
       expect(result).to eq(1)
     end
   end
-  
+
   describe 'players' do
     it 'should initialize current user as white player' do
       game = FactoryBot.create(:game)
-      expect(game.white_player_id).to eq game.user_id 
+      expect(game.white_player_id).to eq game.user_id
     end
-    
+
     it 'should verify there is no black player upon game creation' do
       game = FactoryBot.create(:game)
       expect(game.black_player_id).to eq nil
@@ -156,7 +156,7 @@ RSpec.describe Game, type: :model do
 
     it "should update total_players to 2" do
       game = FactoryBot.create(:game)
-      new_user = FactoryBot.create(:user) 
+      new_user = FactoryBot.create(:user)
       game.add_black_player!(new_user)
       expect(game.total_players).to eq(2)
     end
@@ -178,4 +178,3 @@ RSpec.describe Game, type: :model do
     end
   end
 end
-

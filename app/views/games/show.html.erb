@@ -27,7 +27,7 @@
           id=<%= "#{col}-#{9 - row}" %>
           >
           <% if piece %>
-            <%= "#{piece.color} #{piece.type}" %>
+            &<%= "#{piece.icon}" %>;
           <% end %>
         </div>
       <% end %>
@@ -100,7 +100,7 @@
         gameRefTargetSquare.on('value', function(snapshot){
           $('#' + $targetSquareID).text(snapshot.val());
         });
-        
+
         gameRefSelectedSquare.set($selectedSquare.text());
         gameRefSelectedSquare.on('value', function(snapshot){
           $('#' + $selectedSquareID).text(snapshot.val());

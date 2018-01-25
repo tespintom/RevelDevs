@@ -42,7 +42,7 @@ class Game < ApplicationRecord
       true
     else
       false
-    end   
+    end
   end
 
   def player_turn
@@ -63,13 +63,30 @@ class Game < ApplicationRecord
 
   def populate
     (1..8).each do |piece|
-      pieces.create(x: piece, y: 2, color: 'white', type: 'Pawn')
-      pieces.create(x: piece, y: 7, color: 'black', type: 'Pawn')
+      pieces.create(x: piece, y: 2, color: 'white', type: 'Pawn', icon: '#9817')
+      pieces.create(x: piece, y: 7, color: 'black', type: 'Pawn', icon: '#9823')
     end
 
-    ["Rook", "Knight", "Bishop", "King", "Queen", "Bishop", "Knight", "Rook"].each.with_index(1) do |klass, index|
-      pieces.create(x: index, y: 1, color: 'white', type: klass)
-      pieces.create(x: index, y: 8, color: 'black', type: klass)
-    end
+    # ["Rook", "Knight", "Bishop", "King", "Queen", "Bishop", "Knight", "Rook"].each.with_index(1) do |klass, index|
+    #   pieces.create(x: index, y: 1, color: 'white', type: klass)
+    #   pieces.create(x: index, y: 8, color: 'black', type: klass)
+    # end
+
+    pieces.create(x: 1, y: 1, color: 'white', type: 'Rook', icon: '#9814')
+    pieces.create(x: 2, y: 1, color: 'white', type: 'Knight', icon: '#9816')
+    pieces.create(x: 3, y: 1, color: 'white', type: 'Bishop', icon: '#9815')
+    pieces.create(x: 4, y: 1, color: 'white', type: 'King', icon: '#9812')
+    pieces.create(x: 5, y: 1, color: 'white', type: 'Queen', icon: '#9813')
+    pieces.create(x: 6, y: 1, color: 'white', type: 'Bishop', icon: '#9815')
+    pieces.create(x: 7, y: 1, color: 'white', type: 'Knight', icon: '#9816')
+    pieces.create(x: 8, y: 1, color: 'white', type: 'Rook', icon: '#9814')
+    pieces.create(x: 1, y: 8, color: 'black', type: 'Rook', icon: '#9820')
+    pieces.create(x: 2, y: 8, color: 'black', type: 'Knight', icon: '#9822')
+    pieces.create(x: 3, y: 8, color: 'black', type: 'Bishop', icon: '#9821')
+    pieces.create(x: 4, y: 8, color: 'black', type: 'King', icon: '#9818')
+    pieces.create(x: 5, y: 8, color: 'black', type: 'Queen', icon: '#9819')
+    pieces.create(x: 6, y: 8, color: 'black', type: 'Bishop', icon: '#9821')
+    pieces.create(x: 7, y: 8, color: 'black', type: 'Knight', icon: '#9822')
+    pieces.create(x: 8, y: 8, color: 'black', type: 'Rook', icon: '#9820')
   end
 end
