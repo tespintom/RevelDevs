@@ -26,7 +26,8 @@ class PiecesController < ApplicationController
     else
       return render_not_found
     end
-    render json: { piece_type: @piece.type, piece_color: @piece.color }
+    # render json: { piece_type: @piece.type, piece_color: @piece.color }
+    render json: { icon: @piece.icon }
     # render plain: "Success"
     # render json: @piece
   end

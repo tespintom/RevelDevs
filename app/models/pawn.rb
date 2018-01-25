@@ -3,9 +3,19 @@ class Pawn < Piece
   def is_promotable?
     case self.color
     when 'white'
-      self.y == 8 ? true : false
+      if self.y == 8
+        self.type = 'Queen'
+        self.icon = '#9813'
+      else
+        false
+      end
     when 'black'
-      self.y == 1 ? true : false
+      if self.y == 1
+        self.type = 'Queen'
+        self.icon = '#9819'
+      else
+        false
+      end
     end
   end
 

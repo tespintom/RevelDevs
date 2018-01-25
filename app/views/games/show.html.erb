@@ -1,5 +1,5 @@
 <div class="booyah-box col-10 offset-1">
-  <h2><%= @game.name %></h2>
+  <h2 class="text-center"><%= @game.name %></h2>
 </div>
 <head>
     <meta charset="UTF-8">
@@ -97,12 +97,12 @@
 
         gameRefTargetSquare.set($targetSquare.text());
         gameRefTargetSquare.on('value', function(snapshot){
-          $('#' + $targetSquareID).text(snapshot.val());
+          $('#' + $targetSquareID).html(snapshot.val());
         });
 
         gameRefSelectedSquare.set($selectedSquare.text());
         gameRefSelectedSquare.on('value', function(snapshot){
-          $('#' + $selectedSquareID).text(snapshot.val());
+          $('#' + $selectedSquareID).html(snapshot.val());
         });
       }
 
@@ -116,9 +116,7 @@
             // If the move is allowed, the target square will populate with the piece
             // and empty out the original square
             $targetSquare.attr('data-piece-id', $selectedPiece);
-            $targetSquare.text(data.piece_color + " " + data.piece_type);
-            console.log(data);
-            // $targetSquare.text($selectedSquare.text());
+            $targetSquare.html("&" + data.icon + ";");
             $selectedSquare.empty();
             $selectedSquare.removeAttr('data-piece-id');
             updateFirebase();

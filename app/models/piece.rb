@@ -39,11 +39,8 @@ class Piece < ApplicationRecord
   def move_action(x_target, y_target)
     self.x = x_target
     self.y = y_target
-    if self.is_promotable?
-      self.type = "Queen"
-    else
-      true
-    end
+    self.is_promotable?
+    true
   end
 
   def is_move_valid?(x_target, y_target)
