@@ -13,4 +13,13 @@ class King < Piece
       return false
     end
   end
+
+
+  def in_check?(x_target, y_target)
+    if self.is_capturable(self.x_target, self.y_target)
+      return true
+    else
+      return false
+    end
+  end
 end
