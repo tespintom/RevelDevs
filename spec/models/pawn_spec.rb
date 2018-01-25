@@ -156,4 +156,26 @@ RSpec.describe Pawn, type: :model do
       expect(pawn.y).to eq 2
     end
   end
+
+  describe 'promotion' do
+    it 'is_promotable? returns true if the white pawn can be promoted' do
+      pawn = FactoryBot.build(:pawn, color: 'white', y: 8)
+      expect(pawn.is_promotable?).to eq true
+    end
+
+    it 'is_promotable? returns false if the white pawn cannot be promoted' do
+      pawn = FactoryBot.build(:pawn, color: 'white', y: 7)
+      expect(pawn.is_promotable?).to eq false
+    end
+
+    it 'is_promotable? returns true if the black pawn can be promoted' do
+      pawn = FactoryBot.build(:pawn, color: 'black', y: 1)
+      expect(pawn.is_promotable?).to eq true
+    end
+
+    it 'is_promotable? returns false if the black pawn cannot be promoted' do
+      pawn = FactoryBot.build(:pawn, color: 'black', y: 2)
+      expect(pawn.is_promotable?).to eq false
+    end
+  end
 end

@@ -39,6 +39,11 @@ class Piece < ApplicationRecord
   def move_action(x_target, y_target)
     self.x = x_target
     self.y = y_target
+    if self.is_promotable?
+      self.type = "Queen"
+    else
+      true
+    end
   end
 
   def is_move_valid?(x_target, y_target)
@@ -180,6 +185,9 @@ class Piece < ApplicationRecord
   def target_piece(x_target, y_target)
     game.pieces.active.find_by({x: x_target, y: y_target})
   end
+
+  def is_promotable? 
+  end
   
   private
 
@@ -190,6 +198,4 @@ class Piece < ApplicationRecord
   def in_range?(x_target, y_target)
     true
   end
-
-
 end
