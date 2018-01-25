@@ -9,13 +9,13 @@
   <div class="chessboard" id=<%= "#{@game.id}" %>>
     <% for row in (1..8) %>
       <% for col in (1..8) %>
-        <div class="square
+        <div class="square 
           <% if row % 2 != 0 %>
             <%= col % 2 != 0 ? 'black' : 'white' %>
           <% else %>
             <%= col % 2 == 0 ? 'black' : 'white' %>
-          <% end %>"
-          data-x=<%= "#{col}" %>
+          <% end %>" 
+          data-x=<%= "#{col}" %> 
           data-y=<%= "#{9 - row}" %> 
           <% piece = @game.pieces.active.find_by( { x: col , y: 9 - row } ) %>
           data-piece-id=
@@ -23,7 +23,7 @@
             "<%= piece.id %>"
           <% else %>
             "<%= '' %>"
-          <% end %>
+          <% end %> 
           id=<%= "#{col}-#{9 - row}" %>
           >
           <% if piece %>
