@@ -91,17 +91,19 @@
       }
 
       function updateFirebase(){
-        var gameRefTargetSquare = gameRef.child($targetSquare.attr('id'));
-        var gameRefSelectedSquare = gameRef.child($selectedSquare.attr('id'));
+        var $targetSquareID = $targetSquare.attr('id');
+        var $selectedSquareID = $selectedSquare.attr('id');
+        var gameRefTargetSquare = gameRef.child($targetSquareID);
+        var gameRefSelectedSquare = gameRef.child($selectedSquareID);
 
         gameRefTargetSquare.set($targetSquare.text());
         gameRefTargetSquare.on('value', function(snapshot){
-          $($targetSquare).text(snapshot.val());
+          $('#' + $targetSquareID).text(snapshot.val());
         });
         
         gameRefSelectedSquare.set($selectedSquare.text());
         gameRefSelectedSquare.on('value', function(snapshot){
-          $($selectedSquare).text(snapshot.val());
+          $('#' + $selectedSquareID).text(snapshot.val());
         });
       }
 
