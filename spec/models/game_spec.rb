@@ -7,7 +7,7 @@ RSpec.describe Game, type: :model do
       expect(game).to be_valid
     end
 
-    it 'verifies that white pieces are in the correct locations with the icons' do
+    it 'verifies that white pieces are in the correct locations' do
       game = FactoryBot.create(:game)
       piece_locations = [{type: 'Pawn', x: 1, y: 2, icon: '&#9817;'},
         {type: 'Pawn', x: 2, y: 2, icon: '&#9817;' },
@@ -31,7 +31,7 @@ RSpec.describe Game, type: :model do
       end
     end
 
-    it 'verifies that black pieces are in the correct locations with the correct icons' do
+    it 'verifies that black pieces are in the correct locations' do
       game = FactoryBot.create(:game)
       piece_locations = [{type: 'Pawn', x: 1, y: 7, icon: '&#9823;'},
         {type: 'Pawn', x: 2, y: 7, icon: '&#9823;'},
