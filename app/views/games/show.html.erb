@@ -4,7 +4,6 @@
 <head>
     <meta charset="UTF-8">
 </head>
-
 <body>
   <div class="chessboard" id=<%= "#{@game.id}" %>>
     <% for row in (1..8) %>
@@ -98,7 +97,7 @@
         gameRefTargetSquare.on('value', function(snapshot){
           $($targetSquare).text(snapshot.val());
         });
-        
+
         gameRefSelectedSquare.set($selectedSquare.text());
         gameRefSelectedSquare.on('value', function(snapshot){
           $($selectedSquare).text(snapshot.val());
@@ -109,12 +108,15 @@
         $.ajax({
           type: 'PATCH',
           url: '/pieces/' + $selectedPiece,
+          dataType: 'json',
           data: { piece: { x: $xPosition, y: $yPosition } },
-          success: function(){
+          success: function(data){
             // If the move is allowed, the target square will populate with the piece
             // and empty out the original square
             $targetSquare.attr('data-piece-id', $selectedPiece);
-            $targetSquare.text($selectedSquare.text());
+            $targetSquare.text(data.piece_color + " " + data.piece_type);
+            console.log(data);
+            // $targetSquare.text($selectedSquare.text());
             $selectedSquare.empty();
             $selectedSquare.removeAttr('data-piece-id');
             updateFirebase();
