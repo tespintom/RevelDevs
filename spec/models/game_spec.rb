@@ -9,22 +9,22 @@ RSpec.describe Game, type: :model do
 
     it 'verifies that white pieces are in the correct locations with the icons' do
       game = FactoryBot.create(:game)
-      piece_locations = [{type: 'Pawn', x: 1, y: 2, icon: '&#9817;'},
-        {type: 'Pawn', x: 2, y: 2, icon: '&#9817;'},
-        {type: 'Pawn', x: 3, y: 2, icon: '&#9817;' },
-        {type: 'Pawn', x: 4, y: 2, icon: '&#9817;'},
-        {type: 'Pawn', x: 5, y: 2, icon: '&#9817;'},
-        {type: 'Pawn', x: 6, y: 2, icon: '&#9817;'},
-        {type: 'Pawn', x: 7, y: 2, icon: '&#9817;'},
-        {type: 'Pawn', x: 8, y: 2, icon: '&#9817;'},
-        {type: 'Rook', x: 1, y: 1, icon: '&#9814;'},
-        {type: 'Knight', x: 2, y: 1, icon: '&#9816;'},
-        {type: 'Bishop', x: 3, y: 1, icon: '&#9815'},
-        {type: 'King', x: 4, y: 1, icon: '&#9812;'},
-        {type: 'Queen', x: 5, y: 1, icon: '&#9813;'},
-        {type: 'Bishop', x: 6, y: 1, icon: '&#9815'},
-        {type: 'Knight', x: 7, y: 1, icon: '&#9816;'},
-        {type: 'Rook', x: 8, y: 1, icon: '&#9814;'} ]
+      piece_locations = [{type: 'Pawn', x: 1, y: 2 },
+        {type: 'Pawn', x: 2, y: 2 },
+        {type: 'Pawn', x: 3, y: 2 },
+        {type: 'Pawn', x: 4, y: 2 },
+        {type: 'Pawn', x: 5, y: 2 },
+        {type: 'Pawn', x: 6, y: 2 },
+        {type: 'Pawn', x: 7, y: 2 },
+        {type: 'Pawn', x: 8, y: 2 },
+        {type: 'Rook', x: 1, y: 1 },
+        {type: 'Knight', x: 2, y: 1 },
+        {type: 'Bishop', x: 3, y: 1 },
+        {type: 'King', x: 4, y: 1 },
+        {type: 'Queen', x: 5, y: 1 },
+        {type: 'Bishop', x: 6, y: 1 },
+        {type: 'Knight', x: 7, y: 1 },
+        {type: 'Rook', x: 8, y: 1 } ]
 
       piece_locations.each do | location |
         expect(game.pieces.white_pieces.exists?(location)).to eq(true)
