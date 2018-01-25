@@ -63,8 +63,8 @@ class Game < ApplicationRecord
 
   def populate
     (1..8).each do |piece|
-      pieces.create(x: piece, y: 2, color: 'white', type: 'Pawn', icon: '&#9817')
-      pieces.create(x: piece, y: 7, color: 'black', type: 'Pawn', icon: '&#9823')
+      pieces.create(x: piece, y: 2, color: 'white', type: 'Pawn', icon: '&#9817;')
+      pieces.create(x: piece, y: 7, color: 'black', type: 'Pawn', icon: '&#9823;')
     end
 
     # ["Rook", "Knight", "Bishop", "King", "Queen", "Bishop", "Knight", "Rook"].each.with_index(1) do |klass, index|
@@ -72,6 +72,21 @@ class Game < ApplicationRecord
     #   pieces.create(x: index, y: 8, color: 'black', type: klass)
     # end
 
-    pieces.create(x: 1, y: 1, color: 'white', type: 'Rook', icon: '')
+    pieces.create(x: 1, y: 1, color: 'white', type: 'Rook', icon: '&#9814;')
+    pieces.create(x: 1, y: 1, color: 'white', type: 'Knight', icon: '&#9814')
+    pieces.create(x: 1, y: 1, color: 'white', type: 'Bishop', icon: '&#9814')
+    pieces.create(x: 1, y: 1, color: 'white', type: 'King', icon: '&#9812')
+    pieces.create(x: 1, y: 1, color: 'white', type: 'Queen', icon: '&#9814')
+    pieces.create(x: 1, y: 1, color: 'white', type: 'Bishop', icon: '&#9814')
+    pieces.create(x: 1, y: 1, color: 'white', type: 'Knight', icon: '&#9814')
+    pieces.create(x: 1, y: 1, color: 'white', type: 'Rook', icon: '&#9814;')
+    pieces.create(x: 1, y: 1, color: 'black', type: 'Rook', icon: '&#9820;')
+    pieces.create(x: 1, y: 1, color: 'black', type: 'Knight', icon: '&#9822;')
+    pieces.create(x: 1, y: 1, color: 'black', type: 'Bishop', icon: '&#9821;')
+    pieces.create(x: 1, y: 1, color: 'black', type: 'King', icon: '&#9818;')
+    pieces.create(x: 1, y: 1, color: 'black', type: 'Queen', icon: '&#9819;')
+    pieces.create(x: 1, y: 1, color: 'black', type: 'Bishop', icon: '&#9821;')
+    pieces.create(x: 1, y: 1, color: 'black', type: 'Knight', icon: '&#9822;')
+    pieces.create(x: 1, y: 1, color: 'black', type: 'Rook', icon: '&#9820;')
   end
 end
