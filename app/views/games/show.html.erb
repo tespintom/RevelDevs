@@ -9,25 +9,25 @@
   <div class="chessboard" id=<%= "#{@game.id}" %>>
     <% for row in (1..8) %>
       <% for col in (1..8) %>
-        <div class="square 
+        <div class="square
           <% if row % 2 != 0 %>
             <%= col % 2 != 0 ? 'black' : 'white' %>
           <% else %>
             <%= col % 2 == 0 ? 'black' : 'white' %>
-          <% end %>" 
-          data-x=<%= "#{col}" %> 
-          data-y=<%= "#{9 - row}" %> 
+          <% end %>"
+          data-x=<%= "#{col}" %>
+          data-y=<%= "#{9 - row}" %>
           <% piece = @game.pieces.active.find_by( { x: col , y: 9 - row } ) %>
           data-piece-id=
           <% if piece %>
             "<%= piece.id %>"
           <% else %>
             "<%= '' %>"
-          <% end %> 
+          <% end %>
           id=<%= "#{col}-#{9 - row}" %>
           >
           <% if piece %>
-            <%= "#{piece.color} #{piece.type}" %>
+            <%= "#{piece.icon}" %>
           <% end %>
         </div>
       <% end %>
@@ -100,7 +100,7 @@
         gameRefTargetSquare.on('value', function(snapshot){
           $('#' + $targetSquareID).text(snapshot.val());
         });
-        
+
         gameRefSelectedSquare.set($selectedSquare.text());
         gameRefSelectedSquare.on('value', function(snapshot){
           $('#' + $selectedSquareID).text(snapshot.val());
