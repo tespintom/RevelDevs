@@ -1,5 +1,24 @@
 class Pawn < Piece
 
+  def is_promotable?
+    case self.color
+    when 'white'
+      if self.y == 8
+        self.type = 'Queen'
+        self.icon = '#9813'
+      else
+        false
+      end
+    when 'black'
+      if self.y == 1
+        self.type = 'Queen'
+        self.icon = '#9819'
+      else
+        false
+      end
+    end
+  end
+
   #need to add logic concerning checking target for vertical moves(non-capturable)
   private
 
