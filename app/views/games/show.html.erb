@@ -58,7 +58,11 @@
     $('.square').each(function(){
       var squareID = $(this).attr('id');
       var squareText = $(this).text();
-      gameRef.child(squareID).set(squareText);
+      var gameRefSquare = gameRef.child(squareID);
+      gameRefSquare.set(squareText);
+      gameRefSquare.on('value', function(snapshot){
+        $('#' + squareID).html(snapshot.val());
+      });
     });
 
     $square.click( function() {
@@ -89,23 +93,6 @@
         $selectedSquare.removeClass('selected');
       }
 
-      function updateFirebase(){
-        var $targetSquareID = $targetSquare.attr('id');
-        var $selectedSquareID = $selectedSquare.attr('id');
-        var gameRefTargetSquare = gameRef.child($targetSquareID);
-        var gameRefSelectedSquare = gameRef.child($selectedSquareID);
-
-        gameRefTargetSquare.set($targetSquare.text());
-        gameRefTargetSquare.on('value', function(snapshot){
-          $('#' + $targetSquareID).html(snapshot.val());
-        });
-
-        gameRefSelectedSquare.set($selectedSquare.text());
-        gameRefSelectedSquare.on('value', function(snapshot){
-          $('#' + $selectedSquareID).html(snapshot.val());
-        });
-      }
-
       function updatePiece() {
         $.ajax({
           type: 'PATCH',
@@ -122,6 +109,14 @@
             updateFirebase();
           }
         });
+      }
+
+      function updateFirebase(){
+        var gameRefTargetSquare = gameRef.child($targetSquare.attr('id'));
+        var gameRefSelectedSquare = gameRef.child($selectedSquare.attr('id'));
+
+        gameRefTargetSquare.set($targetSquare.text());
+        gameRefSelectedSquare.set($selectedSquare.text());
       }
     });
   });
