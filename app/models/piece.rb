@@ -185,12 +185,16 @@ class Piece < ApplicationRecord
     game.pieces.active.find_by({x: x_target, y: y_target})
   end
 
-  def is_promotable? 
+  def is_promotable?
   end
 
   def can_castle?(x_target, y_target)
   end
+
+  def in_check?(x_target, y_target)
+  end
   
+
   private
 
   def in_bounds?(x_target, y_target)
