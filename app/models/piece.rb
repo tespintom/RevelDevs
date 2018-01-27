@@ -27,7 +27,9 @@ class Piece < ApplicationRecord
   end
 
   def attempt_move(x_target, y_target)
-    if is_capturable?(x_target, y_target)
+    if can_castle?(x_target, y_target)
+      castle!(x_target, y_target)
+    elsif is_capturable?(x_target, y_target)
       captured!(x_target, y_target)
     elsif !game.square_occupied?(x_target, y_target) && is_move_valid?(x_target, y_target)
       move_action(x_target, y_target)
@@ -184,6 +186,9 @@ class Piece < ApplicationRecord
   end
 
   def is_promotable? 
+  end
+
+  def can_castle?(x_target, y_target)
   end
   
   private
