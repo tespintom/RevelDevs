@@ -124,4 +124,134 @@ RSpec.describe King, type: :model do
       expect(king.y).to eq 1
     end
   end
+
+  describe 'castling' do
+    it '#in_original_position? should return true if the King has not been moved' do
+      game = FactoryBot.create(:game)
+      king = game.pieces.active.find_by({x: 4, y: 1})
+      result = king.in_original_position?
+      expect(result).to eq true
+    end
+
+    it '#in_original_position? should return false if the King has been moved' do
+      game = FactoryBot.create(:game)
+      king = game.pieces.active.find_by({x: 4, y: 1})
+      king.update_attributes(x: 4, y: 3)
+      result = king.in_original_position?
+      expect(result).to eq false
+    end
+
+    it '#find_corner_piece returns the correct piece from the right' do
+      game = FactoryBot.create(:game)
+      king = game.pieces.active.find_by({x: 4, y: 1})
+      found_piece = king.find_corner_piece(6, 1)
+      rook = game.pieces.active.find_by({x: 8, y: 1})
+      expect(found_piece).to eq(rook)
+    end
+
+    it '#find_corner_piece returns the correct piece from the left' do
+      game = FactoryBot.create(:game)
+      king = game.pieces.active.find_by({x: 4, y: 1})
+      found_piece = king.find_corner_piece(2, 1)
+      rook = game.pieces.active.find_by({x: 1, y: 1})
+      expect(found_piece).to eq(rook)
+    end
+
+    it '#find_corner_piece returns no piece from the left if there is no piece' do
+      game = FactoryBot.create(:game)
+      king = game.pieces.active.find_by({x: 4, y: 1})
+      rook = game.pieces.active.find_by({x: 1, y: 1})
+      rook.update_attributes(captured: true, x: 0, y: 0)
+      found_piece = king.find_corner_piece(2, 1)
+      expect(found_piece).to eq(nil)
+    end
+
+    it '#is_rook? returns true if the piece is a rook' do
+      game = FactoryBot.create(:game)
+      piece = game.pieces.active.find_by({x: 1, y: 1})
+      king = game.pieces.active.find_by({x: 4, y: 1})
+      result = king.is_rook?(piece)
+      expect(result).to eq true
+    end
+
+    it '#is_rook? returns false if the piece is not a rook' do
+      game = FactoryBot.create(:game)
+      piece = game.pieces.active.find_by({x: 2, y: 1})
+      king = game.pieces.active.find_by({x: 4, y: 1})
+      result = king.is_rook?(piece)
+      expect(result).to eq false
+    end
+
+    it '#can_castle? returns true if the King is able to castle' do
+      game = FactoryBot.create(:game)
+      king = game.pieces.active.find_by({x: 4, y: 1})
+      bishop = game.pieces.active.find_by({x: 3, y: 1})
+      knight = game.pieces.active.find_by({x: 2, y: 1})
+      bishop.update_attributes(captured: true, x: 0, y: 0)
+      knight.update_attributes(captured: true, x: 0, y: 0)
+      result = king.can_castle?(2, 1)
+      expect(result).to eq true
+    end
+
+    it '#can_castle? returns false if the King isn\'t able to castle' do
+      game = FactoryBot.create(:game)
+      king = game.pieces.active.find_by({x: 4, y: 1})
+      result = king.can_castle?(5, 1)
+      expect(result).to eq false
+    end
+
+    it '#castling_obstructed? returns true if the path is obstructed' do
+      game = FactoryBot.create(:game)
+      king = game.pieces.active.find_by({x: 4, y: 1})
+      corner_piece = king.find_corner_piece(2, 1)
+      result = king.castling_obstructed?(corner_piece)
+      expect(result).to eq true
+    end
+
+    it '#castling_obstructed? returns false if the path isn\'t obstructed' do
+      game = FactoryBot.create(:game)
+      king = game.pieces.active.find_by({x: 4, y: 1})
+      bishop = game.pieces.active.find_by({x: 3, y: 1})
+      knight = game.pieces.active.find_by({x: 2, y: 1})
+      bishop.update_attributes(captured: true, x: 0, y: 0)
+      knight.update_attributes(captured: true, x: 0, y: 0)
+      corner_piece = king.find_corner_piece(2, 1)
+      result = king.castling_obstructed?(corner_piece)
+      expect(result).to eq false
+    end
+
+    it '#castle! performs a castling move to the left' do
+      game = FactoryBot.create(:game)
+      king = game.pieces.active.find_by({x: 4, y: 1})
+      bishop = game.pieces.active.find_by({x: 3, y: 1})
+      knight = game.pieces.active.find_by({x: 2, y: 1})
+      rook = game.pieces.active.find_by({x: 1, y: 1})
+      bishop.update_attributes(captured: true, x: 0, y: 0)
+      knight.update_attributes(captured: true, x: 0, y: 0)
+      king.castle!(2, 1)
+      rook.reload
+      expect(king.x).to eq(2)
+      expect(king.y).to eq(1)
+      expect(rook.x).to eq(3)
+      expect(rook.y).to eq(1)
+    end
+
+    it '#castle! performs a castling move to the right' do
+      game = FactoryBot.create(:game)
+      king = game.pieces.active.find_by({x: 4, y: 1})
+      bishop = game.pieces.active.find_by({x: 6, y: 1})
+      knight = game.pieces.active.find_by({x: 7, y: 1})
+      rook = game.pieces.active.find_by({x: 8, y: 1})
+      queen = game.pieces.active.find_by({x: 5, y: 1})
+      bishop.update_attributes(captured: true, x: 0, y: 0)
+      knight.update_attributes(captured: true, x: 0, y: 0)
+      queen.update_attributes(captured: true, x: 0, y: 0)
+      king.castle!(6, 1)
+      rook.reload
+      expect(king.x).to eq(6)
+      expect(king.y).to eq(1)
+      expect(rook.x).to eq(5)
+      expect(rook.y).to eq(1)
+    end
+  end
 end
