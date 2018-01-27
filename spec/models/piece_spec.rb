@@ -87,6 +87,48 @@ RSpec.describe Piece, type: :model do
       result = piece.is_obstructed?(3, 5)
       expect(result).to eq false
     end
+
+    it '#attempt_move should successfully move a piece' do
+      game = FactoryBot.create(:game)
+      pawn = game.pieces.active.find_by({x: 1, y: 2})
+      pawn.attempt_move(1, 4)
+      expect(pawn.y).to eq(4)
+    end
+
+    it '#attempt_move shouldn\'t move a piece if it\'s illegal' do
+      game = FactoryBot.create(:game)
+      rook = game.pieces.active.find_by({x: 1, y: 1})
+      rook.attempt_move(1, 4)
+      expect(rook.y).to eq(1)
+    end
+
+    it '#attempt_move should perform castling if castling is allowed' do
+      game = FactoryBot.create(:game)
+      king = game.pieces.active.find_by({x: 4, y: 1})
+      bishop = game.pieces.active.find_by({x: 3, y: 1})
+      knight = game.pieces.active.find_by({x: 2, y: 1})
+      rook = game.pieces.active.find_by({x: 1, y: 1})
+      bishop.update_attributes(captured: true, x: 0, y: 0)
+      knight.update_attributes(captured: true, x: 0, y: 0)
+      king.attempt_move(2, 1)
+      rook.reload
+      expect(king.x).to eq(2)
+      expect(king.y).to eq(1)
+      expect(rook.x).to eq(3)
+      expect(rook.y).to eq(1)
+    end
+
+    it '#attempt_move shouldn\'t perform castling if castling isn\'t allowed' do
+      game = FactoryBot.create(:game)
+      king = game.pieces.active.find_by({x: 4, y: 1})
+      rook = game.pieces.active.find_by({x: 1, y: 1})
+      king.attempt_move(2, 1)
+      rook.reload
+      expect(king.x).to eq(4)
+      expect(king.y).to eq(1)
+      expect(rook.x).to eq(1)
+      expect(rook.y).to eq(1)
+    end
   end
 
   describe 'capture' do
