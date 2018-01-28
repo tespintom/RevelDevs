@@ -27,9 +27,6 @@ class Piece < ApplicationRecord
   end
 
   def attempt_move(x_target, y_target)
-     Piece.transaction do
-       fail ActiveRecord::Rollback if game.in_check?(color)
-     end
     if can_castle?(x_target, y_target)
       castle!(x_target, y_target)
     elsif is_capturable?(x_target, y_target)
