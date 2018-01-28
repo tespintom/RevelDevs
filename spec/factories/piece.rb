@@ -6,7 +6,7 @@ FactoryBot.define do
     captured false
   end
 
-  factory :black_king, parent: :piece, color :black, class: 'King' do
+  factory :black_king, parent: :piece, color: 'black', class: 'King' do
     x 3
     y 4
   end
