@@ -18,6 +18,11 @@ class GamesController < ApplicationController
   def show
     @game = Game.find_by_id(params[:id])
     render "Not found :(" if @game.blank?
+    if @game.in_check?('black')
+      flash[:black_check] = 'Black King is under the Check!'
+    elsif @game.in_check?('white')
+      flash[:white_check] = 'White King is under the Check!'
+    end
   end
 
   def join
