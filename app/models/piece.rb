@@ -198,7 +198,7 @@ class Piece < ApplicationRecord
   def move_causes_check?(x_target, y_target)
     result = false
     ActiveRecord::Base.transaction do
-      update_attributes(x_position: x, y_position: y)
+      #update_attributes(x_position: x, y_position: y)
       result = game.in_check?(color)
       raise ActiveRecord::Rollback
     end
