@@ -171,52 +171,14 @@ RSpec.describe Game, type: :model do
   end
 
   describe 'check?' do
-    xit 'should return true if King is under check horizontally' do
+    it 'should return true if King is under check' do
       game = FactoryBot.create(:game)
-      expect(queen.move_action(1, 4)).to eq true
-      expect(black_king.x).to eq 3
-      expect(black_king.y).to eq 4
+      piece = FactoryBot.build(:piece, game_id: game.id)
+      queen = game.pieces.active.find_by({x: 5, y: 1})
+      king = game.pieces.active.find_by({x: 4, y: 1})
+      expect(king.x).to eq(4)
+      expect(king.y).to eq(1)
       expect(game.in_check?(king.color)).to eq true
-    end
-    xit 'should return true if King is under check vertically' do
-      game = FactoryBot.create(:game)
-      black_king = King.create(x: 3, y: 4, color: 'black', piece_type: 'King')
-      expect(queen.move_action(3, 7)).to eq true
-      expect(black_king.x).to eq 3
-      expect(black_king.y).to eq 4
-      expect(game.in_check?(king.color)).to eq true
-    end
-    xit 'should return true if King is under check diagonally' do
-      game = FactoryBot.create(:game)
-      black_king = King.create(x: 3, y: 4, color: 'black', piece_type: 'King')
-      expect(queen.move_action(1, 2)).to eq true
-      expect(black_king.x).to eq 3
-      expect(black_king.y).to eq 4
-      expect(game.in_check?(king.color)).to eq true
-    end
-    xit 'should return true if King is under check in L-shape move' do
-      game = FactoryBot.create(:game)
-      black_king = King.create(x: 3, y: 4, color: 'black', piece_type: 'King')
-      expect(knight.move_action(5, 5)).to eq true
-      expect(black_king.x).to eq 3
-      expect(black_king.y).to eq 4
-      expect(game.in_check?(black_king.color)).to eq true
-    end
-    xit 'should return false if King is not under check' do
-      game = FactoryBot.create(:game)
-      black_king = King.create(x: 3, y: 4, color: 'black', piece_type: 'King')
-      expect(queen.move_action(1, 3)).to eq true
-      expect(black_king.x).to eq 3
-      expect(black_king.y).to eq 4
-      expect(game.in_check?(black_king.color)).to eq false
-    end
-    xit 'should return false if King is not under check in L-shape move' do
-      game = FactoryBot.create(:game)
-      black_king = King.create(x: 3, y: 4, color: 'black', piece_type: 'King')
-      expect(knight.move_action(7, 5)).to eq true
-      expect(black_king.x).to eq 3
-      expect(black_king.y).to eq 4
-      expect(game.in_check?(black_king.color)).to eq false
     end
   end
 

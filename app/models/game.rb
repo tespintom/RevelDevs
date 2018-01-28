@@ -58,7 +58,7 @@ class Game < ApplicationRecord
   def in_check?(color)
     king = pieces.find_by(type: 'King', color: color)
     enemy_pieces(color).each do |piece|
-      return true if piece.is_move_valid(king.x_target, king.y_target)
+      return true if piece.valid_move?(king.x, king.y)
     end
     false
   end
