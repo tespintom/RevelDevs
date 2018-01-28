@@ -210,14 +210,6 @@ RSpec.describe Game, type: :model do
   end
 
 
-
-
-
-
-
-
-
-
   describe 'game draw' do
     it 'should return true if finished is true and winner id is nil' do
       game = FactoryBot.create(:game)
