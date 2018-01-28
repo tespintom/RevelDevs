@@ -31,7 +31,7 @@ class Piece < ApplicationRecord
       castle!(x_target, y_target)
     elsif is_capturable?(x_target, y_target)
       captured!(x_target, y_target)
-    elsif !game.square_occupied?(x_target, y_target) && is_move_valid?(x_target, y_target) && not_in_check?(x_target, y_target)
+    elsif !game.square_occupied?(x_target, y_target) && is_move_valid?(x_target, y_target) 
       move_action(x_target, y_target)
     else
       false
@@ -191,20 +191,9 @@ class Piece < ApplicationRecord
   def can_castle?(x_target, y_target)
   end
 
-  def not_in_check?(x_target, y_target)
-    !move_causes_check?(x_target, y_target)
-  end
 
-  def move_causes_check?(x_target, y_target)
-    result = false
-    ActiveRecord::Base.transaction do
-      #update_attributes(x_position: x, y_position: y)
-      result = game.in_check?(color)
-      raise ActiveRecord::Rollback
-    end
-    reload
-    result
-  end
+
+
 
 
 
