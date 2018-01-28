@@ -55,8 +55,8 @@ class Piece < ApplicationRecord
       return false
     elsif is_obstructed?(x_target, y_target)
       return false
-    elsif move_causes_check?(x_target, y_target)
-      return false
+    # elsif move_causes_check?(x_target, y_target)
+    #   return false
     else
       return true
     end
