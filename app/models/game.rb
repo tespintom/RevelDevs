@@ -63,6 +63,10 @@ class Game < ApplicationRecord
     false
   end
 
+  def enemy_pieces(color)
+    pieces.select { |piece| piece.color != color && piece.captured != true }
+  end
+
 
   private
 
@@ -97,10 +101,6 @@ class Game < ApplicationRecord
     pieces.create(x: 6, y: 8, color: 'black', type: 'Bishop', icon: '#9821')
     pieces.create(x: 7, y: 8, color: 'black', type: 'Knight', icon: '#9822')
     pieces.create(x: 8, y: 8, color: 'black', type: 'Rook', icon: '#9820')
-  end
-
-  def enemy_pieces(color)
-    pieces.select { |piece| piece.color != color && piece.captured != true }
   end
 
 end

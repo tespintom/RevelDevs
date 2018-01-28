@@ -71,5 +71,8 @@ class King < Piece
     end
   end
 
+  def move_causes_check?(x_target, y_target)
+     return true if self.is_capturable?(x_target, y_target)
+  end
 
 end
