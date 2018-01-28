@@ -27,11 +27,14 @@ class Piece < ApplicationRecord
   end
 
   def attempt_move(x_target, y_target)
+     Piece.transaction do
+       fail ActiveRecord::Rollback if game.check?(color)
+     end
     if can_castle?(x_target, y_target)
       castle!(x_target, y_target)
     elsif is_capturable?(x_target, y_target)
       captured!(x_target, y_target)
-    elsif !game.square_occupied?(x_target, y_target) && is_move_valid?(x_target, y_target) 
+    elsif !game.square_occupied?(x_target, y_target) && is_move_valid?(x_target, y_target)
       move_action(x_target, y_target)
     else
       false
@@ -51,6 +54,8 @@ class Piece < ApplicationRecord
     elsif !in_range?(x_target, y_target)
       return false
     elsif is_obstructed?(x_target, y_target)
+      return false
+    elsif move_causes_check?(x_target, y_target)
       return false
     else
       return true
