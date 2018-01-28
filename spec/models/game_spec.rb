@@ -172,36 +172,42 @@ RSpec.describe Game, type: :model do
 
   describe 'check?' do
     it 'should return true if King is under check horizontally' do
+      black_king = King.create(x: 3, y: 4, color: 'black', piece_type: 'King')
       expect(queen.move!(1, 4)).to eq true
       expect(black_king.x_position).to eq 3
       expect(black_king.y_position).to eq 4
       expect(game.in_check?(black_king.color)).to eq true
     end
     it 'should return true if King is under check vertically' do
+      black_king = King.create(x: 3, y: 4, color: 'black', piece_type: 'King')
       expect(queen.move!(3, 7)).to eq true
       expect(black_king.x_position).to eq 3
       expect(black_king.y_position).to eq 4
       expect(game.in_check?(black_king.color)).to eq true
     end
     it 'should return true if King is under check diagonally' do
+      black_king = King.create(x: 3, y: 4, color: 'black', piece_type: 'King')
       expect(queen.move!(1, 2)).to eq true
       expect(black_king.x_position).to eq 3
       expect(black_king.y_position).to eq 4
       expect(game.in_check?(black_king.color)).to eq true
     end
     it 'should return true if King is under check in L-shape move' do
+      black_king = King.create(x: 3, y: 4, color: 'black', piece_type: 'King')
       expect(knight.move!(5, 5)).to eq true
       expect(black_king.x_position).to eq 3
       expect(black_king.y_position).to eq 4
       expect(game.in_check?(black_king.color)).to eq true
     end
     it 'should return false if King is not under check' do
+      black_king = King.create(x: 3, y: 4, color: 'black', piece_type: 'King')
       expect(queen.move!(1, 3)).to eq true
       expect(black_king.x_position).to eq 3
       expect(black_king.y_position).to eq 4
       expect(game.in_check?(black_king.color)).to eq false
     end
     it 'should return false if King is not under check in L-shape move' do
+      black_king = King.create(x: 3, y: 4, color: 'black', piece_type: 'King')
       expect(knight.move!(7, 5)).to eq true
       expect(black_king.x_position).to eq 3
       expect(black_king.y_position).to eq 4
