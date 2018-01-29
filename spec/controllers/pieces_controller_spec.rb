@@ -4,35 +4,6 @@ require 'pry'
 RSpec.describe PiecesController, type: :controller do
 
   describe 'pieces#show action' do
-    xit 'should have http status "success" if the piece is found' do
-      game = FactoryBot.create(:game)
-      piece = FactoryBot.create(:piece, game_id: game.id)
-      sign_in game.user
-      get :show, params: { id: piece.id }
-
-      # # Use this if rendering JSON
-      # response_value = ActiveSupport::JSON.decode(@response.body)
-      # expect(response_value['id']).to eq(piece.id)
-
-      # Use this if not rendering JSON
-      expect(response).to have_http_status(:success)
-    end
-
-    xit 'should successfully return the correct piece id if the piece is found' do
-      # game = FactoryBot.create(:game)
-      user = FactoryBot.create(:user)
-      sign_in user
-      game = user.games.create(name: "game1")
-      piece = game.pieces.active.where({x: 1, y: 2}).first
-      # sign_in game.user
-      get :show, params: { id: piece.id }
-      response_value = ActiveSupport::JSON.decode(@response.body)
-      binding.pry
-      expect(response_value['id']).to eq(piece.id)
-      expect(response_value['color']).to eq("white")
-      expect(response_value['type']).to eq("Pawn")
-    end
-
     it 'should return "not_found" if no piece exists' do
       game = FactoryBot.create(:game)
       sign_in game.user
@@ -80,6 +51,27 @@ RSpec.describe PiecesController, type: :controller do
       piece.reload
       expect(piece.x).to eq(1)
       expect(piece.y).to eq(2)
+    end
+
+    it 'should correctly update the king\'s and rook\'s :x and :y upon a valid castling move' do
+      game = FactoryBot.create(:game)
+      sign_in game.user
+      king = game.pieces.active.find_by({x: 4, y: 1})
+      bishop = game.pieces.active.find_by({x: 3, y: 1})
+      knight = game.pieces.active.find_by({x: 2, y: 1})
+      rook = game.pieces.active.find_by({x: 1, y: 1})
+      bishop.update_attributes(captured: true, x: 0, y: 0)
+      knight.update_attributes(captured: true, x: 0, y: 0)
+
+      patch :update, params: { id: king.id, piece: { x: 2, y: 1 } }
+
+      expect(response).to have_http_status :success
+      king.reload
+      rook.reload
+      expect(king.x).to eq(2)
+      expect(king.y).to eq(1)
+      expect(rook.x).to eq(3)
+      expect(rook.y).to eq(1)
     end
 
     it 'should change the game state to reflect the correct player\'s turn' do
