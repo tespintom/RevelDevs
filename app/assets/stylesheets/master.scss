@@ -1,15 +1,20 @@
 @import "bootstrap";
 
 .booyah-box {
-  -moz-box-shadow: 1px 1px 2px 0 #d0d0d0;
-  -webkit-box-shadow: 1px 1px 2px 0 #d0d0d0;
-  box-shadow: 1px 1px 2px 0 #d0d0d0;
-  background: #fff;
+  -moz-box-shadow: 1px 1px 2px 0 #968f7c;
+  -webkit-box-shadow: 1px 1px 2px 0 #968f7c;
+  box-shadow: 1px 1px 2px 0 #968f7c;
+  background: #292b2c;
   border: 1px solid #ccc;
-  border-color: #e4e4e4 #bebebd #bebebd #e4e4e4;
+  border-color: #968f7c;
   margin-top: 10px;
   margin-bottom: 15px;
   padding: 20px;
+  
+  a {
+    text-decoration: none;
+    color: #125688;
+  }
 }
 
 .navbar{
@@ -19,9 +24,19 @@
 }
 
 .navbar-inverse .navbar-brand {
-  color: darkgray;
+  color: #968f7c;
   font-family: 'alex_brushregular';
   font-size: 30px;
+}
+
+.nav-link {
+  text-align: right;
+}
+
+.icon {
+  height: 50px;
+  width: 50px;
+  margin-bottom: 5px;
 }
 
 body {
@@ -34,7 +49,7 @@ body {
 
 .index-page {
   padding-left: 20px;
-  background: image_url('index_background.jpg');
+  background: image_url('cartographer.png');
   background-size: cover;
 }
 
@@ -75,4 +90,12 @@ body {
 .selected {
   font-weight: bold;
   background-color: yellow;
+}
+
+.text-color {
+  color: #968f7c;
+}
+
+.index-link {
+  text-decoration: none;
 }
