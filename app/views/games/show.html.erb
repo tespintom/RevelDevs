@@ -107,17 +107,31 @@
             $targetSquare.html("&" + data.icon + ";");
             $selectedSquare.empty();
             $selectedSquare.removeAttr('data-piece-id');
-            updateFirebase();
+            updateFirebase($targetSquare, $selectedSquare);
+            updateRookWhenCastling(data);
           }
         });
       }
 
-      function updateFirebase(){
-        var gameRefTargetSquare = gameRef.child($targetSquare.attr('id')); //pulls target square
-        var gameRefSelectedSquare = gameRef.child($selectedSquare.attr('id')); //pulls selected square
+      function updateFirebase(targetSquare, selectedSquare){
+        var gameRefTargetSquare = gameRef.child(targetSquare.attr('id')); //pulls target square
+        var gameRefSelectedSquare = gameRef.child(selectedSquare.attr('id')); //pulls selected square
 
-        gameRefTargetSquare.set($targetSquare.text()); //sets new value for target square
-        gameRefSelectedSquare.set($selectedSquare.text()); //sets new value for selected square
+        gameRefTargetSquare.set(targetSquare.text()); //sets new value for target square
+        gameRefSelectedSquare.set(selectedSquare.text()); //sets new value for selected square
+      }
+
+      function updateRookWhenCastling(data) {
+        if(data.rook_before_x) {
+          $rookStartingSquare = $('#' + data.rook_before_x + '-' + data.rook_before_y);
+          $rookID = $rookStartingSquare.attr('data-piece-id');
+          $rookEndingSquare = $('#' + data.rook_after_x + '-' + data.rook_after_y);
+          $rookEndingSquare.attr('data-piece-id', $rookID);
+          $rookEndingSquare.html($rookStartingSquare.html());
+          $rookStartingSquare.empty();
+          $rookStartingSquare.removeAttr('data-piece-id');
+          updateFirebase($rookEndingSquare, $rookStartingSquare);
+        }
       }
     });
   });

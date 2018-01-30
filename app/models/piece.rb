@@ -192,6 +192,10 @@ class Piece < ApplicationRecord
   end
 
 
+  def find_corner_piece(x_target, y_target)   
+  end
+
+
   private
 
   def in_bounds?(x_target, y_target)

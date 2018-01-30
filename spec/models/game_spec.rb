@@ -171,16 +171,29 @@ RSpec.describe Game, type: :model do
   end
 
   describe 'check?' do
-    it 'should return true if King is under check' do
+    it 'should return false if King is not in check' do
       game = FactoryBot.create(:game)
       piece = FactoryBot.build(:piece, game_id: game.id)
       queen = game.pieces.active.find_by({x: 5, y: 1})
       queen.color = 'black'
+      queen.update_attributes(x: 1, y: 4)
       king = game.pieces.active.find_by({x: 4, y: 1})
       expect(king.x).to eq(4)
       expect(king.y).to eq(1)
+      expect(game.in_check?(king.color)).to eq false
+    end
+    it 'should return true if King is under check in L-shape move' do
+      game = FactoryBot.create(:game)
+      piece = FactoryBot.build(:piece, game_id: game.id)
+      knight = game.pieces.active.find_by({x: 2, y: 1})
+      knight.update_attributes(x: 5, y: 5)
+      king = game.pieces.active.find_by({x: 4, y: 1})
+      king.update_attributes(x: 3, y: 4)
+      expect(king.x).to eq(3)
+      expect(king.y).to eq(4)
       expect(game.in_check?(king.color)).to eq true
     end
+    
   end
 
   describe 'game draw' do
