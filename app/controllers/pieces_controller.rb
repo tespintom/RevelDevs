@@ -20,16 +20,30 @@ class PiecesController < ApplicationController
     @game = @piece.game
     x_target = piece_params[:x].to_i
     y_target = piece_params[:y].to_i
+    rook = {}
+    rook_before_x = ''
+    rook_before_y = ''
+    if @piece.can_castle?(x_target, y_target)
+      rook = @piece.find_corner_piece(x_target, y_target)
+      rook_before_x = rook.x
+      rook_before_y = rook.y
+    end
     if @piece.attempt_move(x_target, y_target)
       @piece.save
       @game.player_turn
     else
       return render_not_found
     end
-    # render json: { piece_type: @piece.type, piece_color: @piece.color }
-    render json: { icon: @piece.icon }
-    # render plain: "Success"
-    # render json: @piece
+    if rook != {}
+      rook.reload
+      rook_after_x = rook.x
+      rook_after_y = rook.y
+    end
+    render json: { icon: @piece.icon,
+      rook_before_x: rook_before_x,
+      rook_before_y: rook_before_y,
+      rook_after_x: rook_after_x,
+      rook_after_y: rook_after_y }
   end
 
   private
