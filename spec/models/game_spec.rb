@@ -175,6 +175,7 @@ RSpec.describe Game, type: :model do
       game = FactoryBot.create(:game)
       piece = FactoryBot.build(:piece, game_id: game.id)
       queen = game.pieces.active.find_by({x: 5, y: 1})
+      queen.color = 'black'
       king = game.pieces.active.find_by({x: 4, y: 1})
       expect(king.x).to eq(4)
       expect(king.y).to eq(1)

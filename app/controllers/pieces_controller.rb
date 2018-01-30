@@ -21,8 +21,12 @@ class PiecesController < ApplicationController
     x_target = piece_params[:x].to_i
     y_target = piece_params[:y].to_i
     if @piece.attempt_move(x_target, y_target)
-      @piece.save
-      @game.player_turn
+      if @game.in_check?(@piece.color)
+        return render_not_found
+      else
+        @piece.save
+        @game.player_turn
+      end
     else
       return render_not_found
     end

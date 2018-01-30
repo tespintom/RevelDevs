@@ -52,8 +52,6 @@ class Piece < ApplicationRecord
       return false
     elsif is_obstructed?(x_target, y_target)
       return false
-    elsif move_causes_check?(x_target, y_target)
-      return false
     else
       return true
     end
@@ -191,9 +189,6 @@ class Piece < ApplicationRecord
   end
 
   def can_castle?(x_target, y_target)
-  end
-
-  def move_causes_check?(x_target, y_target)
   end
 
 
