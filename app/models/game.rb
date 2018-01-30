@@ -55,6 +55,19 @@ class Game < ApplicationRecord
     end
   end
 
+  def in_check?(color)
+    king = pieces.find_by(type: 'King', color: color)
+    enemy_pieces(color).each do |piece|
+      return true if piece.is_capturable?(king.x, king.y)
+    end
+    false
+  end
+
+  def enemy_pieces(color)
+    pieces.select { |piece| piece.color != color && piece.captured != true }
+  end
+
+
   private
 
   def start_game_when_black_player_is_added
@@ -89,4 +102,5 @@ class Game < ApplicationRecord
     pieces.create(x: 7, y: 8, color: 'black', type: 'Knight', icon: '#9822')
     pieces.create(x: 8, y: 8, color: 'black', type: 'Rook', icon: '#9820')
   end
+
 end

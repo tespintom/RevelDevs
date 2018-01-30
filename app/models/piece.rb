@@ -39,9 +39,16 @@ class Piece < ApplicationRecord
   end
 
   def move_action(x_target, y_target)
-    self.x = x_target
-    self.y = y_target
+    old_x = self.x
+    old_y = self.y
+    old_icon = self.icon
+    old_type = self.type
+    self.update_attributes(x: x_target, y: y_target)
     self.is_promotable?
+    if game.in_check?(self.color)
+      self.update_attributes(x: old_x, y: old_y, icon: old_icon, type: old_type)
+      return false
+    end
     true
   end
 
@@ -185,13 +192,13 @@ class Piece < ApplicationRecord
     game.pieces.active.find_by({x: x_target, y: y_target})
   end
 
-  def is_promotable? 
+  def is_promotable?
   end
 
   def can_castle?(x_target, y_target)
   end
 
-  def find_corner_piece(x_target, y_target)   
+  def find_corner_piece(x_target, y_target)
   end
 
   private

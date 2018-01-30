@@ -50,7 +50,7 @@ class King < Piece
       target_piece(8, y_target)
     else
       target_piece(1, y_target)
-    end     
+    end
   end
 
   def is_rook?(piece)
@@ -70,4 +70,6 @@ class King < Piece
       return false
     end
   end
+
+
 end

@@ -4,15 +4,13 @@ class Pawn < Piece
     case self.color
     when 'white'
       if self.y == 8
-        self.type = 'Queen'
-        self.icon = '#9813'
+        self.update_attributes(type: 'Queen', icon: '#9813')
       else
         false
       end
     when 'black'
       if self.y == 1
-        self.type = 'Queen'
-        self.icon = '#9819'
+        self.update_attributes(type: 'Queen', icon: '#9819')
       else
         false
       end
