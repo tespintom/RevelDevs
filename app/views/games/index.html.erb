@@ -1,8 +1,27 @@
-<h1>Welcome to RevelDevs Chess!</h1>
-<br />
-<h3><%= link_to "Create a Game", new_game_path, class: 'btn btn-primary' %></h3>
+<div class="index-page">
+  <h1 align="center" class="text-color">Welcome to RevelDevs Chess!</h1>
+  <br />
+  <h3 align="center"><%= link_to "Create a Game", new_game_path, class: 'btn btn-primary' %></h3>
+  <br/>
 
-<% @available_games.each do |game| %>
-  <h4><%= game.name %></h4>
-  <%= link_to "Join Game", join_game_path(game), method: 'PATCH', class: 'btn btn-primary' %>
-<% end %>
+  <% if current_user %>
+    <div class="row">
+      <div class="booyah-box col-10 offset-1">
+        <h2 align="center" class="text-color">Join a Game</h2>
+        <% @available_games.each do |game| %>
+          <h4><%= link_to game.name, join_game_path(game), method: 'PATCH', class: 'float-left index-link' %></h4>
+          <br class='clear'/>
+        <% end %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="booyah-box col-10 offset-1">
+        <h2 align="center" class="text-color">Observe a Game</h2>
+        <% @in_progress_games.each do |game| %>
+          <h4><%= link_to game.name, game_path(game), class: 'float-left index-link' %></h4>
+          <br class='clear'/>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>
