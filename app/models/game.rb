@@ -6,6 +6,7 @@ class Game < ApplicationRecord
   after_create :populate
 
   scope :available, -> { where(state: "pending") }
+  scope :in_progress, -> { where(state: ["white_turn", "black_turn"]) }
 
   before_create :current_user_is_white_player
 
