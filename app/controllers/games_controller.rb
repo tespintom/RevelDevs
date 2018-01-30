@@ -19,9 +19,9 @@ class GamesController < ApplicationController
     @game = Game.find_by_id(params[:id])
     render "Not found :(" if @game.blank?
     if @game.in_check?('black')
-      flash[:black_check] = 'Black King is under Check!'
+      flash[:alert] = 'Black King is in Check!'
     elsif @game.in_check?('white')
-      flash[:white_check] = 'White King is under Check!'
+      flash[:alert] = 'White King is in Check!'
     end
   end
 
