@@ -262,7 +262,11 @@ RSpec.describe Piece, type: :model do
 
   describe 'pawn promotion' do
     it "should update the pawn type to queen if #is_promotable? returns true" do
-      piece = FactoryBot.build(:pawn, y: 7)
+      game = FactoryBot.create(:game)
+      piece = game.pieces.active.find_by({x: 1, y: 7})
+      piece.update(color: 'white')
+      rook = game.pieces.active.find_by({x: 1, y: 8})
+      rook.update_attributes(captured: true, x: 0, y: 0)
       piece.move_action(1, 8)
       expect(piece.type).to eq("Queen")
     end

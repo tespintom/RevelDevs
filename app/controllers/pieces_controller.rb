@@ -29,12 +29,8 @@ class PiecesController < ApplicationController
       rook_before_y = rook.y
     end
     if @piece.attempt_move(x_target, y_target)
-      if @game.in_check?(@piece.color)
-        return render_not_found
-      else
-        @piece.save
-        @game.player_turn
-      end
+      @piece.save
+      @game.player_turn
     else
       return render_not_found
     end

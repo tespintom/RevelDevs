@@ -39,9 +39,20 @@ class Piece < ApplicationRecord
   end
 
   def move_action(x_target, y_target)
+    old_x = self.x
+    old_y = self.y
+    old_icon = self.icon
+    old_type = self.type
     self.x = x_target
     self.y = y_target
     self.is_promotable?
+    if game.in_check?(self.color)
+      self.x = old_x
+      self.y = old_y
+      self.icon = old_icon
+      self.type = old_type
+      return false
+    end
     true
   end
 
@@ -191,10 +202,8 @@ class Piece < ApplicationRecord
   def can_castle?(x_target, y_target)
   end
 
-
-  def find_corner_piece(x_target, y_target)   
+  def find_corner_piece(x_target, y_target)
   end
-
 
   private
 

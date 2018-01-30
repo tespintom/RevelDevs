@@ -53,6 +53,20 @@ RSpec.describe PiecesController, type: :controller do
       expect(piece.y).to eq(2)
     end
 
+    it 'should not update the piece\'s :x and :y if the move leaves the King in check' do
+      game = FactoryBot.create(:game)
+      sign_in game.user
+      king = game.pieces.active.find_by({x: 4, y: 1})
+      queen = game.pieces.active.find_by({x: 5, y: 1})
+      queen.update(color: 'black')
+      pawn = game.pieces.active.find_by({x: 1, y: 2})
+      patch :update, params: { id: pawn.id, piece: { x: 1, y: 4 } }
+      expect(response).to have_http_status :not_found
+      pawn.reload
+      expect(pawn.x).to eq(1)
+      expect(pawn.y).to eq(2)
+    end
+
     it 'should correctly update the king\'s and rook\'s :x and :y upon a valid castling move' do
       game = FactoryBot.create(:game)
       sign_in game.user
