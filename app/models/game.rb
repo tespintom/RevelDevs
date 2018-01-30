@@ -62,6 +62,9 @@ class Game < ApplicationRecord
     end
     false
   end
+  
+  def checkmate(color)
+  end
 
   def enemy_pieces(color)
     pieces.select { |piece| piece.color != color && piece.captured != true }
