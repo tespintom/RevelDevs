@@ -43,14 +43,10 @@ class Piece < ApplicationRecord
     old_y = self.y
     old_icon = self.icon
     old_type = self.type
-    self.x = x_target
-    self.y = y_target
+    self.update_attributes(x: x_target, y: y_target)
     self.is_promotable?
     if game.in_check?(self.color)
-      self.x = old_x
-      self.y = old_y
-      self.icon = old_icon
-      self.type = old_type
+      self.update_attributes(x: old_x, y: old_y, icon: old_icon, type: old_type)
       return false
     end
     true
