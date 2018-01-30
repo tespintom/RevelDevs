@@ -11,20 +11,35 @@
   margin-bottom: 15px;
   padding: 20px;
 }
+
 .navbar{
-    background: image_url('cartographer.png');
-    box-shadow: 0px 1px 3px #2a2a2a;
-    margin-bottom: 0;
+  background: image_url('cartographer.png');
+  box-shadow: 0px 1px 3px #2a2a2a;
+  margin-bottom: 0;
 }
 
 .navbar-inverse .navbar-brand {
-  color: #f92b07;
+  color: darkgray;
   font-family: 'alex_brushregular';
   font-size: 30px;
 }
 
+body {
+  background: image_url('background.jpg');
+  background-size: cover;
+}
 .clear {
   clear: both;
+}
+
+.index-page {
+  padding-left: 20px;
+  background: image_url('index_background.jpg');
+  background-size: cover;
+}
+
+.index-button {
+  margin-right: 10px;
 }
 
 .chessboard {
