@@ -208,22 +208,24 @@ RSpec.describe Game, type: :model do
       knight.update_attributes(x: 3, y: 3)
       knight.reload
       king = game.pieces.active.find_by({x: 4, y: 1})
+      expect(game.in_check?(king.color)).to eq true
       expect(king.x).to eq(4)
       expect(king.y).to eq(1)
-      expect(game.in_check?(king.color)).to eq true
       expect(game.move_out_of_check?(king.color)).to eq true
     end
-    xit 'should return false if the King can not move out of checkmate' do
+    it 'should return false if the King can not move out of checkmate' do
       game = FactoryBot.create(:game)
       piece = FactoryBot.build(:piece, game_id: game.id)
-      queen = game.pieces.active.find_by({x: 2, y: 8})
+      queen = game.pieces.active.find_by({x: 5, y: 8})
       knight = game.pieces.active.find_by({x: 2, y: 8})
       knight.update_attributes(x: 3, y: 3)
       knight.reload
+      queen.update_attributes(x: 4, y: 3)
+      queen.reload
       king = game.pieces.active.find_by({x: 4, y: 1})
+      expect(game.in_check?(king.color)).to eq true
       expect(king.x).to eq(4)
       expect(king.y).to eq(1)
-      expect(game.in_check?(king.color)).to eq true
       expect(game.move_out_of_check?(king.color)).to eq true
     end
 
