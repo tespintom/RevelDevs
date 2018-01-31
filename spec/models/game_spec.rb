@@ -219,8 +219,9 @@ RSpec.describe Game, type: :model do
       king.update_attributes(x: 5, y: 2)
       king.reload
       expect(game.move_out_of_check?(king.color)).to eq true
-
+      expect(game.in_check?(king.color)).to eq false
     end
+
     it 'should return false if the King can not move out of check' do
       game = FactoryBot.create(:game)
       queen = game.pieces.active.find_by({x: 5, y: 8})
