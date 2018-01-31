@@ -182,10 +182,8 @@ class Piece < ApplicationRecord
   end
 
   def captured!(x_target, y_target)
-    if is_capturable?(x_target, y_target)
-      target_piece(x_target, y_target).update_attributes(captured: true, x: 0, y: 0)
-      move_action(x_target, y_target)
-    end
+    piece_to_be_captured = target_piece(x_target, y_target) 
+    piece_to_be_captured.update_attributes(captured: true, x: 0, y: 0) if move_action(x_target, y_target) 
   end
 
   def target_piece(x_target, y_target)
@@ -199,6 +197,17 @@ class Piece < ApplicationRecord
   end
 
   def find_corner_piece(x_target, y_target)
+  end
+
+  def can_be_captured?(color)
+    opponents = game.pieces_remaining(!color)
+    opponents.each do |opponent|
+      if opponent.valid_move?(x_position, y_position)
+        return true
+      end
+    end
+    false
+  end
   end
 
   private

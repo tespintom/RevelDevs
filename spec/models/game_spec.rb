@@ -206,20 +206,13 @@ RSpec.describe Game, type: :model do
       queen = game.pieces.active.find_by({x: 5, y: 8})
       king = game.pieces.active.find_by({x: 4, y: 1})
       queen.update_attributes(x: 4, y: 4)
-      queen.reload
       pawn = game.pieces.active.find_by({x: 4, y: 2})
       pawn.update_attributes(captured: true, x: 0, y: 0)
-      pawn.reload
       king.update_attributes(x: 4, y: 2)
-      king.reload
       expect(game.in_check?(king.color)).to eq true
-      pawn = game.pieces.active.find_by({x: 5, y: 2})
-      pawn.update_attributes(captured: true, x: 0, y: 0)
-      pawn.reload
-      king.update_attributes(x: 5, y: 2)
-      king.reload
+      pawn2 = game.pieces.active.find_by({x: 5, y: 2})
+      pawn2.update_attributes(captured: true, x: 0, y: 0)
       expect(game.move_out_of_check?(king.color)).to eq true
-      expect(game.in_check?(king.color)).to eq false
     end
 
     it 'should return false if the King can not move out of check' do
@@ -227,17 +220,45 @@ RSpec.describe Game, type: :model do
       queen = game.pieces.active.find_by({x: 5, y: 8})
       king = game.pieces.active.find_by({x: 4, y: 1})
       queen.update_attributes(x: 4, y: 4)
-      queen.reload
       pawn = game.pieces.active.find_by({x: 4, y: 2})
       pawn.update_attributes(captured: true, x: 0, y: 0)
-      pawn.reload
       king.update_attributes(x: 4, y: 2)
-      king.reload
-      expect(king.x).to eq(4)
-      expect(king.y).to eq(2)
       expect(game.in_check?(king.color)).to eq true
       expect(game.move_out_of_check?(king.color)).to eq false
     end
+
+    it 'should return true if the King can capture a piece to move out of check' do
+      game = FactoryBot.create(:game)
+      queen = game.pieces.active.find_by({x: 5, y: 8})
+      king = game.pieces.active.find_by({x: 4, y: 1})
+      queen.update_attributes(x: 4, y: 4)
+      pawn = game.pieces.active.find_by({x: 4, y: 2})
+      pawn2 = game.pieces.active.find_by({x: 5, y: 2})
+      pawn.update_attributes(captured: true, x: 0, y: 0)
+      pawn2.update_attributes(color: 'black')
+      king.update_attributes(x: 4, y: 2)
+      expect(game.in_check?(king.color)).to eq true
+      expect(game.move_out_of_check?(king.color)).to eq true
+    end
+  end
+
+  describe 'checkmate' do
+    xit 'should return true if King is in checkmate' do
+      game = FactoryBot.create(:game)
+      queen = game.pieces.active.find_by({x: 5, y: 8})
+      king = game.pieces.active.find_by({x: 4, y: 1})
+      queen.update_attributes(x: 4, y: 4)
+      pawn = game.pieces.active.find_by({x: 4, y: 2})
+      pawn.update_attributes(captured: true, x: 0, y: 0)
+      king.update_attributes(x: 4, y: 2)
+      expect(game.checkmate?(king.color)).to eq false
+    end
+
+    xit 'should return false if King is not in Checkmate' do
+      game = FactoryBot.create(:game)
+      expect(game.checkmate?('white')).to eq true
+    end
+
   end
 
   describe 'game draw' do
