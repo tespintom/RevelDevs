@@ -82,7 +82,7 @@ class Game < ApplicationRecord
     result = false
     ((king.x - 1)..(king.x + 1)).each do |x|
       ((king.y - 1)..(king.y + 1)).each do |y|
-        king.update_attributes(x: x_target, y: y_target) if king.move_action(x_target, y_target)
+        king.update_attributes(x: x, y: y) if king.move_action(x, y)
         result = true unless in_check?(color)
         king.update_attributes(x: old_x, y: old_y)
       end
