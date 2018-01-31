@@ -71,8 +71,8 @@ class Game < ApplicationRecord
   def checkmate?(color)
     king = pieces.find_by(type: 'King', color: color)
     return false unless in_check?(color)
-    return false if @piece_causing_check.is_capturable?()
-    return false if king.move_out_of_check?
+    return false if @piece_causing_check.is_capturable?(x_target, y_target)
+    return false if king.move_out_of_check?(color)
     true
   end
 
