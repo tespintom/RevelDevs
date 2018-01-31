@@ -63,7 +63,7 @@ class Game < ApplicationRecord
     end
     false
   end
-  
+
   def checkmate(color)
   end
 
