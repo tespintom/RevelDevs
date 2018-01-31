@@ -57,7 +57,6 @@ class King < Piece
     piece.type == "Rook" ? true : false
   end
 
-
   private
 
   def in_range?(x_target, y_target)

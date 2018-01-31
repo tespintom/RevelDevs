@@ -42,6 +42,7 @@ RSpec.describe King, type: :model do
     end
   end
 
+
   describe 'move validation' do
     it '#in_range returns true if horizontal move is in king\'s range' do
       game = FactoryBot.create(:game)

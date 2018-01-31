@@ -200,35 +200,43 @@ RSpec.describe Game, type: :model do
 
   end
 
-  describe 'move out of checkmate' do
-    it 'should return true if the King can move out of checkmate' do
+  describe 'move out of check' do
+    it 'should return true if the King can move out of check' do
       game = FactoryBot.create(:game)
-      piece = FactoryBot.build(:piece, game_id: game.id)
-      knight = game.pieces.active.find_by({x: 2, y: 8})
-      knight.update_attributes(x: 3, y: 3)
-      knight.reload
-      king = game.pieces.active.find_by({x: 4, y: 1})
-      expect(game.in_check?(king.color)).to eq true
-      expect(king.x).to eq(4)
-      expect(king.y).to eq(1)
-      expect(game.move_out_of_check?(king.color)).to eq true
-    end
-    it 'should return false if the King can not move out of checkmate' do
-      game = FactoryBot.create(:game)
-      piece = FactoryBot.build(:piece, game_id: game.id)
       queen = game.pieces.active.find_by({x: 5, y: 8})
-      knight = game.pieces.active.find_by({x: 2, y: 8})
-      knight.update_attributes(x: 3, y: 3)
-      knight.reload
-      queen.update_attributes(x: 4, y: 3)
-      queen.reload
       king = game.pieces.active.find_by({x: 4, y: 1})
+      queen.update_attributes(x: 4, y: 4)
+      queen.reload
+      pawn = game.pieces.active.find_by({x: 4, y: 2})
+      pawn.update_attributes(captured: true, x: 0, y: 0)
+      pawn.reload
+      king.update_attributes(x: 4, y: 2)
+      king.reload
       expect(game.in_check?(king.color)).to eq true
-      expect(king.x).to eq(4)
-      expect(king.y).to eq(1)
+      pawn = game.pieces.active.find_by({x: 5, y: 2})
+      pawn.update_attributes(captured: true, x: 0, y: 0)
+      pawn.reload
+      king.update_attributes(x: 5, y: 2)
+      king.reload
       expect(game.move_out_of_check?(king.color)).to eq true
-    end
 
+    end
+    it 'should return false if the King can not move out of check' do
+      game = FactoryBot.create(:game)
+      queen = game.pieces.active.find_by({x: 5, y: 8})
+      king = game.pieces.active.find_by({x: 4, y: 1})
+      queen.update_attributes(x: 4, y: 4)
+      queen.reload
+      pawn = game.pieces.active.find_by({x: 4, y: 2})
+      pawn.update_attributes(captured: true, x: 0, y: 0)
+      pawn.reload
+      king.update_attributes(x: 4, y: 2)
+      king.reload
+      expect(king.x).to eq(4)
+      expect(king.y).to eq(2)
+      expect(game.in_check?(king.color)).to eq true
+      expect(game.move_out_of_check?(king.color)).to eq false
+    end
   end
 
   describe 'game draw' do
