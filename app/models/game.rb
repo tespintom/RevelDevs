@@ -57,14 +57,37 @@ class Game < ApplicationRecord
   end
 
   def in_check?(color)
+    @piece_causing_check = []
     king = pieces.find_by(type: 'King', color: color)
     enemy_pieces(color).each do |piece|
-      return true if piece.is_capturable?(king.x, king.y)
+       if piece.is_capturable?(king.x, king.y)
+         @piece_causing_check = piece
+         return true
+       end
     end
     false
   end
 
-  def checkmate(color)
+  def checkmate?(color)
+    return false unless in_check?(color)
+    return false if @piece_causing_check.is_capturable?()
+    return false if move_out_of_check?(color)
+    true
+  end
+
+  def move_out_of_check?(color)
+    king = pieces.find_by(type: 'King', color: color)
+    old_x = king.x
+    old_y = king.y
+    result = false
+    ((king.x - 1)..(king.x + 1)).each do |x|
+      ((king.y - 1)..(king.y + 1)).each do |y|
+        king.update_attributes(x: x_target, y: y_target) if king.move_action(x_target, y_target)
+        result = true unless in_check?(color)
+        king.update_attributes(x: old_x, y: old_y)
+      end
+    end
+    result
   end
 
   def enemy_pieces(color)

@@ -197,7 +197,13 @@ RSpec.describe Game, type: :model do
       king = game.pieces.active.find_by({x: 4, y: 1})
       expect(game.in_check?(king.color)).to eq false
     end
-    
+
+  end
+
+  describe 'checkmate' do
+    xit 'should return true if the King is in checkmate' do
+
+    end
   end
 
   describe 'game draw' do
