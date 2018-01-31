@@ -56,16 +56,18 @@ class Game < ApplicationRecord
     end
   end
 
-  def in_check?(color)
+  def in_check?(color, x_position=nil, y_position=nil)
     king = pieces.find_by(type: 'King', color: color)
+    x_position = king.x if x_position.nil?
+    y_position = king.y if y_position.nil?
     enemy_pieces(color).each do |piece|
-      return true if piece.is_capturable?(king.x, king.y)
+      return true if piece.is_capturable?(x_position, y_position)
     end
     false
   end
 
   def enemy_pieces(color)
-    pieces.select { |piece| piece.color != color && piece.captured != true }
+    pieces.select { |piece| piece.color != color && piece.captured == false }
   end
 
 

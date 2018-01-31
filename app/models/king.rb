@@ -25,6 +25,22 @@ class King < Piece
     end
   end
 
+  def king_castling_path_in_check?(color, x_target, y_target)
+    if x_target > self.x
+      start_x = self.x
+      finish_x = x_target
+    else
+      start_x = x_target
+      finish_x = self.x
+    end
+    king = game.pieces.find_by(type: 'King', color: color)
+    (start_x..finish_x).each do |x_value|
+      king.update(x: x_value)
+      return true if game.in_check?(color, x_value, self.y)
+    end
+    false
+  end
+
   def castling_obstructed?(corner_piece)
     if self.x < corner_piece.x
       start_x = self.x
