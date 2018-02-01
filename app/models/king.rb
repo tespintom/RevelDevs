@@ -35,12 +35,11 @@ class King < Piece
     end
     old_x = self.x
     (start_x..finish_x).each do |x_value|
-      self.update(x: x_value)
-      if game.in_check?(self.color, x_value, self.y)
-        self.update(x: old_x)
-        return true
+      game.enemy_pieces(self.color).each do |piece|
+        if piece.is_move_valid?(x_value, self.y)
+          return true
+        end
       end
-      self.update(x: old_x)
     end
     false
   end
