@@ -266,7 +266,7 @@ RSpec.describe King, type: :model do
       bishop.update_attributes(captured: true, x: 0, y: 0)
       knight.update_attributes(captured: true, x: 0, y: 0)
       pawn.update_attributes(captured: true, x: 0, y: 0)
-      result = king.king_castling_path_in_check?("white", 2, 1)
+      result = king.king_castling_path_in_check?(2, 1)
       expect(result).to eq true
     end
 
@@ -282,8 +282,9 @@ RSpec.describe King, type: :model do
       bishop.update_attributes(captured: true, x: 0, y: 0)
       knight.update_attributes(captured: true, x: 0, y: 0)
       pawn.update_attributes(captured: true, x: 0, y: 0)
-      result = king.king_castling_path_in_check?("white", 2, 1)
+      result = king.king_castling_path_in_check?(2, 1)
       expect(result).to eq true
+      expect(king.x).to eq 4
     end
 
     it '#king_castling_path_in_check? returns true if completing a castling move puts the king in check' do
@@ -298,8 +299,9 @@ RSpec.describe King, type: :model do
       bishop.update_attributes(captured: true, x: 0, y: 0)
       knight.update_attributes(captured: true, x: 0, y: 0)
       pawn.update_attributes(captured: true, x: 0, y: 0)
-      result = king.king_castling_path_in_check?("white", 2, 1)
+      result = king.king_castling_path_in_check?(2, 1)
       expect(result).to eq true
+      expect(king.x).to eq 4
     end
 
     it '#king_castling_path_in_check? returns false if completing a castling move does not put the king in check' do
@@ -310,8 +312,9 @@ RSpec.describe King, type: :model do
       rook = game.pieces.active.find_by({x: 1, y: 1})
       bishop.update_attributes(captured: true, x: 0, y: 0)
       knight.update_attributes(captured: true, x: 0, y: 0)
-      result = king.king_castling_path_in_check?("white", 2, 1)
+      result = king.king_castling_path_in_check?(2, 1)
       expect(result).to eq false
+      expect(king.x).to eq 4
     end
   end
 end
