@@ -66,25 +66,25 @@ class Piece < ApplicationRecord
 
   #determines if space is occupied by an active piece
   #This ONLY checks if the PATH is obstructed, doesn't check if target is capturable.
-  def is_obstructed?(x_target, y_target)
-    return false if (x_target - self.x).abs <= 1 && (y_target - self.y).abs <= 1
-    return true if is_obstructed_horizontal?(x_target, y_target)
-    return true if is_obstructed_vertical?(x_target, y_target)
-    return true if is_obstructed_diagonal?(x_target, y_target)
+  def is_obstructed?(x_target, y_target, piece_x = self.x, piece_y = self.y)
+    return false if (x_target - piece_x).abs <= 1 && (y_target - piece_y).abs <= 1
+    return true if is_obstructed_horizontal?(x_target, y_target, piece_x, piece_y)
+    return true if is_obstructed_vertical?(x_target, y_target, piece_x, piece_y)
+    return true if is_obstructed_diagonal?(x_target, y_target, piece_x, piece_y)
     return false
   end
 
-  def is_obstructed_horizontal?(x_target, y_target)
-    if horizontal_move?(x_target, y_target)
-      if x_target > self.x
-        ((self.x + 1)...x_target).each do |i|
-          if game.square_occupied?(i, self.y)
+  def is_obstructed_horizontal?(x_target, y_target, piece_x = self.x, piece_y = self.y)
+    if horizontal_move?(x_target, y_target, piece_x, piece_y)
+      if x_target > piece_x
+        ((piece_x + 1)...x_target).each do |i|
+          if game.square_occupied?(i, piece_y)
             return true
           end
         end
       else
-        ((x_target + 1)...self.x).each do |i|
-          if game.square_occupied?(i, self.y)
+        ((x_target + 1)...piece_x).each do |i|
+          if game.square_occupied?(i, piece_y)
             return true
           end
         end
@@ -93,17 +93,17 @@ class Piece < ApplicationRecord
     end
   end
 
-  def is_obstructed_vertical?(x_target, y_target)
-    if vertical_move?(x_target, y_target)
-      if y_target > self.y
-        ((self.y + 1)...y_target).each do |i|
-          if game.square_occupied?(self.x, i)
+  def is_obstructed_vertical?(x_target, y_target, piece_x = self.x, piece_y = self.y)
+    if vertical_move?(x_target, y_target, piece_x, piece_y)
+      if y_target > piece_y
+        ((piece_y + 1)...y_target).each do |i|
+          if game.square_occupied?(piece_x, i)
             return true
           end
         end
       else
-        ((y_target + 1)...self.y).each do |i|
-          if game.square_occupied?(self.x, i)
+        ((y_target + 1)...piece_y).each do |i|
+          if game.square_occupied?(piece_x, i)
             return true
           end
         end
@@ -112,21 +112,21 @@ class Piece < ApplicationRecord
     end
   end
 
-  def is_obstructed_diagonal?(x_target, y_target)
-    if diagonal_move?(x_target, y_target)
-      if x_target > self.x
-        start_x = self.x
+  def is_obstructed_diagonal?(x_target, y_target, piece_x = self.x, piece_y = self.y)
+    if diagonal_move?(x_target, y_target, piece_x, piece_y)
+      if x_target > piece_x
+        start_x = piece_x
         finish_x = x_target
       else
         start_x = x_target
-        finish_x = self.x
+        finish_x = piece_x
       end
-      if y_target > self.y
-        start_y = self.y
+      if y_target > piece_y
+        start_y = piece_y
         finish_y = y_target
       else
         start_y = y_target
-        finish_y = self.y
+        finish_y = piece_y
       end
       ((start_x + 1)...finish_x).each do |h|
         ((start_y + 1)...finish_y).each do |v|
@@ -142,8 +142,8 @@ class Piece < ApplicationRecord
   end
 
   #determines if the move is horizontal
-  def horizontal_move?(x_target, y_target)
-    if (x_target - self.x).abs > 0 && (y_target - self.y).abs ==  0
+  def horizontal_move?(x_target, y_target, piece_x = self.x, piece_y = self.y)
+    if (x_target - piece_x).abs > 0 && (y_target - piece_y).abs ==  0
       return true
     else
       return false
@@ -151,8 +151,8 @@ class Piece < ApplicationRecord
   end
 
   #determines if the move is vertical
-  def vertical_move?(x_target, y_target)
-    if (x_target - self.x).abs == 0 && (y_target - self.y).abs > 0
+  def vertical_move?(x_target, y_target, piece_x = self.x, piece_y = self.y)
+    if (x_target - piece_x).abs == 0 && (y_target - piece_y).abs > 0
       return true
     else
       return false

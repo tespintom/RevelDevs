@@ -64,7 +64,7 @@ class Game < ApplicationRecord
     y_position = king.y
     enemy_pieces(color).each do |piece|
        if piece.is_capturable?(king.x, king.y)
-         @piece_causing_check = piece
+         @piece_causing_check << piece
          return true
        end
     end
@@ -74,9 +74,9 @@ class Game < ApplicationRecord
   def checkmate?(color)
     king = pieces.find_by(type: 'King', color: color)
     return false unless in_check?(color)
-    return false if @piece_causing_check.can_be_captured?(color)
+    return false if capture_opponent_causing_check?(color)
     return false if king.move_out_of_check?(color)
-    return false if @piece_causing_check.can_be_blocked?(king)
+    return false if can_be_blocked?(king)
     true
   end
 
@@ -101,33 +101,55 @@ class Game < ApplicationRecord
 
 
   def enemy_pieces(color)
-    pieces.select { |piece| piece.color != color && piece.captured == false }
+    pieces.select { |piece| piece.color != color && piece.captured != true }
   end
 
-  def pieces_remaining(color)
-    pieces.includes(:game).where(
-     "color = ? and state != 'off-board'",
-     color).to_a
+  def enemy_pieces_causing_check(color)
+    @piece_causing_check = []
+    king = pieces.find_by(type: 'King', color: color)
+    x_position = king.x
+    y_position = king.y
+    enemy_pieces(color).each do |piece|
+      if piece.is_capturable?(king.x, king.y)
+        @piece_causing_check << piece
+      end
+    end
+    @piece_causing_check
   end
+
 
   def my_pieces(color)
-    pieces.select { |piece| piece.color = color && piece.captured != true }
+    pieces.select { |piece| piece.color == color && piece.captured == false }
   end
 
   def capture_opponent_causing_check?(color)
       friend_pieces = my_pieces(color)
-      my_piece_that_can_capture_opponent = []
+      opponent_pieces = enemy_pieces_causing_check(color)
       friend_pieces.each do |friend|
-        @enemies_causing_check.each do |enemy|
-          my_piece_that_can_capture_opponent << friend if friend.is_capturable?(enemy.x_position, enemy.y_position) == true
+        opponent_pieces.each do |enemy|
+          return true if friend.is_capturable?(enemy.x, enemy.y)
+        end
       end
-    end
-    return true if my_piece_that_can_capture_opponent.any?
     false
   end
 
-  def can_be_blocked?(color)
-    friend_pieces = my_pieces(color)
+  def can_be_blocked?(king)
+    friend_pieces = my_pieces(king.color)
+    opponent_pieces = enemy_pieces_causing_check(king.color)
+    friend_pieces.each do |friend|
+      opponent_pieces.each do |enemy|
+        (1..8).each do |x_position|
+          (1..8).each do |y_position|
+            if friend.is_move_valid?(x_position, y_position)
+              if enemy.is_obstructed?(king.x, king.y, x_position, y_position)
+                return true
+              end
+            end
+          end
+        end
+      end
+    end
+    false
   end
 
 
@@ -143,10 +165,6 @@ class Game < ApplicationRecord
       pieces.create(x: piece, y: 7, color: 'black', type: 'Pawn', icon: '#9823')
     end
 
-    # ["Rook", "Knight", "Bishop", "King", "Queen", "Bishop", "Knight", "Rook"].each.with_index(1) do |klass, index|
-    #   pieces.create(x: index, y: 1, color: 'white', type: klass)
-    #   pieces.create(x: index, y: 8, color: 'black', type: klass)
-    # end
 
     pieces.create(x: 1, y: 1, color: 'white', type: 'Rook', icon: '#9814')
     pieces.create(x: 2, y: 1, color: 'white', type: 'Knight', icon: '#9816')
