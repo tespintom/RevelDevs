@@ -215,7 +215,33 @@ RSpec.describe Piece, type: :model do
       expect(piece.y).to eq y_target
     end
   end
-
+  describe 'capture opponent causing check' do
+    xit 'should be able to capture the piece causing check' do
+      game = FactoryBot.create(:game)
+      knight = game.pieces.active.find_by({x: 2, y: 8})
+      queen = game.pieces.active.find_by({x: 5, y: 1})
+      knight.update_attributes(x: 3, y: 3)
+      knight.reload
+      king = game.pieces.active.find_by({x: 4, y: 1})
+      expect(game.in_check?(king.color)).to eq true
+      queen.update_attributes(x: 4, y: 3)
+      queen.reload
+      result = king.capture_opponent_causing_check?(king.color)
+      expect(result).to eq true
+    end
+    xit 'should not be possible to capture the piece causing check' do
+      game = FactoryBot.create(:game)
+      queen = game.pieces.active.find_by({x: 5, y: 8})
+      king = game.pieces.active.find_by({x: 4, y: 1})
+      queen.update_attributes(x: 4, y: 4)
+      pawn = game.pieces.active.find_by({x: 4, y: 2})
+      pawn.update_attributes(captured: true, x: 0, y: 0)
+      king.update_attributes(x: 4, y: 2)
+      expect(game.in_check?(king.color)).to eq true
+      result = king.capture_opponent_causing_check?(king.color)
+      expect(result).to eq false
+    end
+  end
   describe '#piece_color_matches_user_color?' do
 
     it '#piece_color_matches_user_color? returns true if the piece color and user color match' do
@@ -234,7 +260,6 @@ RSpec.describe Piece, type: :model do
       expect(result).to eq false
     end
   end
-
   describe 'pawn promotion' do
     it "should update the pawn type to queen if #is_promotable? returns true" do
       game = FactoryBot.create(:game)

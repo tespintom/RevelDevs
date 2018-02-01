@@ -101,6 +101,32 @@ class Game < ApplicationRecord
     pieces.select { |piece| piece.color != color && piece.captured != true }
   end
 
+  def pieces_remaining(color)
+    pieces.includes(:game).where(
+     "color = ? and state != 'off-board'",
+     color).to_a
+  end
+
+  def my_pieces(color)
+    pieces.select { |piece| piece.color = color && piece.captured != true }
+  end
+
+  def capture_opponent_causing_check?(color)
+      friend_pieces = my_pieces(color)
+      my_piece_that_can_capture_opponent = []
+      friend_pieces.each do |friend|
+        @enemies_causing_check.each do |enemy|
+          my_piece_that_can_capture_opponent << friend if friend.is_capturable?(enemy.x_position, enemy.y_position) == true
+      end
+    end
+    return true if my_piece_that_can_capture_opponent.any?
+    false
+  end
+
+  def can_be_blocked?(color)
+    friend_pieces = my_pieces(color)
+  end
+
 
   private
 

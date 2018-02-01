@@ -197,7 +197,6 @@ RSpec.describe Game, type: :model do
       king = game.pieces.active.find_by({x: 4, y: 1})
       expect(game.in_check?(king.color)).to eq false
     end
-
   end
 
   describe 'move out of check' do
@@ -241,7 +240,31 @@ RSpec.describe Game, type: :model do
       expect(game.move_out_of_check?(king.color)).to eq true
     end
   end
-
+  describe 'capture opponent causing check' do
+    it 'should be able to capture the piece causing check' do
+      game = FactoryBot.create(:game)
+      knight = game.pieces.active.find_by({x: 2, y: 8})
+      queen = game.pieces.active.find_by({x: 5, y: 1})
+      knight.update_attributes(x: 3, y: 3)
+      knight.reload
+      king = game.pieces.active.find_by({x: 4, y: 1})
+      expect(game.in_check?(king.color)).to eq true
+      queen.update_attributes(x: 4, y: 3)
+      queen.reload
+      expect(game.capture_opponent_causing_check?(king.color)).to eq true
+    end
+    it 'should not be possible to capture the piece causing check' do
+      game = FactoryBot.create(:game)
+      queen = game.pieces.active.find_by({x: 5, y: 8})
+      king = game.pieces.active.find_by({x: 4, y: 1})
+      queen.update_attributes(x: 4, y: 4)
+      pawn = game.pieces.active.find_by({x: 4, y: 2})
+      pawn.update_attributes(captured: true, x: 0, y: 0)
+      king.update_attributes(x: 4, y: 2)
+      expect(game.in_check?(king.color)).to eq true
+      expect(game.capture_opponent_causing_check?(king.color)).to eq false
+    end
+  end
   describe 'checkmate' do
     xit 'should return true if King is in checkmate' do
       game = FactoryBot.create(:game)

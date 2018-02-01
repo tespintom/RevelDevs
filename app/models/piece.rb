@@ -199,15 +199,12 @@ class Piece < ApplicationRecord
   def find_corner_piece(x_target, y_target)
   end
 
-  # def can_be_captured?(color)
-  #   opponents = game.pieces_remaining(!color)
+  # def capture_opponent_causing_check?(color)
+  #   opponents = game.enemy_pieces(color)
   #   opponents.each do |opponent|
-  #     if opponent.valid_move?(x_position, y_position)
-  #       return true
-  #     end
+  #     return true if opponent.is_capturable?(x, y)
   #   end
   #   false
-  # end
   # end
 
   private
