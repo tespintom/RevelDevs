@@ -198,6 +198,9 @@ class Piece < ApplicationRecord
   def can_castle?(x_target, y_target)
   end
 
+  def castle!(x_target, y_target)
+  end
+
   def find_corner_piece(x_target, y_target)
   end
 

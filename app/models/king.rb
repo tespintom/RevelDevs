@@ -13,7 +13,7 @@ class King < Piece
       if in_original_position?
         corner_piece = find_corner_piece(x_target, y_target)
         if corner_piece
-          return is_rook?(corner_piece) && in_original_position?(corner_piece) && !castling_obstructed?(corner_piece) ? true : false
+          return is_rook?(corner_piece) && in_original_position?(corner_piece) && !castling_obstructed?(corner_piece) && !king_castling_path_in_check?(x_target, y_target) ? true : false
         else
           return false
         end
@@ -23,6 +23,25 @@ class King < Piece
     else
       false
     end
+  end
+
+  def king_castling_path_in_check?(x_target, y_target)
+    if x_target > self.x
+      start_x = self.x
+      finish_x = x_target
+    else
+      start_x = x_target
+      finish_x = self.x
+    end
+    old_x = self.x
+    (start_x..finish_x).each do |x_value|
+      game.enemy_pieces(self.color).each do |piece|
+        if piece.is_move_valid?(x_value, self.y)
+          return true
+        end
+      end
+    end
+    false
   end
 
   def castling_obstructed?(corner_piece)
