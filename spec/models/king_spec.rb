@@ -254,5 +254,68 @@ RSpec.describe King, type: :model do
       expect(rook.x).to eq(5)
       expect(rook.y).to eq(1)
     end
+
+    it '#king_castling_path_in_check? returns true if the king is in check' do
+      game = FactoryBot.create(:game)
+      king = game.pieces.active.find_by({x: 4, y: 1})
+      bishop = game.pieces.active.find_by({x: 3, y: 1})
+      knight = game.pieces.active.find_by({x: 2, y: 1})
+      rook = game.pieces.active.find_by({x: 1, y: 1})
+      pawn = game.pieces.active.find_by({x: 4, y: 2})
+      black_queen = game.pieces.active.find_by({x: 5, y: 8})
+      black_queen.update_attributes(x: 4, y: 3)
+      bishop.update_attributes(captured: true, x: 0, y: 0)
+      knight.update_attributes(captured: true, x: 0, y: 0)
+      pawn.update_attributes(captured: true, x: 0, y: 0)
+      result = king.king_castling_path_in_check?(2, 1)
+      expect(result).to eq true
+    end
+
+    it '#king_castling_path_in_check? returns true if a square on the path puts the king in check' do
+      game = FactoryBot.create(:game)
+      king = game.pieces.active.find_by({x: 4, y: 1})
+      bishop = game.pieces.active.find_by({x: 3, y: 1})
+      knight = game.pieces.active.find_by({x: 2, y: 1})
+      rook = game.pieces.active.find_by({x: 1, y: 1})
+      pawn = game.pieces.active.find_by({x: 3, y: 2})
+      black_queen = game.pieces.active.find_by({x: 5, y: 8})
+      black_queen.update_attributes(x: 3, y: 3)
+      bishop.update_attributes(captured: true, x: 0, y: 0)
+      knight.update_attributes(captured: true, x: 0, y: 0)
+      pawn.update_attributes(captured: true, x: 0, y: 0)
+      result = king.king_castling_path_in_check?(2, 1)
+      expect(result).to eq true
+      expect(king.x).to eq 4
+    end
+
+    it '#king_castling_path_in_check? returns true if completing a castling move puts the king in check' do
+      game = FactoryBot.create(:game)
+      king = game.pieces.active.find_by({x: 4, y: 1})
+      bishop = game.pieces.active.find_by({x: 3, y: 1})
+      knight = game.pieces.active.find_by({x: 2, y: 1})
+      rook = game.pieces.active.find_by({x: 1, y: 1})
+      pawn = game.pieces.active.find_by({x: 2, y: 2})
+      black_queen = game.pieces.active.find_by({x: 5, y: 8})
+      black_queen.update_attributes(x: 2, y: 3)
+      bishop.update_attributes(captured: true, x: 0, y: 0)
+      knight.update_attributes(captured: true, x: 0, y: 0)
+      pawn.update_attributes(captured: true, x: 0, y: 0)
+      result = king.king_castling_path_in_check?(2, 1)
+      expect(result).to eq true
+      expect(king.x).to eq 4
+    end
+
+    it '#king_castling_path_in_check? returns false if completing a castling move does not put the king in check' do
+      game = FactoryBot.create(:game)
+      king = game.pieces.active.find_by({x: 4, y: 1})
+      bishop = game.pieces.active.find_by({x: 3, y: 1})
+      knight = game.pieces.active.find_by({x: 2, y: 1})
+      rook = game.pieces.active.find_by({x: 1, y: 1})
+      bishop.update_attributes(captured: true, x: 0, y: 0)
+      knight.update_attributes(captured: true, x: 0, y: 0)
+      result = king.king_castling_path_in_check?(2, 1)
+      expect(result).to eq false
+      expect(king.x).to eq 4
+    end
   end
 end

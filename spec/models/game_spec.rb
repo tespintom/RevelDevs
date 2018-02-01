@@ -241,7 +241,7 @@ RSpec.describe Game, type: :model do
     end
   end
   describe 'capture opponent causing check' do
-    it 'should be able to capture the piece causing check' do
+    xit 'should be able to capture the piece causing check' do
       game = FactoryBot.create(:game)
       knight = game.pieces.active.find_by({x: 2, y: 8})
       queen = game.pieces.active.find_by({x: 5, y: 1})
@@ -253,7 +253,7 @@ RSpec.describe Game, type: :model do
       queen.reload
       expect(game.capture_opponent_causing_check?(king.color)).to eq true
     end
-    it 'should not be possible to capture the piece causing check' do
+    xit 'should not be possible to capture the piece causing check' do
       game = FactoryBot.create(:game)
       queen = game.pieces.active.find_by({x: 5, y: 8})
       king = game.pieces.active.find_by({x: 4, y: 1})
