@@ -89,6 +89,7 @@ class Piece < ApplicationRecord
           end
         end
       end
+      #symulate_occupied
       false
     end
   end
@@ -202,6 +203,10 @@ class Piece < ApplicationRecord
   end
 
   def find_corner_piece(x_target, y_target)
+  end
+
+  def enemy_path_obstructed?
+
   end
 
   private

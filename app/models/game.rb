@@ -10,7 +10,8 @@ class Game < ApplicationRecord
 
   before_create :current_user_is_white_player
 
-  def square_occupied?(x_current, y_current)
+  def square_occupied?(x_current, y_current, occupied = nil)
+    return true if occupied
     pieces.active.where({x: x_current, y: y_current}).any? ? true : false
   end
 
@@ -56,20 +57,147 @@ class Game < ApplicationRecord
     end
   end
 
-  def in_check?(color, x_position=nil, y_position=nil)
+
+  def in_check?(color)
+    @piece_causing_check = []
     king = pieces.find_by(type: 'King', color: color)
-    x_position = king.x if x_position.nil?
-    y_position = king.y if y_position.nil?
+    x_position = king.x
+    y_position = king.y
     enemy_pieces(color).each do |piece|
-      return true if piece.is_capturable?(x_position, y_position)
+       if piece.is_capturable?(king.x, king.y)
+         @piece_causing_check << piece
+         return true
+       end
     end
     false
   end
 
-  def enemy_pieces(color)
-    pieces.select { |piece| piece.color != color && piece.captured == false }
+  def checkmate?(color)
+    king = pieces.find_by(type: 'King', color: color)
+    return false unless in_check?(color)
+    return false if capture_opponent_causing_check?(color)
+    return false if move_out_of_check?(king.color)
+    return false if can_be_blocked?(king)
+    true
   end
 
+  def move_out_of_check?(color)
+    king = pieces.find_by(type: 'King', color: color)
+    old_x = king.x
+    old_y = king.y
+    ((king.x - 1)..(king.x + 1)).each do |x_target|
+      ((king.y - 1)..(king.y + 1)).each do |y_target|
+        piece_to_be_captured = pieces.active.find_by({x: x_target, y: y_target} )
+        if king.attempt_move(x_target, y_target)
+          king.update_attributes(x: old_x, y: old_y)
+          if piece_to_be_captured
+            piece_to_be_captured.update_attributes(captured: false, x: x_target, y: y_target)
+          end
+          return true
+        end
+      end
+    end
+    false
+  end
+
+
+  def enemy_pieces(color)
+    pieces.select { |piece| piece.color != color && piece.captured != true }
+  end
+
+  def enemy_pieces_causing_check(color)
+    @piece_causing_check = []
+    king = pieces.find_by(type: 'King', color: color)
+    x_position = king.x
+    y_position = king.y
+    enemy_pieces(color).each do |piece|
+      if piece.is_capturable?(king.x, king.y)
+        @piece_causing_check << piece
+      end
+    end
+    @piece_causing_check
+  end
+
+
+  def my_pieces(color)
+    pieces.select { |piece| piece.color == color && piece.captured == false && piece.type != 'King'}
+  end
+
+  def capture_opponent_causing_check?(color)
+      friend_pieces = my_pieces(color)
+      opponent_pieces = enemy_pieces_causing_check(color)
+      friend_pieces.each do |friend|
+        opponent_pieces.each do |enemy|
+          return true if friend.is_capturable?(enemy.x, enemy.y)
+        end
+      end
+    false
+  end
+
+  def can_be_blocked?(king)
+    friend_pieces = my_pieces(king.color)
+    opponent_pieces = enemy_pieces_causing_check(king.color)
+    path_squares = king_to_enemy_path(king)
+    friend_pieces.each do |friend|
+      path_squares.each do |coordinate|
+        return true if friend.is_move_valid?(coordinate[0], coordinate[1])
+      end
+    end
+    false
+  end
+
+  def king_to_enemy_path(king)
+    opponent_pieces = enemy_pieces_causing_check(king.color)
+    path_squares = []
+    opponent_pieces.each do |opponent|
+      if opponent.horizontal_move?(king.x, king.y)
+        if king.x > opponent.x 
+          start_x = opponent.x
+          finish_x = king.x
+        else 
+          start_x = king.x
+          finish_x = opponent.x
+        end
+        ((start_x + 1)...finish_x).each do |x_position|
+          path_squares << [x_position, opponent.y]
+        end
+      elsif opponent.vertical_move?(king.x, king.y)
+        if king.y > opponent.y
+          start_y = opponent.y
+          finish_y = king.y
+        else 
+          start_y = king.y
+          finish_y = opponent.y
+        end
+        ((start_y + 1)...finish_y).each do |y_position|
+          path_squares << [opponent.x, y_position]
+        end
+      elsif opponent.diagonal_move?(king.x, king.y)
+        if opponent.x > king.x
+          start_x = king.x
+          finish_x = opponent.x
+        else
+          start_x = opponent.x
+          finish_x = king.x
+        end
+        if opponent.y > king.y
+          start_y = king.y
+          finish_y = opponent.y
+        else
+          start_y = opponent.y
+          finish_y = king.y
+        end
+        ((start_x + 1)...finish_x).each do |h|
+          ((start_y + 1)...finish_y).each do |v|
+            if opponent.diagonal_move?(opponent.x, opponent.y, h, v)
+              path_squares << [h, v]
+            end
+          end
+        end
+      end
+    end
+    path_squares
+  end
 
   private
 
@@ -83,10 +211,6 @@ class Game < ApplicationRecord
       pieces.create(x: piece, y: 7, color: 'black', type: 'Pawn', icon: '#9823')
     end
 
-    # ["Rook", "Knight", "Bishop", "King", "Queen", "Bishop", "Knight", "Rook"].each.with_index(1) do |klass, index|
-    #   pieces.create(x: index, y: 1, color: 'white', type: klass)
-    #   pieces.create(x: index, y: 8, color: 'black', type: klass)
-    # end
 
     pieces.create(x: 1, y: 1, color: 'white', type: 'Rook', icon: '#9814')
     pieces.create(x: 2, y: 1, color: 'white', type: 'Knight', icon: '#9816')
