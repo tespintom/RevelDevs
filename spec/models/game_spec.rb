@@ -268,7 +268,6 @@ RSpec.describe Game, type: :model do
   describe 'can be blocked' do
     it 'should return true if check path can be blocked' do 
       game = FactoryBot.create(:game)
-      piece = FactoryBot.build(:piece, game_id: game.id)
       queen = game.pieces.active.find_by({x: 5, y: 8})
       rook = game.pieces.active.find_by({x: 1, y: 1})
       king = game.pieces.active.find_by({x: 4, y: 1})
@@ -283,7 +282,6 @@ RSpec.describe Game, type: :model do
 
     it 'should return false if check path can not be blocked' do
       game = FactoryBot.create(:game)
-      piece = FactoryBot.build(:piece, game_id: game.id)
       queen = game.pieces.active.find_by({x: 5, y: 8})
       king = game.pieces.active.find_by({x: 4, y: 1})
       queen.update_attributes(x: 4, y: 4)
@@ -294,9 +292,8 @@ RSpec.describe Game, type: :model do
       expect(game.can_be_blocked?(king)).to eq false
     end
   end
-
-  describe 'checkmate' do
-    xit 'should return true if King is in checkmate' do
+  describe 'king to enemy path' do
+    it 'should return the path of values between king and enemy' do
       game = FactoryBot.create(:game)
       queen = game.pieces.active.find_by({x: 5, y: 8})
       king = game.pieces.active.find_by({x: 4, y: 1})
@@ -304,10 +301,33 @@ RSpec.describe Game, type: :model do
       pawn = game.pieces.active.find_by({x: 4, y: 2})
       pawn.update_attributes(captured: true, x: 0, y: 0)
       king.update_attributes(x: 4, y: 2)
-      expect(game.checkmate?(king.color)).to eq false
+      expect(game.king_to_enemy_path(king)).to eq [[4, 3]]
+    end
+    it 'should return the diagonal path of values between king and enemy' do
+      game = FactoryBot.create(:game)
+      queen = game.pieces.active.find_by({x: 5, y: 8})
+      king = game.pieces.active.find_by({x: 4, y: 1})
+      queen.update_attributes(x: 6, y: 4)
+      pawn = game.pieces.active.find_by({x: 4, y: 2})
+      pawn.update_attributes(captured: true, x: 0, y: 0)
+      king.update_attributes(x: 4, y: 2)
+      expect(game.king_to_enemy_path(king)).to eq [[5, 3]]
+    end
+  end
+
+  describe 'checkmate' do
+    it 'should return true if King is in checkmate' do
+      game = FactoryBot.create(:game)
+      queen = game.pieces.active.find_by({x: 5, y: 8})
+      king = game.pieces.active.find_by({x: 4, y: 1})
+      queen.update_attributes(x: 4, y: 4)
+      pawn = game.pieces.active.find_by({x: 4, y: 2})
+      pawn.update_attributes(captured: true, x: 0, y: 0)
+      king.update_attributes(x: 4, y: 2)
+      expect(game.checkmate?(king.color)).to eq true
     end
 
-    xit 'should return false if King is not in Checkmate' do
+    it 'should return false if King is not in Checkmate' do
       game = FactoryBot.create(:game)
       expect(game.checkmate?('white')).to eq false
     end

@@ -10,7 +10,8 @@ class Game < ApplicationRecord
 
   before_create :current_user_is_white_player
 
-  def square_occupied?(x_current, y_current)
+  def square_occupied?(x_current, y_current, occupied = nil)
+    return true if occupied
     pieces.active.where({x: x_current, y: y_current}).any? ? true : false
   end
 
@@ -75,7 +76,7 @@ class Game < ApplicationRecord
     king = pieces.find_by(type: 'King', color: color)
     return false unless in_check?(color)
     return false if capture_opponent_causing_check?(color)
-    return false if king.move_out_of_check?(color)
+    return false if move_out_of_check?(king.color)
     return false if can_be_blocked?(king)
     true
   end
@@ -119,7 +120,7 @@ class Game < ApplicationRecord
 
 
   def my_pieces(color)
-    pieces.select { |piece| piece.color == color && piece.captured == false }
+    pieces.select { |piece| piece.color == color && piece.captured == false && piece.type != 'King'}
   end
 
   def capture_opponent_causing_check?(color)
@@ -136,22 +137,67 @@ class Game < ApplicationRecord
   def can_be_blocked?(king)
     friend_pieces = my_pieces(king.color)
     opponent_pieces = enemy_pieces_causing_check(king.color)
+    path_squares = king_to_enemy_path(king)
     friend_pieces.each do |friend|
-      opponent_pieces.each do |enemy|
-        (1..8).each do |x_position|
-          (1..8).each do |y_position|
-            if friend.is_move_valid?(x_position, y_position)
-              if enemy.is_obstructed?(king.x, king.y, x_position, y_position)
-                return true
-              end
-            end
-          end
-        end
+      path_squares.each do |coordinate|
+        return true if friend.is_move_valid?(coordinate[0], coordinate[1])
       end
     end
     false
   end
 
+  def king_to_enemy_path(king)
+    opponent_pieces = enemy_pieces_causing_check(king.color)
+    path_squares = []
+    opponent_pieces.each do |opponent|
+      if opponent.horizontal_move?(king.x, king.y)
+        if king.x > opponent.x 
+          start_x = opponent.x
+          finish_x = king.x
+        else 
+          start_x = king.x
+          finish_x = opponent.x
+        end
+        ((start_x + 1)...finish_x).each do |x_position|
+          path_squares << [x_position, opponent.y]
+        end
+      elsif opponent.vertical_move?(king.x, king.y)
+        if king.y > opponent.y
+          start_y = opponent.y
+          finish_y = king.y
+        else 
+          start_y = king.y
+          finish_y = opponent.y
+        end
+        ((start_y + 1)...finish_y).each do |y_position|
+          path_squares << [opponent.x, y_position]
+        end
+      elsif opponent.diagonal_move?(king.x, king.y)
+        if opponent.x > king.x
+          start_x = king.x
+          finish_x = opponent.x
+        else
+          start_x = opponent.x
+          finish_x = king.x
+        end
+        if opponent.y > king.y
+          start_y = king.y
+          finish_y = opponent.y
+        else
+          start_y = opponent.y
+          finish_y = king.y
+        end
+        ((start_x + 1)...finish_x).each do |h|
+          ((start_y + 1)...finish_y).each do |v|
+            if opponent.diagonal_move?(opponent.x, opponent.y, h, v)
+              path_squares << [h, v]
+            end
+          end
+        end
+      end
+    end
+    path_squares
+  end
 
   private
 
