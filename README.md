@@ -1,24 +1,5 @@
-# README
+This is a chess game application built using Ruby on Rails, JQuery & AJAX, PostgresQL, RSpec, Bootstrap4 and Firebase.
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Created by Jared Schilling, Elizabeth Hanson, Lucille Samuel, Joanna Tracy, Tomas Espina, and Derek McCool.
 
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+Uses the gems devise, pry, tether, bootstrap, jquery, simple_form, rspec, popper_js, and rubocop.
