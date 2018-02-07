@@ -1,6 +1,9 @@
-<div class="booyah-box col-10 offset-1">
+<br />
+<div class="booyah-box col-10 offset-1 show-width">
   <h2 class="text-center"><%= @game.name %></h2>
+  <div id="notice"></div>
 </div>
+<br />
 <head>
     <meta charset="UTF-8">
 </head>
@@ -34,22 +37,20 @@
   </div>
 </body>
 
-<script src="https://www.gstatic.com/firebasejs/4.9.0/firebase.js"></script>
-<script>
- // Initialize Firebase
- var config = {
-   apiKey: "AIzaSyDacQxiuyLkxP5WfVxcb4fUoKHlGB94jOk",
-   authDomain: "chess-application.firebaseapp.com",
-   databaseURL: "https://chess-application.firebaseio.com",
-   projectId: "chess-application",
-   storageBucket: "chess-application.appspot.com",
-   messagingSenderId: "660815863001"
- };
- firebase.initializeApp(config);
-</script>
-
+<script src="https://www.gstatic.com/firebasejs/4.9.1/firebase.js"></script>
 <script>
   $(function() {
+
+    var config = {
+      apiKey: "AIzaSyDacQxiuyLkxP5WfVxcb4fUoKHlGB94jOk",
+      authDomain: "chess-application.firebaseapp.com",
+      databaseURL: "https://chess-application.firebaseio.com",
+      projectId: "chess-application",
+      storageBucket: "chess-application.appspot.com",
+      messagingSenderId: "660815863001"
+    };
+    firebase.initializeApp(config);
+
     var $square = $('.square');
     var gameID = $('.chessboard').attr('id');
     var dbRef = firebase.database().ref(); //references the Firebase db
@@ -64,6 +65,12 @@
       gameRefSquare.on('value', function(snapshot){
         $('#' + squareID).html(snapshot.val()); //updates square html with current db value
       });
+    });
+
+    var gameRefNotice = gameRef.child('notice');
+    gameRefNotice.set("Waiting for player to join...");
+    gameRefNotice.on('value', function(snapshot){
+      $('#notice').html(snapshot.val());
     });
 
     $square.click( function() {
@@ -107,30 +114,37 @@
             $targetSquare.html("&" + data.icon + ";");
             $selectedSquare.empty();
             $selectedSquare.removeAttr('data-piece-id');
-            updateFirebase($targetSquare, $selectedSquare);
+            updateFirebase($targetSquare, $selectedSquare, data);
             updateRookWhenCastling(data);
           }
         });
       }
 
-      function updateFirebase(targetSquare, selectedSquare){
+      function updateFirebase(targetSquare, selectedSquare, data){
         var gameRefTargetSquare = gameRef.child(targetSquare.attr('id')); //pulls target square
         var gameRefSelectedSquare = gameRef.child(selectedSquare.attr('id')); //pulls selected square
 
         gameRefTargetSquare.set(targetSquare.text()); //sets new value for target square
         gameRefSelectedSquare.set(selectedSquare.text()); //sets new value for selected square
+        flashNotice(data);
       }
 
       function updateRookWhenCastling(data) {
         if(data.rook_before_x) {
-          $rookStartingSquare = $('#' + data.rook_before_x + '-' + data.rook_before_y);
-          $rookID = $rookStartingSquare.attr('data-piece-id');
-          $rookEndingSquare = $('#' + data.rook_after_x + '-' + data.rook_after_y);
+          var $rookStartingSquare = $('#' + data.rook_before_x + '-' + data.rook_before_y);
+          var $rookID = $rookStartingSquare.attr('data-piece-id');
+          var $rookEndingSquare = $('#' + data.rook_after_x + '-' + data.rook_after_y);
           $rookEndingSquare.attr('data-piece-id', $rookID);
           $rookEndingSquare.html($rookStartingSquare.html());
           $rookStartingSquare.empty();
           $rookStartingSquare.removeAttr('data-piece-id');
           updateFirebase($rookEndingSquare, $rookStartingSquare);
+        }
+      }
+
+      function flashNotice(data){
+        if(data.winner){
+          gameRefNotice.set(data.winner + ' player is the winner!');
         }
       }
     });

@@ -10,15 +10,19 @@ class Game < ApplicationRecord
 
   before_create :current_user_is_white_player
 
-  def square_occupied?(x_current, y_current, occupied = nil)
-    return true if occupied
+  def square_occupied?(x_current, y_current)
     pieces.active.where({x: x_current, y: y_current}).any? ? true : false
   end
 
   def add_black_player!(user)
-    self.black_player_id = user.id
-    self.total_players = 2
-    save
+    if user.id != self.white_player_id
+      self.update_attributes(black_player_id: user.id, total_players: 2)
+      # self.black_player_id = user.id
+      # self.total_players = 2
+      # save
+    else
+      false
+    end
   end
 
   def current_user_is_white_player
@@ -26,7 +30,7 @@ class Game < ApplicationRecord
   end
 
   def game_end
-    self.finished = true
+    self.update(finished: true)
   end
 
   def draw
@@ -57,6 +61,10 @@ class Game < ApplicationRecord
     end
   end
 
+  def checkmate!
+    self.update(state: "checkmate")
+    game_end
+  end
 
   def in_check?(color)
     @piece_causing_check = []

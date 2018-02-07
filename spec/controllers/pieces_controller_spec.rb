@@ -109,5 +109,20 @@ RSpec.describe PiecesController, type: :controller do
       game.reload
       expect(game.state).to eq("white_turn")
     end
+
+    it 'returns the winner\'s color on checkmate' do
+      game = FactoryBot.create(:game)
+      sign_in game.user
+      queen = game.pieces.active.find_by({x: 5, y: 8})
+      king = game.pieces.active.find_by({x: 4, y: 1})
+      queen.update_attributes(x: 5, y: 4)
+      pawn = game.pieces.active.find_by({x: 4, y: 2})
+      pawn.update_attributes(captured: true, x: 0, y: 0)
+      king.update_attributes(x: 4, y: 2)
+      game.update(state: 'black_turn')
+      patch :update, params: { id: queen.id, piece: { x: 4, y: 4 } }
+      response_value = ActiveSupport::JSON.decode(@response.body)
+      expect(response_value['winner']).to eq('black')
+    end
   end
 end

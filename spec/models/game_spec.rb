@@ -327,9 +327,16 @@ RSpec.describe Game, type: :model do
       expect(game.checkmate?(king.color)).to eq true
     end
 
-    it 'should return false if King is not in Checkmate' do
+    it 'should return false if King is not in checkmate' do
       game = FactoryBot.create(:game)
       expect(game.checkmate?('white')).to eq false
+    end
+
+    it '#checkmate! should update the game state to "checkmate" and set finished to true' do
+      game = FactoryBot.create(:game)
+      game.checkmate!
+      expect(game.state).to eq("checkmate")
+      expect(game.finished).to eq(true)
     end
   end
 

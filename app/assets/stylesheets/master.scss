@@ -6,10 +6,11 @@
   box-shadow: 1px 1px 2px 0 #968f7c;
   background: #292b2c;
   border: 1px solid #ccc;
-  border-color: #968f7c;
+  border-color: #8e8b86;
   margin-top: 10px;
   margin-bottom: 15px;
   padding: 20px;
+  color: #8e8b86;
   
   a {
     text-decoration: none;
@@ -49,7 +50,6 @@ body {
 
 .index-page {
   padding-left: 20px;
-  background: image_url('cartographer.png');
   background-size: cover;
 }
 
@@ -93,9 +93,14 @@ body {
 }
 
 .text-color {
-  color: #968f7c;
+  color: #8e8b86;
 }
 
 .index-link {
   text-decoration: none;
+}
+
+.show-width {
+  width: 650px;
+  margin: 0 auto;
 }

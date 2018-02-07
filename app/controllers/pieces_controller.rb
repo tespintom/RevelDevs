@@ -29,7 +29,15 @@ class PiecesController < ApplicationController
       rook_before_y = rook.y
     end
     if @piece.attempt_move(x_target, y_target)
-      @game.player_turn
+      if @game.checkmate?(@piece.color == 'white' ? 'black' : 'white')
+        @game.checkmate!
+        return render json: {
+          icon: @piece.icon,
+          winner: @piece.color
+        }
+      else
+        @game.player_turn
+      end
     else
       return render_not_found
     end
