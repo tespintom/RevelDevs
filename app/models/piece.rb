@@ -197,6 +197,7 @@ class Piece < ApplicationRecord
   end
 
   def can_castle?(x_target, y_target)
+    false
   end
 
   def castle!(x_target, y_target)

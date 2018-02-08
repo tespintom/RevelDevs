@@ -104,3 +104,24 @@ body {
   width: 650px;
   margin: 0 auto;
 }
+
+.winner {
+  background-color: green;
+  color: white;
+}
+
+.white-turn {
+  background-color: white;
+  color: black;
+}
+
+.black-turn {
+  background-color: black;
+  color: white;
+}
+
+.error {
+  background-color: red;
+  color: white;
+  font-weight: bold;
+}

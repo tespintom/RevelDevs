@@ -137,15 +137,6 @@ RSpec.describe Pawn, type: :model do
       expect(pawn.y).to eq 3
     end
 
-    xit 'returns an "invalid move" message if move is invalid' do
-      game = FactoryBot.create(:game)
-      pawn = FactoryBot.build(:pawn, game_id: game.id)
-      if pawn.is_move_valid?(4, 9)
-        pawn.move_action(4, 9) # moves off the board
-      end
-      expect
-    end
-
     it 'does not update :x and :y if move is invalid' do
       game = FactoryBot.create(:game)
       pawn = FactoryBot.build(:pawn, game_id: game.id)

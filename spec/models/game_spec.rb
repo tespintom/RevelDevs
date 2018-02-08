@@ -154,11 +154,20 @@ RSpec.describe Game, type: :model do
       expect(game.black_player_id).to eq nil
     end
 
-    it "should update total_players to 2" do
+    it "should update total_players to 2 if black and white players are different users" do
       game = FactoryBot.create(:game)
       new_user = FactoryBot.create(:user)
       game.add_black_player!(new_user)
       expect(game.total_players).to eq(2)
+      expect(game.black_player_id).to eq(new_user.id)
+    end
+
+    it "should not update total_players if black and white players are the same" do
+      game = FactoryBot.create(:game)
+      user = game.user
+      game.add_black_player!(game.user)
+      expect(game.total_players).to eq(1)
+      expect(game.black_player_id).to eq(nil)
     end
   end
 
@@ -179,6 +188,7 @@ RSpec.describe Game, type: :model do
       king = game.pieces.active.find_by({x: 4, y: 1})
       expect(game.in_check?(king.color)).to eq true
     end
+
     it 'should return true if King is under check in L-shape move' do
       game = FactoryBot.create(:game)
       piece = FactoryBot.build(:piece, game_id: game.id)
@@ -190,12 +200,14 @@ RSpec.describe Game, type: :model do
       expect(king.y).to eq(1)
       expect(game.in_check?(king.color)).to eq true
     end
+
     it 'should return false if King is not in check' do
       game = FactoryBot.create(:game)
       king = game.pieces.active.find_by({x: 4, y: 1})
       expect(game.in_check?(king.color)).to eq false
     end
   end
+
   describe 'move out of check' do
     it 'should return true if the King can move out of check' do
       game = FactoryBot.create(:game)
@@ -237,6 +249,7 @@ RSpec.describe Game, type: :model do
       expect(game.move_out_of_check?(king.color)).to eq true
     end
   end
+
   describe 'capture opponent causing check' do
     it 'should be able to capture the piece causing check' do
       game = FactoryBot.create(:game)
@@ -292,6 +305,7 @@ RSpec.describe Game, type: :model do
       expect(game.can_be_blocked?(king)).to eq false
     end
   end
+  
   describe 'king to enemy path' do
     it 'should return the path of values between king and enemy' do
       game = FactoryBot.create(:game)

@@ -1,5 +1,5 @@
 class GamesController < ApplicationController
-  before_action :authenticate_user!, only: [:new, :create, :join]
+  before_action :authenticate_user!, only: [:new, :create, :join, :show]
 
   def index
     @games = Game.all
@@ -19,11 +19,6 @@ class GamesController < ApplicationController
   def show
     @game = Game.find_by_id(params[:id])
     render "Not found :(" if @game.blank?
-    # if @game.in_check?('black')
-    #   flash[:alert] = 'Black King is in Check!'
-    # elsif @game.in_check?('white')
-    #   flash[:alert] = 'White King is in Check!'
-    # end
   end
 
   def join

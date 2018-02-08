@@ -1,11 +1,14 @@
 <br />
 <div class="booyah-box col-10 offset-1 show-width">
   <h2 class="text-center"><%= @game.name %></h2>
-  <div id="notice"></div>
+  <br />
+  <div id="notice"><br /></div>
+  <div id="invalid-move"><br /></div>
+  <div id="game-state" data-game-state=<%= "#{@game.state}" %>></div>
 </div>
 <br />
 <head>
-    <meta charset="UTF-8">
+  <meta charset="UTF-8">
 </head>
 <body>
   <div class="chessboard" id=<%= "#{@game.id}" %>>
@@ -40,7 +43,6 @@
 <script src="https://www.gstatic.com/firebasejs/4.9.1/firebase.js"></script>
 <script>
   $(function() {
-
     var config = {
       apiKey: "AIzaSyDacQxiuyLkxP5WfVxcb4fUoKHlGB94jOk",
       authDomain: "chess-application.firebaseapp.com",
@@ -50,11 +52,18 @@
       messagingSenderId: "660815863001"
     };
     firebase.initializeApp(config);
+  });
 
+</script>
+
+<script>
+  $(function() {
     var $square = $('.square');
     var gameID = $('.chessboard').attr('id');
     var dbRef = firebase.database().ref(); //references the Firebase db
     var gameRef = dbRef.child(gameID); //references the games' database within Firebase
+
+    gameRef.onDisconnect().remove();
 
     $('.square').each(function(){
       var squareID = $(this).attr('id'); //grabs square ID
@@ -68,7 +77,16 @@
     });
 
     var gameRefNotice = gameRef.child('notice');
-    gameRefNotice.set("Waiting for player to join...");
+    var $gameState = $('#game-state').attr('data-game-state');
+    if($gameState === 'pending') {
+      gameRefNotice.set('<div align="center">' + 'Waiting for second player to join...' + '</div>');
+    } else if($gameState === 'white_turn') {
+      gameRefNotice.set('<div class="white-turn" align="center">' + 'It\'s the white player\'s turn' + '</div>');
+    } else if($gameState === 'black_turn') {
+      gameRefNotice.set('<div class="black-turn" align="center">' + 'It\'s the black player\'s turn' + '</div>');
+    } else if($gameState === 'checkmate') {
+      gameRefNotice.set('<div class="winner" align="center">' + 'The game is over!' + '</div>');
+    }
     gameRefNotice.on('value', function(snapshot){
       $('#notice').html(snapshot.val());
     });
@@ -116,6 +134,13 @@
             $selectedSquare.removeAttr('data-piece-id');
             updateFirebase($targetSquare, $selectedSquare, data);
             updateRookWhenCastling(data);
+          },
+          error: function(){
+            $('#invalid-move').html('<div class="error" align="center">' + 'That is an invalid move' + '</div>');
+            $('#invalid-move').fadeOut(5000);
+            setTimeout(function() {
+              $('#invalid-move').html('<br />').fadeIn("fast");
+            }, 5000);
           }
         });
       }
@@ -144,7 +169,11 @@
 
       function flashNotice(data){
         if(data.winner){
-          gameRefNotice.set(data.winner + ' player is the winner!');
+          gameRefNotice.set('<div class="winner" align="center">' + 'The ' + data.winner + ' player is the winner!' + '</div>');
+        } else if(data.game_state === 'white_turn') {
+          gameRefNotice.set('<div class="white-turn" align="center">' + 'It\'s the white player\'s turn' + '</div>');
+        } else if(data.game_state === 'black_turn') {
+          gameRefNotice.set('<div class="black-turn" align="center">' + 'It\'s the black player\'s turn' + '</div>');
         }
       }
     });

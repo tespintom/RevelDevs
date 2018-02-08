@@ -105,15 +105,6 @@ RSpec.describe Bishop, type: :model do
       expect(bishop.y).to eq 2
     end
 
-    xit 'returns an "invalid move" message if move is invalid' do
-      game = FactoryBot.create(:game)
-      bishop = FactoryBot.build(:bishop, game_id: game.id)
-      if bishop.is_move_valid?(4, 0)
-        bishop.move_action(4, 0) # moves one square in negative 'y' direction (off the board)
-      end
-      expect
-    end
-
     it 'does not update :x and :y if move is invalid' do
       game = FactoryBot.create(:game)
       bishop = FactoryBot.build(:bishop, game_id: game.id)

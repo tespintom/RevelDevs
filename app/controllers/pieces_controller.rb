@@ -47,6 +47,7 @@ class PiecesController < ApplicationController
       rook_after_y = rook.y
     end
     render json: { icon: @piece.icon,
+      game_state: @game.state,
       rook_before_x: rook_before_x,
       rook_before_y: rook_before_y,
       rook_after_x: rook_after_x,

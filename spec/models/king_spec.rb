@@ -106,15 +106,6 @@ RSpec.describe King, type: :model do
       expect(king.y).to eq 2
     end
 
-    xit 'returns an "invalid move" message if move is invalid' do
-      game = FactoryBot.create(:game)
-      king = FactoryBot.build(:king, game_id: game.id)
-      if king.is_move_valid?(4, 0)
-        king.move_action(4, 0) # moves one square in negative 'y' direction (off the board)
-      end
-      expect
-    end
-
     it 'does not update :x and :y if move is invalid' do
       game = FactoryBot.create(:game)
       king = FactoryBot.build(:king, game_id: game.id)

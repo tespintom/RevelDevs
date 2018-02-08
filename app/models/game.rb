@@ -17,9 +17,6 @@ class Game < ApplicationRecord
   def add_black_player!(user)
     if user.id != self.white_player_id
       self.update_attributes(black_player_id: user.id, total_players: 2)
-      # self.black_player_id = user.id
-      # self.total_players = 2
-      # save
     else
       false
     end
@@ -67,15 +64,13 @@ class Game < ApplicationRecord
   end
 
   def in_check?(color)
-    @piece_causing_check = []
     king = pieces.find_by(type: 'King', color: color)
     x_position = king.x
     y_position = king.y
     enemy_pieces(color).each do |piece|
-       if piece.is_capturable?(king.x, king.y)
-         @piece_causing_check << piece
-         return true
-       end
+      if piece.is_capturable?(king.x, king.y)
+        return true
+      end
     end
     false
   end
