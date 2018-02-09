@@ -7,7 +7,7 @@ FactoryBot.define do
   end
 
   factory :king, parent: :piece, class: 'King' do
-    x 4
+    x 5
     y 1
   end
 
@@ -32,7 +32,7 @@ FactoryBot.define do
   end
 
   factory :queen, parent: :piece, class: 'Queen' do
-    x 5
+    x 4
     y 1
   end
 end

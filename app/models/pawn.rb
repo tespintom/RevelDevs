@@ -17,7 +17,6 @@ class Pawn < Piece
     end
   end
 
-  #need to add logic concerning checking target for vertical moves(non-capturable)
   private
 
   def in_range?(x_target, y_target)

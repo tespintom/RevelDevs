@@ -1,6 +1,5 @@
 class Game < ApplicationRecord
   has_many :pieces
-  has_many :players
   belongs_to :user
   before_save :start_game_when_black_player_is_added
   after_create :populate
@@ -10,15 +9,16 @@ class Game < ApplicationRecord
 
   before_create :current_user_is_white_player
 
-  def square_occupied?(x_current, y_current, occupied = nil)
-    return true if occupied
+  def square_occupied?(x_current, y_current)
     pieces.active.where({x: x_current, y: y_current}).any? ? true : false
   end
 
   def add_black_player!(user)
-    self.black_player_id = user.id
-    self.total_players = 2
-    save
+    if user.id != self.white_player_id
+      self.update_attributes(black_player_id: user.id, total_players: 2)
+    else
+      false
+    end
   end
 
   def current_user_is_white_player
@@ -26,7 +26,7 @@ class Game < ApplicationRecord
   end
 
   def game_end
-    self.finished = true
+    self.update(finished: true)
   end
 
   def draw
@@ -57,17 +57,19 @@ class Game < ApplicationRecord
     end
   end
 
+  def checkmate!
+    self.update(state: "checkmate")
+    game_end
+  end
 
   def in_check?(color)
-    @piece_causing_check = []
     king = pieces.find_by(type: 'King', color: color)
     x_position = king.x
     y_position = king.y
     enemy_pieces(color).each do |piece|
-       if piece.is_capturable?(king.x, king.y)
-         @piece_causing_check << piece
-         return true
-       end
+      if piece.is_capturable?(king.x, king.y)
+        return true
+      end
     end
     false
   end
@@ -215,16 +217,16 @@ class Game < ApplicationRecord
     pieces.create(x: 1, y: 1, color: 'white', type: 'Rook', icon: '#9814')
     pieces.create(x: 2, y: 1, color: 'white', type: 'Knight', icon: '#9816')
     pieces.create(x: 3, y: 1, color: 'white', type: 'Bishop', icon: '#9815')
-    pieces.create(x: 4, y: 1, color: 'white', type: 'King', icon: '#9812')
-    pieces.create(x: 5, y: 1, color: 'white', type: 'Queen', icon: '#9813')
+    pieces.create(x: 4, y: 1, color: 'white', type: 'Queen', icon: '#9813')
+    pieces.create(x: 5, y: 1, color: 'white', type: 'King', icon: '#9812')
     pieces.create(x: 6, y: 1, color: 'white', type: 'Bishop', icon: '#9815')
     pieces.create(x: 7, y: 1, color: 'white', type: 'Knight', icon: '#9816')
     pieces.create(x: 8, y: 1, color: 'white', type: 'Rook', icon: '#9814')
     pieces.create(x: 1, y: 8, color: 'black', type: 'Rook', icon: '#9820')
     pieces.create(x: 2, y: 8, color: 'black', type: 'Knight', icon: '#9822')
     pieces.create(x: 3, y: 8, color: 'black', type: 'Bishop', icon: '#9821')
-    pieces.create(x: 4, y: 8, color: 'black', type: 'King', icon: '#9818')
-    pieces.create(x: 5, y: 8, color: 'black', type: 'Queen', icon: '#9819')
+    pieces.create(x: 4, y: 8, color: 'black', type: 'Queen', icon: '#9819')
+    pieces.create(x: 5, y: 8, color: 'black', type: 'King', icon: '#9818')
     pieces.create(x: 6, y: 8, color: 'black', type: 'Bishop', icon: '#9821')
     pieces.create(x: 7, y: 8, color: 'black', type: 'Knight', icon: '#9822')
     pieces.create(x: 8, y: 8, color: 'black', type: 'Rook', icon: '#9820')

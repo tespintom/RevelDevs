@@ -56,8 +56,8 @@ RSpec.describe PiecesController, type: :controller do
     it 'should not update the piece\'s :x and :y if the move leaves the King in check' do
       game = FactoryBot.create(:game)
       sign_in game.user
-      king = game.pieces.active.find_by({x: 4, y: 1})
-      queen = game.pieces.active.find_by({x: 5, y: 1})
+      king = game.pieces.active.find_by({x: 5, y: 1})
+      queen = game.pieces.active.find_by({x: 4, y: 1})
       queen.update(color: 'black')
       pawn = game.pieces.active.find_by({x: 1, y: 2})
       patch :update, params: { id: pawn.id, piece: { x: 1, y: 4 } }
@@ -70,21 +70,23 @@ RSpec.describe PiecesController, type: :controller do
     it 'should correctly update the king\'s and rook\'s :x and :y upon a valid castling move' do
       game = FactoryBot.create(:game)
       sign_in game.user
-      king = game.pieces.active.find_by({x: 4, y: 1})
+      king = game.pieces.active.find_by({x: 5, y: 1})
+      queen = game.pieces.active.find_by({x: 4, y: 1})
       bishop = game.pieces.active.find_by({x: 3, y: 1})
       knight = game.pieces.active.find_by({x: 2, y: 1})
       rook = game.pieces.active.find_by({x: 1, y: 1})
       bishop.update_attributes(captured: true, x: 0, y: 0)
       knight.update_attributes(captured: true, x: 0, y: 0)
+      queen.update_attributes(captured: true, x: 0, y: 0)
 
-      patch :update, params: { id: king.id, piece: { x: 2, y: 1 } }
+      patch :update, params: { id: king.id, piece: { x: 3, y: 1 } }
 
       expect(response).to have_http_status :success
       king.reload
       rook.reload
-      expect(king.x).to eq(2)
+      expect(king.x).to eq(3)
       expect(king.y).to eq(1)
-      expect(rook.x).to eq(3)
+      expect(rook.x).to eq(4)
       expect(rook.y).to eq(1)
     end
 
@@ -108,6 +110,35 @@ RSpec.describe PiecesController, type: :controller do
       patch :update, params: { id: piece.id, piece: { x: 1, y: 5 } }
       game.reload
       expect(game.state).to eq("white_turn")
+    end
+
+    it 'returns the winner\'s color on checkmate' do
+      game = FactoryBot.create(:game)
+      sign_in game.user
+      queen = game.pieces.active.find_by({x: 4, y: 8})
+      king = game.pieces.active.find_by({x: 5, y: 1})
+      queen.update_attributes(x: 4, y: 4)
+      pawn = game.pieces.active.find_by({x: 5, y: 2})
+      pawn.update_attributes(captured: true, x: 0, y: 0)
+      king.update_attributes(x: 5, y: 2)
+      game.update(state: 'black_turn')
+      patch :update, params: { id: queen.id, piece: { x: 5, y: 4 } }
+      response_value = ActiveSupport::JSON.decode(@response.body)
+      expect(response_value['winner']).to eq('black')
+    end
+
+    it 'If the game is in check after a move, returns the color of the player in check' do
+      game = FactoryBot.create(:game)
+      sign_in game.user
+      queen = game.pieces.active.find_by({x: 4, y: 8})
+      queen.update_attributes(x: 4, y: 4)
+      king = game.pieces.active.find_by({x: 5, y: 1})
+      pawn = game.pieces.active.find_by({x: 5, y: 2})
+      pawn.update_attributes(captured: true, x: 0, y: 0)
+      game.update(state: 'black_turn')
+      patch :update, params: { id: queen.id, piece: { x: 5, y: 4 } }
+      response_value = ActiveSupport::JSON.decode(@response.body)
+      expect(response_value['check']).to eq('white')
     end
   end
 end

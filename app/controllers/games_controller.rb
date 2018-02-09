@@ -1,5 +1,5 @@
 class GamesController < ApplicationController
-  before_action :authenticate_user!, only: [:new, :create, :join]
+  before_action :authenticate_user!, only: [:new, :create, :join, :show]
 
   def index
     @games = Game.all
@@ -18,17 +18,15 @@ class GamesController < ApplicationController
 
   def show
     @game = Game.find_by_id(params[:id])
-    render "Not found :(" if @game.blank?
-    if @game.in_check?('black')
-      flash[:alert] = 'Black King is in Check!'
-    elsif @game.in_check?('white')
-      flash[:alert] = 'White King is in Check!'
-    end
+    render_not_found if @game.blank?
   end
 
   def join
-    current_game.add_black_player!(current_user)
-    redirect_to game_path(current_game)
+    if current_game.add_black_player!(current_user)
+      redirect_to game_path(current_game)
+    else
+      redirect_to root_path
+    end
   end
 
   private
@@ -39,6 +37,10 @@ class GamesController < ApplicationController
 
   def current_game
     @game ||= Game.find_by_id(params[:id])
+  end
+
+  def render_not_found(status=:not_found)
+    render plain: "#{status.to_s.titleize} :(", status: status
   end
 
 end

@@ -29,7 +29,15 @@ class PiecesController < ApplicationController
       rook_before_y = rook.y
     end
     if @piece.attempt_move(x_target, y_target)
-      @game.player_turn
+      if @game.checkmate?(@piece.opposing_color)
+        @game.checkmate!
+        return render json: {
+          icon: @piece.icon,
+          winner: @piece.color
+        }
+      else
+        @game.player_turn
+      end
     else
       return render_not_found
     end
@@ -38,7 +46,13 @@ class PiecesController < ApplicationController
       rook_after_x = rook.x
       rook_after_y = rook.y
     end
+    player_in_check = nil
+    if @game.in_check?(@piece.opposing_color)
+      player_in_check = @piece.opposing_color
+    end
     render json: { icon: @piece.icon,
+      game_state: @game.state,
+      check: player_in_check,
       rook_before_x: rook_before_x,
       rook_before_y: rook_before_y,
       rook_after_x: rook_after_x,
