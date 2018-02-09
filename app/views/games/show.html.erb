@@ -2,7 +2,14 @@
 <div class="booyah-box col-10 offset-1 show-width">
   <h2 class="text-center"><%= @game.name %></h2>
   <br />
-  <div id="notice"><br /></div>
+  <div id="notice" data-check-status=
+    <% if @game.in_check?('white') %>
+      <%= 'white' %>
+    <% elsif @game.in_check?('black') %>
+      <%= 'black' %>
+    <% end %>
+    >
+    <br /></div>
   <div id="invalid-move"><br /></div>
   <div id="game-state" data-game-state=<%= "#{@game.state}" %>></div>
 </div>
@@ -16,9 +23,9 @@
       <% for col in (1..8) %>
         <div class="square 
           <% if row % 2 != 0 %>
-            <%= col % 2 != 0 ? 'black' : 'white' %>
+            <%= col % 2 != 0 ? 'white' : 'black' %>
           <% else %>
-            <%= col % 2 == 0 ? 'black' : 'white' %>
+            <%= col % 2 == 0 ? 'white' : 'black' %>
           <% end %>" 
           data-x=<%= "#{col}" %> 
           data-y=<%= "#{9 - row}" %> 
@@ -78,8 +85,11 @@
 
     var gameRefNotice = gameRef.child('notice');
     var $gameState = $('#game-state').attr('data-game-state');
+    var $checkStatus = $('#notice').attr('data-check-status');
     if($gameState === 'pending') {
       gameRefNotice.set('<div align="center">' + 'Waiting for second player to join...' + '</div>');
+    } else if($checkStatus) {
+      gameRefNotice.set('<div class="in-check" align="center">' + 'The ' + $checkStatus + ' player is in check!' + '</div>');
     } else if($gameState === 'white_turn') {
       gameRefNotice.set('<div class="white-turn" align="center">' + 'It\'s the white player\'s turn' + '</div>');
     } else if($gameState === 'black_turn') {
@@ -137,10 +147,10 @@
           },
           error: function(){
             $('#invalid-move').html('<div class="error" align="center">' + 'That is an invalid move' + '</div>');
-            $('#invalid-move').fadeOut(5000);
+            $('#invalid-move').fadeOut(3000);
             setTimeout(function() {
               $('#invalid-move').html('<br />').fadeIn("fast");
-            }, 5000);
+            }, 3000);
           }
         });
       }
@@ -168,8 +178,10 @@
       }
 
       function flashNotice(data){
-        if(data.winner){
+        if(data.winner) {
           gameRefNotice.set('<div class="winner" align="center">' + 'The ' + data.winner + ' player is the winner!' + '</div>');
+        } else if(data.check) {
+          gameRefNotice.set('<div class="in-check" align="center">' + 'The ' + data.check + ' player is in check!' + '</div>');
         } else if(data.game_state === 'white_turn') {
           gameRefNotice.set('<div class="white-turn" align="center">' + 'It\'s the white player\'s turn' + '</div>');
         } else if(data.game_state === 'black_turn') {

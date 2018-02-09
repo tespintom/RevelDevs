@@ -99,17 +99,19 @@ RSpec.describe Piece, type: :model do
 
     it '#attempt_move should perform castling if castling is allowed' do
       game = FactoryBot.create(:game)
-      king = game.pieces.active.find_by({x: 4, y: 1})
+      king = game.pieces.active.find_by({x: 5, y: 1})
       bishop = game.pieces.active.find_by({x: 3, y: 1})
       knight = game.pieces.active.find_by({x: 2, y: 1})
       rook = game.pieces.active.find_by({x: 1, y: 1})
+      queen = game.pieces.active.find_by({x: 4, y: 1})
       bishop.update_attributes(captured: true, x: 0, y: 0)
       knight.update_attributes(captured: true, x: 0, y: 0)
-      king.attempt_move(2, 1)
+      queen.update_attributes(captured: true, x: 0, y: 0)
+      king.attempt_move(3, 1)
       rook.reload
-      expect(king.x).to eq(2)
+      expect(king.x).to eq(3)
       expect(king.y).to eq(1)
-      expect(rook.x).to eq(3)
+      expect(rook.x).to eq(4)
       expect(rook.y).to eq(1)
     end
 
@@ -211,7 +213,7 @@ RSpec.describe Piece, type: :model do
     end
   end
 
-  describe '#piece_color_matches_user_color?' do
+  describe 'color' do
     it '#piece_color_matches_user_color? returns true if the piece color and user color match' do
       game = FactoryBot.create(:game)
       piece = game.pieces.active.find_by({x: 1, y: 2})
@@ -226,6 +228,11 @@ RSpec.describe Piece, type: :model do
       user = game.user
       result = piece.piece_color_matches_user_color?(user)
       expect(result).to eq false
+    end
+
+    it '#opposing_color returns the opposing player\'s color' do
+      piece = FactoryBot.build(:piece)
+      expect(piece.opposing_color).to eq('black')
     end
   end
   describe 'pawn promotion' do

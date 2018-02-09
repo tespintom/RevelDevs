@@ -193,6 +193,10 @@ class Piece < ApplicationRecord
     game.pieces.active.find_by({x: x_target, y: y_target})
   end
 
+  def opposing_color
+    self.color == 'white' ? 'black' : 'white'
+  end
+
   def is_promotable?
   end
 

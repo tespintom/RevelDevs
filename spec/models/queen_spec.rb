@@ -37,7 +37,7 @@ RSpec.describe Queen, type: :model do
     it 'has the correct starting position' do
       game = FactoryBot.create(:game)
       queen = FactoryBot.build(:queen, game_id: game.id)
-      expect(queen.x).to eq 5
+      expect(queen.x).to eq 4
       expect(queen.y).to eq 1
     end
   end
@@ -54,14 +54,14 @@ RSpec.describe Queen, type: :model do
     it '#in_range returns true if vertical move is in queen\'s range' do
       game = FactoryBot.create(:game)
       queen = FactoryBot.build(:queen, game_id: game.id)
-      result = queen.send(:in_range?, 5, 5)
+      result = queen.send(:in_range?, 4, 5)
       expect(result).to eq true
     end
 
     it '#in_range returns true if diagonal move is in queen\'s range' do
       game = FactoryBot.create(:game)
       queen = FactoryBot.build(:queen, game_id: game.id)
-      result = queen.send(:in_range?, 7, 3)
+      result = queen.send(:in_range?, 6, 3)
       expect(result).to eq true
     end
 
@@ -108,10 +108,10 @@ RSpec.describe Queen, type: :model do
     it 'does not update :x and :y if move is invalid' do
       game = FactoryBot.create(:game)
       queen = FactoryBot.build(:queen, game_id: game.id)
-      if queen.is_move_valid?(5, 0)
-        queen.move_action(5, 0) # moves one square in negative 'y' direction (off the board)
+      if queen.is_move_valid?(4, 0)
+        queen.move_action(4, 0) # moves one square in negative 'y' direction (off the board)
       end
-      expect(queen.x).to eq 5
+      expect(queen.x).to eq 4
       expect(queen.y).to eq 1
     end
   end

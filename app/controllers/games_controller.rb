@@ -18,7 +18,7 @@ class GamesController < ApplicationController
 
   def show
     @game = Game.find_by_id(params[:id])
-    render "Not found :(" if @game.blank?
+    render_not_found if @game.blank?
   end
 
   def join
@@ -37,6 +37,10 @@ class GamesController < ApplicationController
 
   def current_game
     @game ||= Game.find_by_id(params[:id])
+  end
+
+  def render_not_found(status=:not_found)
+    render plain: "#{status.to_s.titleize} :(", status: status
   end
 
 end
